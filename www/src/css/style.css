@@ -91,4 +91,41 @@ body {
   color: #3A86FF;
 }
 
+.error {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+.error h1 {
+  font-size: 3.5rem;
+  margin: 0;
+  text-decoration: underline;
+}
+.error h2 {
+  font-size: 1.5rem;
+}
+.error a {
+  width: min-content;
+  white-space: nowrap;
+  padding: 0.5rem 1.2rem;
+  text-decoration: none;
+  border: 0;
+  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-family: "Inter", sans-serif;
+  margin-top: 1.4rem;
+  background-color: #3A86FF;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.error a:hover {
+  transform: scale(1.05);
+}
+
 /*# sourceMappingURL=style.css.map */
