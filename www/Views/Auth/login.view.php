@@ -3,10 +3,10 @@
 
         <h1>Connexion</h1>
 
-        <form autocomplete="off">
-            <input type="text" name="email" id="email" placeholder="Email" autocomplete="off">
+        <form action="/admin" method="GET">
+            <input type="text" name="email" id="email" placeholder="Email">
 
-            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
+            <input type="password" name="password" id="password" placeholder="Password">
 
             <button type="submit">Connexion</button>
         </form>

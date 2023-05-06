@@ -41,3 +41,16 @@
   controller: Auth
   action: register
   method: GET
+
+
+# ADMIN / BACK-OFFICE
+
+/admin/login:
+  controller: Auth
+  action: login
+  method: GET
+
+/admin:
+  controller: Main
+  action: dashboard
+  method: GET
