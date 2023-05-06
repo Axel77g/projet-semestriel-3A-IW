@@ -1,0 +1,1 @@
+<h1>Bonjour depuis <?= $name ?></h1>

@@ -1,0 +1,43 @@
+/users/delete:
+  controller: Users
+  action: deleteMass
+  method: DELETE
+
+/users/me:
+  controller: Users
+  action: me
+  method: GET
+  middlewares:
+    - Auth
+
+/users/{id}:
+  controller: Users
+  action: show
+  method: GET
+  middlewares:
+    - Auth
+
+/:
+  controller: Main
+  action: index
+  method: GET
+
+/contact:
+  controller: Main
+  action: contact
+  method: GET
+
+/login:
+  controller: Auth
+  action: login
+  method: GET
+
+/logout:
+  controller: Auth
+  action: logout
+  method: GET
+
+/register:
+  controller: Auth
+  action: register
+  method: GET
