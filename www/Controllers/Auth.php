@@ -4,18 +4,23 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\User;
+use App\Core\View;
 
-class Auth extends Controller{
+class Auth extends Controller
+{
 
 
-    public function login(){
-       echo 'login';
-        
+    public function login()
+    {
+        $view = new View("Auth/login", "back");
+
     }
-    public function logout(){
+    public function logout()
+    {
         echo 'logout';
     }
-    public function register(){
+    public function register()
+    {
         $user = new User();
         $user->setFirstname("JoFFZD hn");
         $user->setLastname("Doe");
