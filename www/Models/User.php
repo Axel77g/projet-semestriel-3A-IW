@@ -33,6 +33,8 @@ class User extends Model{
         $this->password = password_hash($password,PASSWORD_DEFAULT);
     }
 
-   
+    public function getPassword(){
+        return $this->password;
+    }
 
 }

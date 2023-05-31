@@ -17,3 +17,13 @@ class HTTPError extends Exception
         $view->massAsign( ["code" => $this->code, "message" => $this->message]);
     }
 }
+
+class NotFoundError extends HTTPError
+{
+    protected $code = 404;
+    protected $message = 'Not Found';
+}
+
+class InternalError extends HTTPError{
+    
+}

@@ -10,6 +10,16 @@
   middlewares:
     - Auth
 
+/users/login:
+  controller: Users
+  action: login
+  method: POST
+
+/users/register:
+  controller: Users
+  action: register
+  method: POST
+
 /users/{id}:
   controller: Users
   action: show
@@ -41,7 +51,6 @@
   controller: Auth
   action: register
   method: GET
-
 
 # ADMIN / BACK-OFFICE
 

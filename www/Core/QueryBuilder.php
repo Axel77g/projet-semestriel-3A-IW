@@ -74,6 +74,7 @@ class QueryBuilder {
 
         $this->query = "INSERT INTO $this->table ($columns) VALUES ($values)";
         $this->execPayload = array_merge($this->execPayload, $payload);
+
         return $this;
     }
 
@@ -83,13 +84,14 @@ class QueryBuilder {
     }
 
     public function where($arrayWhere){
-
         $arrayWhere = array_intersect_key($arrayWhere, array_flip($this->model->getColumnsNames()));
         
         $base = !$this->hasWhere() ? " WHERE" : " AND";
         foreach($arrayWhere as $key => $value){
-            if(is_array($value))
-                $base .= " $key $value[0] ':$key' AND";
+            if(is_array($value)){
+                $base .= " $key $value[0] :$key AND";
+                $arrayWhere[$key] = $value[1];
+            }
             else 
                 $base .= " $key = :$key AND";
         }
@@ -127,12 +129,14 @@ class QueryBuilder {
         return $this->query;
     }
 
-    public function execute(){
+    public function execute($lastId = false){
         $pdo = $this->db->getConnection();
-        $this->debug();
         $stmt = $pdo->prepare($this->query);
         $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
+        $this->parseExecPayload();
         $stmt->execute($this->execPayload);
+        if($lastId)
+            return $pdo->lastInsertId();
         return $stmt;
     }
 
@@ -142,5 +146,14 @@ class QueryBuilder {
         var_dump($this->execPayload);
         echo "</pre>";
        
+    }
+
+    public function parseExecPayload(){
+        foreach($this->execPayload as $key => $value){
+            if($value instanceof \DateTime){
+                $this->execPayload[$key] = $value->format("Y-m-d H:i:s");
+            }
+        }
+        
     }
 }
