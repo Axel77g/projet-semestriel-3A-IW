@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Errors\DatabaseConnectionError;
 use PDO;
 
 class Database{
@@ -32,8 +33,12 @@ class Database{
 
     public function connect(){
         //create a PDO connection
-     
-        $this->connection = new PDO($this->getConnectionString(), $this->getCredentials()['username'], $this->getCredentials()['password']);
+        try {
+            $this->connection = new \PDO($this->getConnectionString(), $this->getCredentials()['username'], $this->getCredentials()['password']);
+            //code...
+        } catch (\Exception $th) {
+            throw new DatabaseConnectionError();
+        }
        
     }
 
