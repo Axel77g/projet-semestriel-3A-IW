@@ -13,22 +13,24 @@ abstract class Model{
     }
 
     public function save(){
-        $class = get_class($this);
         $query = $this->query();
         if($this->id > 0){
             $query->update()->where(["id"=>$this->id])->execute();
             return $this;
         }else{
-            $query->insert()->execute();
+            $this->id = $query->insert()->execute(true);
             return $this;
         }
     }
 
-    public static function fetch($id){
+    public static function fetch($params){
+        if(!is_array($params)){
+            $params = ["id"=>$params];
+        }
         $class = get_called_class();
         $model = new $class();
         $query = $model->query();
-        $result = $query->select()->where(["id"=>$id])->execute();
+        $result = $query->select()->where($params)->execute();
         return $result->fetch();
     }
 
@@ -45,5 +47,9 @@ abstract class Model{
     }
     public function getColumnsNames(){
         return array_keys($this->getColumns());
+    }
+
+    public function toJson(){
+        return json_encode($this->getColumns());
     }
 }

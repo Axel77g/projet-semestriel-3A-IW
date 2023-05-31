@@ -7,9 +7,15 @@ use App\Erros\Unauthorized;
 class Auth extends Middleware
 {
     public function handle ($next){
-        if(empty(request()->getHeaders()['Authorization']) && false)
+
+        $auth = request()->auth();
+        
+        if(empty($auth))
             throw new Unauthorized();
         
+        if(!$auth->isValid())
+            throw new Unauthorized();
+
         $next();
     }
 }
