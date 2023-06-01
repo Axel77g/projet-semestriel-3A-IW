@@ -1,7 +1,7 @@
 <?php
 
 
-define('ROUTES', 'routes.yml');
+define('ROUTES', 'routes.php');
 
 define("ENV", "dev");
 
