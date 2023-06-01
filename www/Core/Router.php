@@ -21,13 +21,14 @@ class Router{
     }
 
     function findRoute($uri,$method){
+
         foreach($this->routes as $path => $config){
             $route = new Route($path,$config);
             if($route->match($uri,$method)){
                 return $route;
             }
         }
-
+        
         throw new RouteNotFound();
         
     }

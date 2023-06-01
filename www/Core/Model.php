@@ -34,6 +34,14 @@ abstract class Model{
         return $result->fetch();
     }
 
+    public static function all(){
+        $class = get_called_class();
+        $model = new $class();
+        $query = $model->query();
+        $result = $query->select()->execute();
+        return $result->fetchAll();
+    }
+
     public function getTable(){
         $className = get_class($this);
         $className = strtolower($className);
@@ -51,5 +59,12 @@ abstract class Model{
 
     public function toJson(){
         return json_encode($this->getColumns());
+    }
+
+    public function set(array $params){
+        foreach($params as $key => $value){
+            $setter = "set" . ucfirst($key);
+            $this->$setter($value);
+        }
     }
 }
