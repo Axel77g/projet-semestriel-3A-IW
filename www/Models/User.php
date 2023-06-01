@@ -8,6 +8,7 @@ use App\Utils\Protection;
 
 class User extends Model{
 
+    protected Int $role_id = 0;
     protected string $firstname = "";
     protected string $lastname = "";
     protected string $email = "";
@@ -35,6 +36,14 @@ class User extends Model{
 
     public function getPassword(){
         return $this->password;
+    }
+
+    public function role() {
+        return Role::fetch(["id"=>$this->role_id]);
+    }
+
+    public function hasRole(Role $role) {    
+        return $this->role_id == $role->getId();
     }
 
 }

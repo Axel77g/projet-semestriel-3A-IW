@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Errors\InternalError;
 use App\Errors\NoColumnFound;
 use PDO;
 
@@ -130,6 +131,11 @@ class QueryBuilder {
     }
 
     public function execute($lastId = false){
+        
+        if(str_contains($this->query, "DELETE" && !str_contains("WHERE", $this->query))) {
+            throw new InternalError("DELETE without WHERE");
+        }
+        
         $pdo = $this->db->getConnection();
         $stmt = $pdo->prepare($this->query);
         $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
