@@ -22,6 +22,33 @@
   middlewares:
     - Auth
 
+
+
+/comments/{id}:
+  controller: Comments
+  action: getById
+  method: GET
+
+/comments:
+  controller: Comments
+  action: list
+  method: GET
+
+/comments:
+  controller: Comments
+  action: create
+  method: POST
+
+/comments:
+  controller: Comments
+  action: update
+  method: PUT
+
+/comments:
+  controller: Comments
+  action: delete
+  method: DELETE
+
 /:
   controller: Main
   action: index

@@ -34,6 +34,14 @@ abstract class Model{
         return $result->fetch();
     }
 
+    public static function all(){
+        $class = get_called_class();
+        $model = new $class();
+        $query = $model->query();
+        $result = $query->select()->execute();
+        return $result->fetchAll();
+
+    }
     public function destroy() {
         $query = $this->query();
         $query->delete()->where(["id" => $this->id])->execute();
@@ -58,8 +66,14 @@ abstract class Model{
         return json_encode($this->getColumns());
     }
 
+    public function set(array $params){
+        foreach($params as $key => $value){
+            $setter = "set" . ucfirst($key);
+            $this->$setter($value);
+        }
+    }
     public function getId() {
         return $this->id;
     }
-    
 }
+    

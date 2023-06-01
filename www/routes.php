@@ -26,6 +26,30 @@ Route::get("/admin",[
     ]
 ]);
 
+Route::get("/comments",[
+    "controller" => "Comments",
+    "action" => "list"
+]);
+
+Route::get("/comments/{id}",[
+    "controller" => "Comments",
+    "action" => "getById"
+]);
+
+Route::post("/comments",[
+    "controller" => "Comments",
+    "action" => "create"
+]);
+
+Route::put("/comments",[
+    "controller" => "Comments",
+    "action" => "update"
+]);
+
+Route::delete("/comments",[
+    "controller" => "Comments",
+    "action" => "delete"
+]);
 
 Route::get("/login",[
     "controller" => "Auth",
