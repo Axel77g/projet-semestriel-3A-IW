@@ -1,8 +1,3 @@
-/users/delete:
-  controller: Users
-  action: deleteMass
-  method: DELETE
-
 /users/me:
   controller: Users
   action: me
@@ -56,6 +51,33 @@
 
 # ----------------------------------------------
 
+
+
+/comments/{id}:
+  controller: Comments
+  action: getById
+  method: GET
+
+/comments:
+  controller: Comments
+  action: list
+  method: GET
+
+/comments:
+  controller: Comments
+  action: create
+  method: POST
+
+/comments:
+  controller: Comments
+  action: update
+  method: PUT
+
+/comments:
+  controller: Comments
+  action: delete
+  method: DELETE
+
 /:
   controller: Main
   action: index
@@ -92,3 +114,19 @@
   controller: Main
   action: dashboard
   method: GET
+
+# ROLES
+/roles/create:
+  controller: Roles
+  action: create
+  method: POST
+
+/roles/update/{id}: 
+  controller: Roles
+  action: update
+  method: PUT
+
+/roles/delete/{id}:
+  controller: Roles
+  action: destroy
+  method: DELETE
