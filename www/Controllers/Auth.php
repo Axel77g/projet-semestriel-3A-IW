@@ -9,7 +9,6 @@ use App\Core\View;
 class Auth extends Controller
 {
 
-
     public function login()
     {
         $view = new View("Auth/login", "back");

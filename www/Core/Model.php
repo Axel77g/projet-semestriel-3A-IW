@@ -3,10 +3,10 @@ namespace App\Core;
 
 
 abstract class Model{
+
     public Int $id = 0;
     private \DateTime $created_at;
     private \DateTime $updated_at; 
-
 
     public function query(){
         return new QueryBuilder($this);
@@ -34,6 +34,11 @@ abstract class Model{
         return $result->fetch();
     }
 
+    public function destroy() {
+        $query = $this->query();
+        $query->delete()->where(["id" => $this->id])->execute();
+    }
+
     public function getTable(){
         $className = get_class($this);
         $className = strtolower($className);
@@ -52,4 +57,9 @@ abstract class Model{
     public function toJson(){
         return json_encode($this->getColumns());
     }
+
+    public function getId() {
+        return $this->id;
+    }
+    
 }
