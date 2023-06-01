@@ -1,6 +1,7 @@
 <?php
 namespace App\Core;
 
+use App\Errors\BadRequest;
 
 abstract class Model{
 
@@ -68,7 +69,10 @@ abstract class Model{
 
     public function set(array $params){
         foreach($params as $key => $value){
-            $setter = "set" . ucfirst($key);
+            $keyExploed = explode("_",$key);
+            $key = implode("",array_map("ucfirst",$keyExploed));
+            $setter = "set" . $key;
+            if(!method_exists($this,$setter)) continue;
             $this->$setter($value);
         }
     }

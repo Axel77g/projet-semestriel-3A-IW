@@ -69,6 +69,17 @@ Route::get("/users/me",[
     ]
 ]);
 
+Route::post('/users/register',[
+    "controller" => "Users",
+    "action" => "register",
+]);
+
+Route::post('/users/login',[
+    "controller" => "Users",
+    "action" => "login",
+]);
+
+
 Route::get("/users/{id}",[
     "controller" => "Users",
     "action" => "show",
@@ -87,7 +98,7 @@ Route::put("/users/{id}",[
 
 Route::delete('/users/{id}',[
     "controller" => "Users",
-    "action" => "delete",
+    "action" => "destroy",
     "middlewares" => [
         "Auth"
     ]

@@ -7,5 +7,5 @@ CREATE TABLE frw_user (
     lastname VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES role(id)
+    FOREIGN KEY (role_id) REFERENCES frw_role(id)
 );

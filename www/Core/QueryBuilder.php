@@ -135,6 +135,7 @@ class QueryBuilder {
         if(str_contains($this->query, "DELETE" && !str_contains("WHERE", $this->query))) {
             throw new InternalError("DELETE without WHERE");
         }
+
         
         $pdo = $this->db->getConnection();
         $stmt = $pdo->prepare($this->query);
