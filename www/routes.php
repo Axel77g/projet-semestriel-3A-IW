@@ -93,3 +93,28 @@ Route::delete('/users/{id}',[
     ]
 ]);
 
+
+// Roles Routes
+Route::post('/roles/create', [
+    "controller" => "Roles",
+    "action" => "create",
+    "middlewares" => [
+        "Auth"
+    ]
+]);
+
+Route::put('/roles/{id}', [
+    "controller" => "Roles",
+    "action" => "update",
+    "middlewares" => [
+        "Auth"
+    ]
+]);
+
+Route::delete('/roles/{id}', [
+    "controller" => "Roles",
+    "action" => "destroy",
+    "middlewares" => [
+        "Auth"
+    ]
+]);

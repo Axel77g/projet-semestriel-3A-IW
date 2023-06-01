@@ -85,3 +85,19 @@
   controller: Main
   action: dashboard
   method: GET
+
+# ROLES
+/roles/create:
+  controller: Roles
+  action: create
+  method: POST
+
+/roles/update/{id}: 
+  controller: Roles
+  action: update
+  method: PUT
+
+/roles/delete/{id}:
+  controller: Roles
+  action: destroy
+  method: DELETE

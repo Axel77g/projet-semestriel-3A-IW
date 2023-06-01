@@ -3,10 +3,10 @@ namespace App\Core;
 
 
 abstract class Model{
+
     public Int $id = 0;
     private \DateTime $created_at;
     private \DateTime $updated_at; 
-
 
     public function query(){
         return new QueryBuilder($this);
@@ -40,6 +40,11 @@ abstract class Model{
         $query = $model->query();
         $result = $query->select()->execute();
         return $result->fetchAll();
+
+    }
+    public function destroy() {
+        $query = $this->query();
+        $query->delete()->where(["id" => $this->id])->execute();
     }
 
     public function getTable(){
@@ -67,4 +72,8 @@ abstract class Model{
             $this->$setter($value);
         }
     }
+    public function getId() {
+        return $this->id;
+    }
 }
+    
