@@ -2,34 +2,24 @@
 
 namespace App\Core;
 
-use App\Errors\RouteFileNotFound;
 use App\Errors\RouteNotFound;
+use App\Utils\Singleton;
 
-class Router{
+class Router extends Singleton{
     
     private $routes = [];
 
-    function loadRoutes(){
-        if(!file_exists(ROUTES)){
-            throw new RouteFileNotFound();
-        }
-        
-        $this->routes = yaml_parse_file(ROUTES);
-
-        return $this->routes;
-
-    }
-
     function findRoute($uri,$method){
-        foreach($this->routes as $path => $config){
-            $route = new Route($path,$config);
+        foreach($this->routes as $route){
             if($route->match($uri,$method)){
                 return $route;
             }
         }
-
         throw new RouteNotFound();
-        
+    }
+
+    function addRoute(Route $route){
+        $this->routes[] = $route;
     }
 }
 
