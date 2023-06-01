@@ -40,6 +40,13 @@ class Articles extends Controller{
             $article->save();
             echo $article->toJson();
         }
+
+        function delete($params){
+            $article = Article::fetch($params['id']);
+            if(!$article) throw new NotFoundError();
+            $article->destroy();
+            echo $article->toJson();
+        }
         
 }
 
