@@ -1,5 +1,6 @@
 <?php
 namespace App\Core;
+use App\Utils\Collection;
 
 
 abstract class Model{
@@ -34,6 +35,14 @@ abstract class Model{
         return $result->fetch();
     }
 
+    public static function all(){
+        $class = get_called_class();
+        $model = new $class();
+        $query = $model->query();
+        $result = $query->select()->execute();
+        return new Collection($result->fetchAll());
+    }
+
     public function getTable(){
         $className = get_class($this);
         $className = strtolower($className);
@@ -51,5 +60,8 @@ abstract class Model{
 
     public function toJson(){
         return json_encode($this->getColumns());
+    }
+    public function toArray(){
+        return $this->getColumns();
     }
 }

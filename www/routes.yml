@@ -27,6 +27,35 @@
   middlewares:
     - Auth
 
+# CRUD ARTICLES -------------------------------
+/articles:
+  controller: Articles
+  action: index
+  method: GET
+
+/articles/{id}:
+  controller: Articles
+  action: show
+  method: GET
+
+/articles/create:
+  controller: Articles
+  action: create
+  method: POST
+
+/articles/{id}/update:
+  controller: Articles
+  action: update
+  method: PUT
+
+
+/articles/{id}/delete:
+  controller: Articles
+  action: delete
+  method: DELETE
+
+# ----------------------------------------------
+
 /:
   controller: Main
   action: index
