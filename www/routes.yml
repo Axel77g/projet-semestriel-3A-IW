@@ -1,8 +1,3 @@
-/users/delete:
-  controller: Users
-  action: deleteMass
-  method: DELETE
-
 /users/me:
   controller: Users
   action: me
@@ -10,12 +5,49 @@
   middlewares:
     - Auth
 
+/users/login:
+  controller: Users
+  action: login
+  method: POST
+
+/users/register:
+  controller: Users
+  action: register
+  method: POST
+
 /users/{id}:
   controller: Users
   action: show
   method: GET
   middlewares:
     - Auth
+
+
+
+/comments/{id}:
+  controller: Comments
+  action: getById
+  method: GET
+
+/comments:
+  controller: Comments
+  action: list
+  method: GET
+
+/comments:
+  controller: Comments
+  action: create
+  method: POST
+
+/comments:
+  controller: Comments
+  action: update
+  method: PUT
+
+/comments:
+  controller: Comments
+  action: delete
+  method: DELETE
 
 /:
   controller: Main
@@ -41,3 +73,31 @@
   controller: Auth
   action: register
   method: GET
+
+# ADMIN / BACK-OFFICE
+
+/admin/login:
+  controller: Auth
+  action: login
+  method: GET
+
+/admin:
+  controller: Main
+  action: dashboard
+  method: GET
+
+# ROLES
+/roles/create:
+  controller: Roles
+  action: create
+  method: POST
+
+/roles/update/{id}: 
+  controller: Roles
+  action: update
+  method: PUT
+
+/roles/delete/{id}:
+  controller: Roles
+  action: destroy
+  method: DELETE

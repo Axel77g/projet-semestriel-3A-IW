@@ -8,13 +8,11 @@ use App\Utils\Protection;
 
 class User extends Model{
 
-    protected static $tableName = "user";
-
-    private Int $id = 0;
-    private string $firstname = "";
-    private string $lastname = "";
-    private string $email = "";
-    private string $password = "";
+    protected Int $role_id = 0;
+    protected string $firstname = "";
+    protected string $lastname = "";
+    protected string $email = "";
+    protected string $password = "";
 
     public function setFirstname($str){
         $this->firstname =  Protection::protect(ucwords(strtolower(trim($str))));
@@ -34,6 +32,18 @@ class User extends Model{
         $password =  Protection::protect($str);
         if(strlen($password) < 8) throw new \Exception("Password must be at least 8 characters");
         $this->password = password_hash($password,PASSWORD_DEFAULT);
+    }
+
+    public function getPassword(){
+        return $this->password;
+    }
+
+    public function role() {
+        return Role::fetch(["id"=>$this->role_id]);
+    }
+
+    public function hasRole(Role $role) {    
+        return $this->role_id == $role->getId();
     }
 
 }

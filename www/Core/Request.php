@@ -2,12 +2,13 @@
 
 namespace App\Core;
 
+use App\Models\Auth;
+
 class Request{
 
     private static $instance = null;
     private $method;
     private $path;
-    private $body;
     private $headers;
 
     public function __construct(){
@@ -38,5 +39,18 @@ class Request{
 
     public function body(){
         return file_get_contents('php://input');
+    }
+
+    public function json(){
+        return json_decode($this->body(), true);
+    }
+
+    public function auth(){
+        $headers = $this->getHeaders();
+        if(isset($headers['Authorization'])){
+            $token = $headers['Authorization'];
+            return Auth::get($token);
+        }
+        return null;
     }
 }

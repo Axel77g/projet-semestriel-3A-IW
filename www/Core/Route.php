@@ -77,7 +77,6 @@ class Route{
 
     function dispatch(){
         $controller =   $this->config['controller'];
-        
         $action = $this->config['action'];
         if(!file_exists("Controllers/$controller.php")) throw new ControllerNotFound();
         include "Controllers/$controller.php";
@@ -85,6 +84,32 @@ class Route{
         $c = new $controller();
         $this->runMiddlewares();
         return $c->$action($this->params);
+    }
+
+    // Static methods
+    static function get($path,$config){
+        $config = array_merge($config,['method' => 'GET']);
+        self::create($path,$config);
+    }
+
+    static function post($path,$config){
+        $config = array_merge($config,['method' => 'POST']);
+        self::create($path,$config);
+    }
+
+    static function delete($path,$config){
+        $config = array_merge($config,['method' => 'DELETE']);
+        self::create($path,$config);  
+    }
+
+    static function put($path,$config){
+        $config = array_merge($config,['method' => 'PUT']);
+        self::create($path,$config);
+    }
+
+    static function create(...$params){
+        $router = Router::getInstance();
+        $router->addRoute(new Route(...$params));
     }
 
 }

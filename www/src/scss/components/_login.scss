@@ -1,0 +1,102 @@
+.container-login {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    // border: 3px solid $admin_primary_color;
+    border-radius: 0.5rem;
+    // background-color: $admin_background_color;
+    // box-shadow: 1px 1px 100px $admin_primary_color;
+
+    h1 {
+        margin: 0;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border: 0px;
+            box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            font-size: 1.2rem;
+            font-family: $admin_font_family;
+            margin-top: 1.4rem;
+            background-color: #f5f7fd;
+
+            :focus {
+                border: 2px solid $admin_secondary_color;
+            }
+        }
+
+
+        button {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            // border: 1px solid $admin_secondary_color;
+            border: 0;
+            box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            font-size: 1.2rem;
+            font-family: $admin_font_family;
+            margin-top: 1.4rem;
+            background-color: $admin_primary_color;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            // box-shadow: 1px 1px 100px $admin_primary_color;
+
+            &:hover {
+                transform: scale(1.05);
+                // background-color: $admin_primary_color;
+                // color: $admin_background_color;
+            }
+        }
+
+        *+* {
+            margin-top: 1.4rem;
+        }
+    }
+
+    *+* {
+        margin-top: 1.4rem;
+    }
+
+    small>a {
+        color: grey;
+        transition: all 0.2s ease-in-out;
+        font-size: 0.8rem;
+
+        &:hover {
+            color: $admin_primary_color;
+        }
+    }
+
+    a {
+        color: $admin_secondary_color;
+        transition: all 0.2s ease-in-out;
+        font-size: 0.8rem;
+
+        &:hover {
+            color: $admin_primary_color;
+        }
+    }
+
+}
