@@ -1,5 +1,6 @@
 <?php
 namespace App\Core;
+use App\Utils\Collection;
 
 
 abstract class Model{
@@ -39,9 +40,10 @@ abstract class Model{
         $model = new $class();
         $query = $model->query();
         $result = $query->select()->execute();
-        return $result->fetchAll();
+        return new Collection($result->fetchAll());
 
     }
+    
     public function destroy() {
         $query = $this->query();
         $query->delete()->where(["id" => $this->id])->execute();
@@ -64,6 +66,9 @@ abstract class Model{
 
     public function toJson(){
         return json_encode($this->getColumns());
+    }
+    public function toArray(){
+        return $this->getColumns();
     }
 
     public function set(array $params){
