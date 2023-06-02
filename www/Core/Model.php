@@ -1,7 +1,7 @@
 <?php
 namespace App\Core;
 use App\Utils\Collection;
-
+use App\Utils\StringHelpers;
 
 abstract class Model{
 
@@ -51,9 +51,11 @@ abstract class Model{
 
     public function getTable(){
         $className = get_class($this);
-        $className = strtolower($className);
+        
         $classNameExploded = explode("\\", $className);
-        return "frw_" . end($classNameExploded);
+        $endClassName = end($classNameExploded);
+        $endClassName =  StringHelpers::camelCaseToSnakeCase($endClassName);
+        return "frw_" . $endClassName ;
 
     }
 
@@ -73,7 +75,7 @@ abstract class Model{
 
     public function set(array $params){
         foreach($params as $key => $value){
-            $setter = "set" . ucfirst($key);
+            $setter = StringHelpers::snakeCaseToCamelCase("set" . ucfirst($key));
             $this->$setter($value);
         }
     }
@@ -81,4 +83,6 @@ abstract class Model{
         return $this->id;
     }
 }
+
+
     
