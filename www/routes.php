@@ -133,25 +133,16 @@ Route::get('/articles/{id}', [
 Route::post('/articles', [
     "controller" => "Articles",
     "action" => "create",
-    /* "middlewares" => [
-        "Auth"
-    ] */
 ]);
 
 Route::put('/articles/{id}', [
     "controller" => "Articles",
     "action" => "update",
-    /* "middlewares" => [
-        "Auth"
-    ] */
 ]);
 
 Route::delete('/articles/{id}', [
     "controller" => "Articles",
     "action" => "delete",
-    /* "middlewares" => [
-        "Auth"
-    ] */
 ]);
 
 // ---------------------------------------------------------------
