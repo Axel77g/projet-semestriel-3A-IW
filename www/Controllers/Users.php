@@ -11,13 +11,13 @@ class Users extends Controller{
     public function me(){
 
         $auth = request()->auth();
-        echo $auth->user()->toJson();
+        return $auth->user();
     }
 
     function show($params){
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
-        echo $user->toJson();
+        return $user;
     }
 
     function deleteMass(){
@@ -40,7 +40,7 @@ class Users extends Controller{
         $user->setPassword($payload['password']);
         $user->save();
 
-        echo $user->toJson();
+        return $user;
     }
 
     function login(){

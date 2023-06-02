@@ -28,12 +28,12 @@ Route::get("/admin",[
 
 Route::get("/comments",[
     "controller" => "Comments",
-    "action" => "list"
+    "action" => "index"
 ]);
 
 Route::get("/comments/{id}",[
     "controller" => "Comments",
-    "action" => "getById"
+    "action" => "show"
 ]);
 
 Route::post("/comments",[

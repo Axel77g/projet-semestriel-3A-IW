@@ -12,40 +12,40 @@ class ArticleComments extends Controller{
         function index(){
 
             $articlecomments = ArticleComment::all();
-            echo $articlecomments->toJson();
+            return $articlecomments;
         }
 
         function show($params){
-            $article = ArticleComment::fetch($params['id']);
-            if(!$article) throw new NotFoundError();
-            echo $article->toJson();
+            $articlecomment = ArticleComment::fetch($params['id']);
+            if(!$articlecomment) throw new NotFoundError();
+            return $articlecomment;
         }
 
         function create(){
             $payload = request()->json();
-            $article = new ArticleComment();
-            $article->setArticleId($payload['article_id']);
-            $article->setCommentId($payload['comment_id']);
-            $article->save();
-            echo $article->toJson();
+            $articlecomment = new ArticleComment();
+            $articlecomment->setArticleId($payload['article_id']);
+            $articlecomment->setCommentId($payload['comment_id']);
+            $articlecomment->save();
+            return $articlecomment;
         }
 
         function update($params){
             $payload = request()->json();
-            $article = ArticleComment::fetch($params['id']);
-            if(!$article) throw new NotFoundError();
+            $articlecomment = ArticleComment::fetch($params['id']);
+            if(!$articlecomment) throw new NotFoundError();
 
 
-            $article->set($payload);
-            $article->save();
-            echo $article->toJson();
+            $articlecomment->set($payload);
+            $articlecomment->save();
+            return $articlecomment;
         }
 
         function delete($params){
-            $article = ArticleComment::fetch($params['id']);
-            if(!$article) throw new NotFoundError();
-            $article->destroy();
-            echo $article->toJson();
+            $articlecomment = ArticleComment::fetch($params['id']);
+            if(!$articlecomment) throw new NotFoundError();
+            $articlecomment->destroy();
+            return $articlecomment;
         }
         
 }

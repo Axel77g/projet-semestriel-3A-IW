@@ -3,7 +3,7 @@ namespace App\Core;
 use App\Utils\Collection;
 use App\Utils\StringHelpers;
 
-abstract class Model{
+abstract class Model implements Sanitize{
 
     public Int $id = 0;
     private \DateTime $created_at;

@@ -34,7 +34,7 @@ class Roles extends Controller
 
         $role->save();
 
-        echo $role->toJson();
+        return $role;
     }
 
     /*
@@ -53,7 +53,7 @@ class Roles extends Controller
 
         $role->save();
 
-        echo $role->toJson();
+        return $role;
     }
 
     /*
@@ -68,7 +68,7 @@ class Roles extends Controller
 
         $role->destroy();
 
-        echo "Role " .$role->getRole() . " deleted";
+        return $role;
 
     }
 

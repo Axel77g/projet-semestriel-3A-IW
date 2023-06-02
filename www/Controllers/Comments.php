@@ -9,13 +9,13 @@ class Comments extends Controller{
 
     public function index(){
         $comments = Comment::all();
-        echo $comments->toJson();
+        return $comments;
     }
 
     public function show($params){
         $comment = Comment::fetch($params['id']);
         if(!$comment) throw new NotFoundError();
-        echo $comment->toJson();
+        return $comment;
     }
 
     public function create(){
@@ -25,7 +25,7 @@ class Comments extends Controller{
         $comment->setContent($payload['content']);
         $comment->save();
 
-        echo $comment->toJson();
+        return $comment;
     }
 
     public function update($params){
@@ -37,7 +37,7 @@ class Comments extends Controller{
         $comment->set($payload);
         $comment->save();
 
-        echo $comment->toJson();
+        return $comment;
     }
 
     public function delete($params){

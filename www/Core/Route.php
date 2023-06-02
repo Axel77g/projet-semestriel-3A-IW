@@ -83,7 +83,8 @@ class Route{
         $controller = "App\\Controllers\\$controller";
         $c = new $controller();
         $this->runMiddlewares();
-        return $c->$action($this->params);
+        
+        echo $c->$action($this->params)->toJson();
     }
 
     // Static methods
@@ -111,5 +112,7 @@ class Route{
         $router = Router::getInstance();
         $router->addRoute(new Route(...$params));
     }
+
+
 
 }
