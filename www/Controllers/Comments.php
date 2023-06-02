@@ -7,18 +7,12 @@ use App\Models\Comment;
 
 class Comments extends Controller{
 
-    public function list(){
+    public function index(){
         $comments = Comment::all();
-        $json = [];
-        foreach($comments as $comment){
-            $comment->getContent();
-            $json[] = ["id" => $comment->id, "content" => $comment->getContent()];
-        }
-
-        echo json_encode($json);
+        echo $comments->toJson();
     }
 
-    public function getById($params){
+    public function show($params){
         $comment = Comment::fetch($params['id']);
         if(!$comment) throw new NotFoundError();
         echo $comment->toJson();
@@ -34,25 +28,21 @@ class Comments extends Controller{
         echo $comment->toJson();
     }
 
-    public function update(){
+    public function update($params){
         $payload = request()->json();
 
-        $comment = Comment::fetch($payload['id']);
+        $comment = Comment::fetch($params['id']);
         if(!$comment) throw new NotFoundError();
-        unset($payload['id']);
 
         $comment->set($payload);
         $comment->save();
 
         echo $comment->toJson();
-
     }
 
-    public function delete(){
+    public function delete($params){
 
-        $payload = request()->json();
-
-        $comment = Comment::fetch($payload['id']);
+        $comment = Comment::fetch($params['id']);
 
         if(!$comment) throw new NotFoundError();
 

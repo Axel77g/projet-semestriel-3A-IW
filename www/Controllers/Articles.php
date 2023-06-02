@@ -34,9 +34,7 @@ class Articles extends Controller{
             $payload = request()->json();
             $article = Article::fetch($params['id']);
             if(!$article) throw new NotFoundError();
-            $article->setTitle($payload['title']);
-            $article->setContent($payload['content']);
-            $article->setAuthor($payload['author']);
+            $article->set($payload);
             $article->save();
             echo $article->toJson();
         }

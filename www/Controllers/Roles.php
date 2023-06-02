@@ -49,7 +49,7 @@ class Roles extends Controller
 
         if(!$role) throw new NotFoundError();
 
-        $role->setRole($payload['name']);
+        $role->set($payload);
 
         $role->save();
 
