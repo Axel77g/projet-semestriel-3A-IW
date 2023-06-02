@@ -30,10 +30,7 @@ class Collection {
         }
     }
 
-    // filter
- 
-
-    
+    // filters    
     public function reverse(){
         $this->items = array_reverse($this->items);
     }
