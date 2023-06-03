@@ -46,9 +46,9 @@ class Comments extends Controller{
 
         if(!$comment) throw new NotFoundError();
 
-        $comment->delete();
+        $comment->destroy();
 
-        echo json_encode(["message"=>"Comment deleted"]);
+        return $comment;
     }
 
 }

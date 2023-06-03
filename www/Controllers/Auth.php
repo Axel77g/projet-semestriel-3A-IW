@@ -25,7 +25,7 @@ class Auth extends Controller
         $user->setLastname("Doe");
         $user->setEmail("test@example.com");
         $user->setPassword("Bonjour123");
-        echo "<pre>";
-        print_r($user);
+        
+        return $user;
     }
 }
