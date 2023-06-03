@@ -7,3 +7,5 @@ CREATE TABLE frw_comment (
   updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (id)
 )
+
+INSERT INTO frw_comment (content) VALUES ('Comment 1');
