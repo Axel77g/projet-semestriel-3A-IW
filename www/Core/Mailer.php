@@ -25,21 +25,21 @@ Class Mailer{
 
         public function sendMail($reciever,$subject = "Test subject",$body = "Test body"){
             $mail = new PHPMailer();
-            $mail->SMTPDebug = 0;                               // Enable verbose debug output
-            $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host =  $this->SMTPhost;                            // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = $this->senderEmail;                 // SMTP username
-            $mail->Password = $this->password;                           // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = SMTP_PORT;                                    // TCP port to connect to
+            $mail->SMTPDebug = 0;                               
+            $mail->isSMTP();                                      
+            $mail->Host =  $this->SMTPhost;                            
+            $mail->SMTPAuth = true;                               
+            $mail->Username = $this->senderEmail;                 
+            $mail->Password = $this->password;                           
+            $mail->SMTPSecure = 'tls';                            
+            $mail->Port = SMTP_PORT;                                    
 
             $mail->setFrom($this->senderEmail, $this->senderName);
-            $mail->addAddress($reciever);                     // Add a recipient
+            $mail->addAddress($reciever);                    
 
             $mail->addReplyTo($this->senderEmail);
         
-            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->isHTML(true);                                  
 
             $mail->Subject = $subject;
             $mail->Body    = $body;
