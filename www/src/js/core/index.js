@@ -1,28 +1,25 @@
-import UserList from "../components/backOffice/UserList.js";
+import { ArticlesList } from "../components/ArticlesList.js";
 import Component from "./Component.js";
 
+window.createElement = function (tag, attrs = {}, children = []) {
+  let component = new Component({ tag: tag });
+  if (attrs != null) {
+    for (let key in attrs) {
+      component.setAttribute(key, attrs[key]);
+    }
+  }
+  if (children != null) {
+    if (!Array.isArray(children)) {
+      children = [children];
+    }
 
-window.createElement = function(tag, attrs = {}, children = []){
-    let component = new Component(tag);
-    if(attrs != null){
-        for(let key in attrs){
-            component.setAttribute(key, attrs[key]);
-        }
-    }
-    if(children != null){
-        console.log(children)
-        debugger;
-        if(!Array.isArray(children)){
-            children = [children];
-        }
-        
-        children.forEach(child => {
-            component.addChild(child);
-        });
-    }
-    return component;
+    children.forEach((child) => {
+      component.addChild(child);
+    });
+  }
+  return component;
 };
 
+window.app = new ArticlesList();
 
-window.userList = new UserList()
-userList.render();
+app.build();
