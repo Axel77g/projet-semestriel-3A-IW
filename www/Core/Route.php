@@ -13,6 +13,9 @@ class Route{
 
 
     function __construct($path,$config){
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Content-Encoding,API-Key");
         $this->setPath($path);
         $this->setConfig($config);
        
@@ -33,7 +36,7 @@ class Route{
     }
 
     function match($uri,$method){
-        if($method != $this->config['method']) return false;        
+        if($method != $this->config['method'] && $method != 'OPTIONS') return false;        
 
         $path = explode("?",rtrim($uri,'/'))[0];
         $path = explode("/",rtrim($path,'/'));
@@ -89,6 +92,11 @@ class Route{
     // Static methods
     static function get($path,$config){
         $config = array_merge($config,['method' => 'GET']);
+        self::create($path,$config);
+    }
+
+    static function options($path,$config){
+        $config = array_merge($config,['method' => 'OPTIONS']);
         self::create($path,$config);
     }
 

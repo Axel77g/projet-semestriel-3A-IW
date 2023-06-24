@@ -1,7 +1,9 @@
 import Component from "../core/Component.js";
 import { ArticlesCard } from "./ArticleCard.js";
+import Api from "../core/Api.js";
 
 export class ArticlesList extends Component {
+
   init() {
     this.state = {
       articles: [
@@ -21,9 +23,18 @@ export class ArticlesList extends Component {
     };
   }
 
+  fetchArticles() {
+    const api = new Api();
+    api.get("articles", {}).then((articles) => {
+      console.log(articles);
+    });
+  }
+
+
+
   render() {
-    return createElement(
-      "div",
+    return createElement( "div", { onload: this.fetchArticles() }, [
+      createElement("div",
       { class: ["articlesList"] },
       this.state.articles.map(
         (article) =>
@@ -31,6 +42,7 @@ export class ArticlesList extends Component {
             article,
           })
       )
-    );
+    )]);
+
   }
 }
