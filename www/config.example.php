@@ -1,6 +1,5 @@
 <?php
 
-
 define('ROUTES', 'routes.php');
 
 define("DEFAULT_ROLE",2);
@@ -13,4 +12,9 @@ define("DB_NAME", "esgi");
 define("DB_USERNAME","esgi");
 define("DB_PASSWORD","Test1234");
 
-define("APP_KEY", "kmtFwxLKttz2IGZFfamyXuGD9qZzjKQhp1g3y37iScreFgrRVye");
+define("APP_KEY", "SALT");
+
+define("SMTP_HOST", "YOUR_HOST");
+define("SMTP_PORT", 123);
+define("SMTP_USERNAME", "your_adress@gmail.com");
+define("SMTP_PASSWORD", "your_password");
