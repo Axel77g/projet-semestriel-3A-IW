@@ -1,10 +1,11 @@
 <?php
 namespace App\Core;
 use App\Utils\Collection;
+use App\Utils\StringHelpers;
 
 use App\Errors\BadRequest;
 
-abstract class Model{
+abstract class Model implements Sanitize{
 
     public Int $id = 0;
     private \DateTime $created_at;
@@ -52,9 +53,11 @@ abstract class Model{
 
     public function getTable(){
         $className = get_class($this);
-        $className = strtolower($className);
+        
         $classNameExploded = explode("\\", $className);
-        return "frw_" . end($classNameExploded);
+        $endClassName = end($classNameExploded);
+        $endClassName =  StringHelpers::camelCaseToSnakeCase($endClassName);
+        return "frw_" . $endClassName ;
 
     }
 
@@ -74,10 +77,7 @@ abstract class Model{
 
     public function set(array $params){
         foreach($params as $key => $value){
-            $keyExploed = explode("_",$key);
-            $key = implode("",array_map("ucfirst",$keyExploed));
-            $setter = "set" . $key;
-            if(!method_exists($this,$setter)) continue;
+            $setter = StringHelpers::snakeCaseToCamelCase("set" . ucfirst($key));
             $this->$setter($value);
         }
     }
@@ -85,4 +85,6 @@ abstract class Model{
         return $this->id;
     }
 }
+
+
     
