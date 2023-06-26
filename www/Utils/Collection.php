@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Utils;
+use App\Core\Sanitize;
 
-class Collection {
+class Collection implements Sanitize{
 
     private $items = [];
 
@@ -16,6 +17,10 @@ class Collection {
             $jsonArray[] = $model->toArray();
         });
         return json_encode($jsonArray);
+    }
+
+    public function toArray(){
+        return $this->items;
     }
 
     public function map($callback){       
@@ -47,6 +52,10 @@ class Collection {
     public function sort($callback){
         usort($this->items, $callback);
     }
+
+  
+
+
 
 }
 

@@ -28,12 +28,12 @@ Route::get("/admin",[
 
 Route::get("/comments",[
     "controller" => "Comments",
-    "action" => "list"
+    "action" => "index"
 ]);
 
 Route::get("/comments/{id}",[
     "controller" => "Comments",
-    "action" => "getById"
+    "action" => "show"
 ]);
 
 Route::post("/comments",[
@@ -41,12 +41,12 @@ Route::post("/comments",[
     "action" => "create"
 ]);
 
-Route::put("/comments",[
+Route::put("/comments/{id}",[
     "controller" => "Comments",
     "action" => "update"
 ]);
 
-Route::delete("/comments",[
+Route::delete("/comments/{id}",[
     "controller" => "Comments",
     "action" => "delete"
 ]);
@@ -133,16 +133,59 @@ Route::get('/articles/{id}', [
 Route::post('/articles', [
     "controller" => "Articles",
     "action" => "create",
+    "middlewares" => [
+        "Auth"
+    ]
 ]);
 
 Route::put('/articles/{id}', [
     "controller" => "Articles",
     "action" => "update",
+    "middlewares" => [
+        "Auth"
+    ]
 ]);
 
 Route::delete('/articles/{id}', [
     "controller" => "Articles",
     "action" => "delete",
+    "middlewares" => [
+        "Auth"
+    ]
 ]);
 
-// ---------------------------------------------------------------
+// Article Comment Routes ---------------------------------------------------------------
+
+Route::get('/article-comments', [
+    "controller" => "ArticleComments",
+    "action" => "index",
+]);
+
+Route::get('/article-comments/{id}', [
+    "controller" => "ArticleComments",
+    "action" => "show",
+]);
+
+Route::post('/article-comments', [
+    "controller" => "ArticleComments",
+    "action" => "create",
+    "middlewares" => [
+        "Auth"
+    ]
+]);
+
+Route::put('/article-comments/{id}', [
+    "controller" => "ArticleComments",
+    "action" => "update",
+    "middlewares" => [
+        "Auth"
+    ]
+]);
+
+Route::delete('/article-comments/{id}', [
+    "controller" => "ArticleComments",
+    "action" => "delete",
+    "middlewares" => [
+        "Auth"
+    ]
+]);

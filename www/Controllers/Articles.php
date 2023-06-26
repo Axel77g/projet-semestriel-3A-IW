@@ -11,13 +11,13 @@ class Articles extends Controller{
         
         function index(){
             $articles = Article::all();
-            echo $articles->toJson();
+            return $articles;
         }
 
         function show($params){
             $article = Article::fetch($params['id']);
             if(!$article) throw new NotFoundError();
-            echo $article->toJson();
+            return $article;
         }
 
         function create(){
@@ -27,25 +27,23 @@ class Articles extends Controller{
             $article->setContent($payload['content']);
             $article->setAuthor($payload['author']);
             $article->save();
-            echo $article->toJson();
+            return $article;
         }
 
         function update($params){
             $payload = request()->json();
             $article = Article::fetch($params['id']);
             if(!$article) throw new NotFoundError();
-            $article->setTitle($payload['title']);
-            $article->setContent($payload['content']);
-            $article->setAuthor($payload['author']);
+            $article->set($payload);
             $article->save();
-            echo $article->toJson();
+            return $article;
         }
 
         function delete($params){
             $article = Article::fetch($params['id']);
             if(!$article) throw new NotFoundError();
             $article->destroy();
-            echo $article->toJson();
+            return $article;
         }
         
 }
