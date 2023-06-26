@@ -3,6 +3,8 @@ namespace App\Core;
 use App\Utils\Collection;
 use App\Utils\StringHelpers;
 
+use App\Errors\BadRequest;
+
 abstract class Model implements Sanitize{
 
     public Int $id = 0;

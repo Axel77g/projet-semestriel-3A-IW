@@ -2,6 +2,8 @@
 
 define('ROUTES', 'routes.php');
 
+define("DEFAULT_ROLE",2);
+
 define("ENV", "dev");
 
 define("DB_DRIVER", "pgsql");
