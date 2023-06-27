@@ -1,11 +1,9 @@
-import Home from "./components/Home.js";
 import Element from "./core/Element.js";
-import Renderer from "./core/Renderer.js";
+import Router from "./core/Router.js";
 
 function createElement(tag, attributes, children) {
   return new Element(tag, attributes, children);
 }
 globalThis.createElement = createElement;
 
-window.app = new Home();
-Renderer.execute(window.app, document.body);
+let router = new Router();
