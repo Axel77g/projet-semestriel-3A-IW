@@ -1,8 +1,11 @@
 <?php
 namespace App\Core;
+use App\Utils\Collection;
+use App\Utils\StringHelpers;
 
+use App\Errors\BadRequest;
 
-abstract class Model{
+abstract class Model implements Sanitize{
 
     public Int $id = 0;
     private \DateTime $created_at;
@@ -39,9 +42,10 @@ abstract class Model{
         $model = new $class();
         $query = $model->query();
         $result = $query->select()->execute();
-        return $result->fetchAll();
+        return new Collection($result->fetchAll());
 
     }
+    
     public function destroy() {
         $query = $this->query();
         $query->delete()->where(["id" => $this->id])->execute();
@@ -49,9 +53,11 @@ abstract class Model{
 
     public function getTable(){
         $className = get_class($this);
-        $className = strtolower($className);
+        
         $classNameExploded = explode("\\", $className);
-        return "frw_" . end($classNameExploded);
+        $endClassName = end($classNameExploded);
+        $endClassName =  StringHelpers::camelCaseToSnakeCase($endClassName);
+        return "frw_" . $endClassName ;
 
     }
 
@@ -65,10 +71,13 @@ abstract class Model{
     public function toJson(){
         return json_encode($this->getColumns());
     }
+    public function toArray(){
+        return $this->getColumns();
+    }
 
     public function set(array $params){
         foreach($params as $key => $value){
-            $setter = "set" . ucfirst($key);
+            $setter = StringHelpers::snakeCaseToCamelCase("set" . ucfirst($key));
             $this->$setter($value);
         }
     }
@@ -76,4 +85,6 @@ abstract class Model{
         return $this->id;
     }
 }
+
+
     
