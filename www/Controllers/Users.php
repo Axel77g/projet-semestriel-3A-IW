@@ -3,44 +3,35 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Errors\NotFoundError;
-use App\Erros\UserAlreadyExists;
-use App\Erros\WrongPassword;
 use App\Models\User;
 use App\Services\AuthServices;
 
 class Users extends Controller{
     
     public function me(){
+
         $auth = request()->auth();
-        return $auth->user();
+        echo $auth->user()->toJson();
     }
 
     function show($params){
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
-        return $user;
-    }
-
-    function update($params){
-        $payload = request()->json();
-        $user = User::fetch($params['id']);
-        if(!$user) throw new NotFoundError();
-        $user->set($payload);
-        $user->save();
         echo $user->toJson();
     }
 
-    function destroy($params){
-        $user = User::fetch($params['id']);
-        if(!$user) throw new NotFoundError();
-        $user->destroy();
+    function deleteMass(){
+        echo "delete users";
     }
 
     function register(){
         $payload = request()->json();
 
         $existing = User::fetch(["email"=>$payload['email']]);
-        if($existing) throw new UserAlreadyExists();
+        if($existing){
+            echo "User already exists";
+            return;
+        }
 
         $user = new User();
         $user->setFirstname($payload['firstname']);
@@ -49,18 +40,24 @@ class Users extends Controller{
         $user->setPassword($payload['password']);
         $user->save();
 
-        return $user;
+        echo $user->toJson();
     }
 
     function login(){
         $payload = request()->json();
         
         $user = User::fetch(["email"=>$payload['email']]);
-        if(!$user) throw new NotFoundError();
+        if(!$user){
+            echo "User not found";
+            return;
+        }
 
         $pass = AuthServices::isCorrectPassword($payload['password'],$user->getPassword());
         
-        if(!$pass) throw new WrongPassword();
+        if(!$pass){
+            echo "Wrong password";
+            return;
+        }
 
         $token = AuthServices::generateToken($user);
         echo json_encode([

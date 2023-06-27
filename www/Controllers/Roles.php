@@ -34,7 +34,7 @@ class Roles extends Controller
 
         $role->save();
 
-        return $role;
+        echo $role->toJson();
     }
 
     /*
@@ -49,11 +49,11 @@ class Roles extends Controller
 
         if(!$role) throw new NotFoundError();
 
-        $role->set($payload);
+        $role->setRole($payload['name']);
 
         $role->save();
 
-        return $role;
+        echo $role->toJson();
     }
 
     /*
@@ -68,7 +68,7 @@ class Roles extends Controller
 
         $role->destroy();
 
-        return $role;
+        echo "Role " .$role->getRole() . " deleted";
 
     }
 
