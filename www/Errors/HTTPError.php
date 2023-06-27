@@ -27,8 +27,3 @@ class NotFoundError extends HTTPError
 class InternalError extends HTTPError{
     
 }
-
-class BadRequest extends HTTPError{
-    protected $code = 400;
-    protected $message;
-}

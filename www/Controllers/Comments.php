@@ -7,15 +7,21 @@ use App\Models\Comment;
 
 class Comments extends Controller{
 
-    public function index(){
+    public function list(){
         $comments = Comment::all();
-        return $comments;
+        $json = [];
+        foreach($comments as $comment){
+            $comment->getContent();
+            $json[] = ["id" => $comment->id, "content" => $comment->getContent()];
+        }
+
+        echo json_encode($json);
     }
 
-    public function show($params){
+    public function getById($params){
         $comment = Comment::fetch($params['id']);
         if(!$comment) throw new NotFoundError();
-        return $comment;
+        echo $comment->toJson();
     }
 
     public function create(){
@@ -25,30 +31,34 @@ class Comments extends Controller{
         $comment->setContent($payload['content']);
         $comment->save();
 
-        return $comment;
+        echo $comment->toJson();
     }
 
-    public function update($params){
+    public function update(){
         $payload = request()->json();
 
-        $comment = Comment::fetch($params['id']);
+        $comment = Comment::fetch($payload['id']);
         if(!$comment) throw new NotFoundError();
+        unset($payload['id']);
 
         $comment->set($payload);
         $comment->save();
 
-        return $comment;
+        echo $comment->toJson();
+
     }
 
-    public function delete($params){
+    public function delete(){
 
-        $comment = Comment::fetch($params['id']);
+        $payload = request()->json();
+
+        $comment = Comment::fetch($payload['id']);
 
         if(!$comment) throw new NotFoundError();
 
-        $comment->destroy();
+        $comment->delete();
 
-        return $comment;
+        echo json_encode(["message"=>"Comment deleted"]);
     }
 
 }

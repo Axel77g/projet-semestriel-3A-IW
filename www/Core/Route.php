@@ -10,13 +10,9 @@ class Route{
     protected $config;
     protected $middleware = [];
     public $params = [];
-    public $path;
 
 
     function __construct($path,$config){
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Content-Encoding,API-Key");
         $this->setPath($path);
         $this->setConfig($config);
        
@@ -24,7 +20,6 @@ class Route{
 
     function setPath($path){
         $this->uri = explode("/",rtrim($path,'/'));
-        $this->path = $path;    
     }
 
     function setConfig($config){
@@ -38,7 +33,7 @@ class Route{
     }
 
     function match($uri,$method){
-        if($method != $this->config['method'] && $method != 'OPTIONS') return false;        
+        if($method != $this->config['method']) return false;        
 
         $path = explode("?",rtrim($uri,'/'))[0];
         $path = explode("/",rtrim($path,'/'));
@@ -88,21 +83,12 @@ class Route{
         $controller = "App\\Controllers\\$controller";
         $c = new $controller();
         $this->runMiddlewares();
-        
-        $res = $c->$action($this->params);
-        
-        if(is_a($res, Sanitize::class)) echo $res->toJson();
-        
+        return $c->$action($this->params);
     }
 
     // Static methods
     static function get($path,$config){
         $config = array_merge($config,['method' => 'GET']);
-        self::create($path,$config);
-    }
-
-    static function options($path,$config){
-        $config = array_merge($config,['method' => 'OPTIONS']);
         self::create($path,$config);
     }
 
@@ -125,7 +111,5 @@ class Route{
         $router = Router::getInstance();
         $router->addRoute(new Route(...$params));
     }
-
-
 
 }

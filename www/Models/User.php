@@ -8,7 +8,7 @@ use App\Utils\Protection;
 
 class User extends Model{
 
-    protected Int $role_id = DEFAULT_ROLE;
+    protected Int $role_id = 0;
     protected string $firstname = "";
     protected string $lastname = "";
     protected string $email = "";
@@ -18,7 +18,7 @@ class User extends Model{
         $this->firstname =  Protection::protect(ucwords(strtolower(trim($str))));
     }
 
-    public function setLastname($str){
+    public function setLastName($str){
         $this->lastname =  Protection::protect(strtoupper(trim($str)));
     }
     
@@ -26,11 +26,6 @@ class User extends Model{
         $email =  Protection::protect(strtolower(trim($str)));
         if(!filter_var($email,FILTER_VALIDATE_EMAIL)) throw new \Exception("Invalid email");
         $this->email = $email;
-    }
-
-    public function setRoleId(Int $role_id){
-        
-        $this->role_id = $role_id;
     }
 
     public function setPassword($str){

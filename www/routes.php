@@ -26,37 +26,37 @@ Route::get("/admin",[
     ]
 ]);
 
-Route::get("/api/comments",[
+Route::get("/comments",[
     "controller" => "Comments",
-    "action" => "index"
+    "action" => "list"
 ]);
 
-Route::get("/api/comments/{id}",[
+Route::get("/comments/{id}",[
     "controller" => "Comments",
-    "action" => "show"
+    "action" => "getById"
 ]);
 
-Route::post("/api/comments",[
+Route::post("/comments",[
     "controller" => "Comments",
     "action" => "create"
 ]);
 
-Route::put("/api/comments/{id}",[
+Route::put("/comments",[
     "controller" => "Comments",
     "action" => "update"
 ]);
 
-Route::delete("/api/comments/{id}",[
+Route::delete("/comments",[
     "controller" => "Comments",
     "action" => "delete"
 ]);
 
-Route::get("/api/login",[
+Route::get("/login",[
     "controller" => "Auth",
     "action" => "login"
 ]);
 
-Route::get("/api/register",[
+Route::get("/register",[
     "controller" => "Auth",
     "action" => "register"
 ]);
@@ -69,18 +69,7 @@ Route::get("/users/me",[
     ]
 ]);
 
-Route::post('/api/users/register',[
-    "controller" => "Users",
-    "action" => "register",
-]);
-
-Route::post('/api/users/login',[
-    "controller" => "Users",
-    "action" => "login",
-]);
-
-
-Route::get("/api/users/{id}",[
+Route::get("/users/{id}",[
     "controller" => "Users",
     "action" => "show",
     "middlewares" => [
@@ -96,9 +85,9 @@ Route::put("/users/{id}",[
     ]
 ]);
 
-Route::delete('/api/users/{id}',[
+Route::delete('/users/{id}',[
     "controller" => "Users",
-    "action" => "destroy",
+    "action" => "delete",
     "middlewares" => [
         "Auth"
     ]
@@ -106,7 +95,7 @@ Route::delete('/api/users/{id}',[
 
 
 // Roles Routes
-Route::post('/api/roles/create', [
+Route::post('/roles/create', [
     "controller" => "Roles",
     "action" => "create",
     "middlewares" => [
@@ -114,7 +103,7 @@ Route::post('/api/roles/create', [
     ]
 ]);
 
-Route::put('/api/roles/{id}', [
+Route::put('/roles/{id}', [
     "controller" => "Roles",
     "action" => "update",
     "middlewares" => [
@@ -122,80 +111,9 @@ Route::put('/api/roles/{id}', [
     ]
 ]);
 
-Route::delete('/api/roles/{id}', [
+Route::delete('/roles/{id}', [
     "controller" => "Roles",
     "action" => "destroy",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-// Articles Routes ----------------------------------------------
-Route::get('/api/articles', [
-    "controller" => "Articles",
-    "action" => "index",
-]);
-
-Route::get('/api/articles/{id}', [
-    "controller" => "Articles",
-    "action" => "show",
-]);
-
-Route::post('/api/articles', [
-    "controller" => "Articles",
-    "action" => "create",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::put('/api/articles/{id}', [
-    "controller" => "Articles",
-    "action" => "update",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::delete('/api/articles/{id}', [
-    "controller" => "Articles",
-    "action" => "delete",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-// Article Comment Routes ---------------------------------------------------------------
-
-Route::get('/api/article-comments', [
-    "controller" => "ArticleComments",
-    "action" => "index",
-]);
-
-Route::get('/api/article-comments/{id}', [
-    "controller" => "ArticleComments",
-    "action" => "show",
-]);
-
-Route::post('/api/article-comments', [
-    "controller" => "ArticleComments",
-    "action" => "create",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::put('/api/article-comments/{id}', [
-    "controller" => "ArticleComments",
-    "action" => "update",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::delete('/api/article-comments/{id}', [
-    "controller" => "ArticleComments",
-    "action" => "delete",
     "middlewares" => [
         "Auth"
     ]

@@ -1,1 +1,1 @@
-<script src="src/js/index.js" type="module"></script>
+<h1>Bonjour depuis <?= $name ?></h1>
