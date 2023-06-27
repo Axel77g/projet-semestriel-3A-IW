@@ -13,6 +13,29 @@ class User extends Model{
     protected string $lastname = "";
     protected string $email = "";
     protected string $password = "";
+    protected Int $is_verified = 0;
+    protected string $verification_code = "";
+    protected Int $reset_code = 0;
+
+    public function getResetCode(){
+        return $this->reset_code;
+    }
+
+    public function setResetCode(){
+        $this->reset_code = rand(100000,999999);
+    }
+
+    public function setVerificationCode(){
+        $this->verification_code = bin2hex(random_bytes(32));
+    }
+
+    public function getVerificationCode(){
+        return $this->verification_code;
+    }
+
+    public function setIsVerified($int){
+        $this->is_verified = $int;
+    }
 
     public function setFirstname($str){
         $this->firstname =  Protection::protect(ucwords(strtolower(trim($str))));
@@ -29,8 +52,11 @@ class User extends Model{
     }
 
     public function setRoleId(Int $role_id){
-        
         $this->role_id = $role_id;
+    }
+    
+    public function getEmail(){
+        return $this->email;
     }
 
     public function setPassword($str){
@@ -50,5 +76,4 @@ class User extends Model{
     public function hasRole(Role $role) {    
         return $this->role_id == $role->getId();
     }
-
 }

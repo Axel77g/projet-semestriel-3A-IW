@@ -7,6 +7,7 @@ use App\Erros\UserAlreadyExists;
 use App\Erros\WrongPassword;
 use App\Models\User;
 use App\Services\AuthServices;
+use App\Core\Mailer;    
 
 class Users extends Controller{
     
@@ -47,9 +48,23 @@ class Users extends Controller{
         $user->setLastname($payload['lastname']);
         $user->setEmail($payload['email']);
         $user->setPassword($payload['password']);
+        $user->setVerificationCode();
         $user->save();
 
-        return $user;
+        $mailer = new Mailer(SMTP_USERNAME, SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST);
+
+        $mail = $user->getEmail();
+        $verif_code = $user->getVerificationCode();
+
+        $subject = "Verify your account";
+        $message = "
+            <h1>Thanks For Registration</h1>
+            <p>Click on the link below to verify your account</p>
+            <a href='http://localhost:8080/verify?email=".$mail."&code=".$verif_code."'>Verify</a>
+        ";
+        $mailer->sendMail($user->getEmail(), $subject, $message);
+
+        echo $user->toJson();
     }
 
     function login(){

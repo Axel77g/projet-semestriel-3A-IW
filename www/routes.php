@@ -61,6 +61,31 @@ Route::get("/api/register",[
     "action" => "register"
 ]);
 
+Route::get("/verify",[
+    "controller" => "Auth",
+    "action" => "verify"
+]);
+
+Route::get("/forgot-password",[
+    "controller" => "Auth", 
+    "action" => "forgotPassword"
+]);
+
+Route::post("/reset-password",[
+    "controller" => "Auth",
+    "action" => "resetPassword"
+]);
+
+Route::get("/change-password",[
+    "controller" => "Auth",
+    "action" => "changePassword",
+]);
+
+Route::post("/update-password",[
+    "controller" => "Auth",
+    "action" => "updatePassword",
+]);
+
 Route::get("/users/me",[
     "controller" => "Users",
     "action" => "me",
@@ -96,7 +121,13 @@ Route::put("/users/{id}",[
     ]
 ]);
 
-Route::delete('/api/users/{id}',[
+
+Route::post("/api/users",[
+    "controller" => "Users",
+    "action" => "register"
+]);
+
+Route::delete('/users/{id}',[
     "controller" => "Users",
     "action" => "destroy",
     "middlewares" => [
