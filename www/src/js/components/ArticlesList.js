@@ -3,7 +3,6 @@ import { ArticlesCard } from "./ArticleCard.js";
 import Api from "../core/Api.js";
 
 export class ArticlesList extends Component {
-
   init() {
     this.state = {
       articles: [
@@ -21,6 +20,7 @@ export class ArticlesList extends Component {
         },
       ],
     };
+    this.fetchArticles();
   }
 
   fetchArticles() {
@@ -30,19 +30,18 @@ export class ArticlesList extends Component {
     });
   }
 
-
-
   render() {
-    return createElement( "div", { onload: this.fetchArticles() }, [
-      createElement("div",
-      { class: ["articlesList"] },
-      this.state.articles.map(
-        (article) =>
-          new ArticlesCard({
-            article,
-          })
-      )
-    )]);
-
+    return createElement("div", { class: ["aticle-list-container"] }, [
+      createElement(
+        "div",
+        { class: ["articlesList"] },
+        this.state.articles.map(
+          (article) =>
+            new ArticlesCard({
+              article,
+            })
+        )
+      ),
+    ]);
   }
 }
