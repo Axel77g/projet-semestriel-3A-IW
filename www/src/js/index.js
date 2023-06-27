@@ -6,4 +6,5 @@ function createElement(tag, attributes, children) {
 }
 globalThis.createElement = createElement;
 
-let router = new Router();
+window.router = new Router();
+router.refresh();
