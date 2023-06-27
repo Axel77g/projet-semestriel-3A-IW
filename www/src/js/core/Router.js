@@ -6,12 +6,11 @@ export default class Router {
     this.routes = [];
     this.lastRendered = null;
     window.addEventListener("routeChange", this.refresh.bind(this));
-    this.refresh();
   }
 
-  push(route, ...parms) {
+  push(route, state = {}, unused = "") {
+    window.history.pushState(state, unused, route);
     window.dispatchEvent(new Event("routeChange"));
-    window.history.pushState(route, ...parms);
   }
 
   back() {
@@ -20,6 +19,7 @@ export default class Router {
   }
 
   refresh() {
+    document.body.innerHTML = "";
     if (this.lastRendered != null) {
       this.lastRendered.destroy();
     }
@@ -30,7 +30,6 @@ export default class Router {
       route = Routes.find((r) => r.path == "/");
     }
 
-    console.log(route);
     let component = new route.component();
     Renderer.execute(component, document.body);
   }
