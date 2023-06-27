@@ -12,12 +12,13 @@ class Auth extends Controller
     public function login()
     {
         $view = new View("Auth/login", "back");
-
     }
+
     public function logout()
     {
         echo 'logout';
     }
+
     public function register()
     {
         $user = new User();
@@ -26,6 +27,7 @@ class Auth extends Controller
         $user->setEmail("test@example.com");
         $user->setPassword("Bonjour123");
         
-        return $user;
+        $user->save();
+        
     }
 }

@@ -3,7 +3,7 @@
 
         <h1>Connexion</h1>
 
-        <form action="/admin" method="GET">
+        <form action="/login" method="POST">
             <input type="text" name="email" id="email" placeholder="Email">
 
             <input type="password" name="password" id="password" placeholder="Password">

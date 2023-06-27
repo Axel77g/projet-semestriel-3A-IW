@@ -1,5 +1,5 @@
 <?php
-namespace App\Erros;
+namespace App\Errors;
 
 use App\Errors\HTTPError;
 

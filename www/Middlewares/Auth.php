@@ -2,11 +2,11 @@
 namespace App\Middlewares;
 
 use App\Core\Middleware;
-use App\Erros\Unauthorized;
+use App\Errors\Unauthorized;
 
 class Auth extends Middleware
 {
-    public function handle ($next){
+    public function handle($next) {
 
         $auth = request()->auth();
         
