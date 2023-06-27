@@ -10,12 +10,13 @@ use App\Models\User;
 use App\Policies\UserPolicies;
 use App\Services\AuthServices;
 
+
 class Users extends Controller{
     
     function index() {
 
         $users = User::all();
-    
+
         return $users;
     }
 

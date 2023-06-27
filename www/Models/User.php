@@ -6,7 +6,6 @@ namespace App\Models;
 use App\Core\Model;
 use App\Utils\Protection;
 use App\Models\Role;
-use App\Middlewares\Permission;
 
 class User extends Model{
 
@@ -14,7 +13,9 @@ class User extends Model{
     protected string $firstname = "";
     protected string $lastname = "";
     protected string $email = "";
+    # [password]
     protected string $password = "";
+    
 
     public function setFirstname($str){
         $this->firstname =  Protection::protect(ucwords(strtolower(trim($str))));

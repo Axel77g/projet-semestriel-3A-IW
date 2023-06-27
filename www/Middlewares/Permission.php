@@ -5,7 +5,6 @@ namespace App\Middlewares;
 use App\Core\Middleware;
 use App\Errors\Unauthorized;
 use App\Models\Role;
-use App\Models\User;
 
 class Permission extends Middleware{
 
