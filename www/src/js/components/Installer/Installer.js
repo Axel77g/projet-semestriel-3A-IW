@@ -64,10 +64,10 @@ export class Installer extends Component {
         event.preventDefault();
         console.log("submit");
 
-        // const api = new API();
-        // api.post("install", this.state.form).then((response) => {
-        //     console.log(response);
-        // });
+        const api = new API();
+        api.post("api/install", this.state.form).then((response) => {
+            console.log(response);
+        });
     }
 
     render() {

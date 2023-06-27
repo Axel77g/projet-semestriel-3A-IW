@@ -203,7 +203,7 @@ Route::delete('/article-comments/{id}', [
 
 // Installer Routes ---------------------------------------------------------------
 
-Route::post('/install', [
+Route::post('/api/install', [
     "controller" => "Installer",
     "action" => "create",
 ]);

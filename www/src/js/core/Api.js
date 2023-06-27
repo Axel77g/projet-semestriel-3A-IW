@@ -7,6 +7,7 @@ export default class Api{
     baseUrl = "http://" + window.location.hostname + ":8080/";
     
     get(url, options = {}) {
+        console.log(this.baseUrl + url)
         return fetch(this.baseUrl + url, {
             method: "GET",
             headers: this.header,
@@ -20,7 +21,7 @@ export default class Api{
             headers: this.header,
             body: JSON.stringify(data),
             ...options
-        }).then(res => res.json());
+        }).then(res => res);
     }
 
     put(url, data, options = {}) {
