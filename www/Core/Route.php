@@ -10,6 +10,7 @@ class Route{
     protected $config;
     protected $middleware = [];
     public $params = [];
+    public $path;
 
 
     function __construct($path,$config){
@@ -23,6 +24,7 @@ class Route{
 
     function setPath($path){
         $this->uri = explode("/",rtrim($path,'/'));
+        $this->path = $path;    
     }
 
     function setConfig($config){
@@ -87,7 +89,10 @@ class Route{
         $c = new $controller();
         $this->runMiddlewares();
         
-        echo $c->$action($this->params)->toJson();
+        $res = $c->$action($this->params);
+        
+        if(is_a($res, Sanitize::class)) echo $res->toJson();
+        
     }
 
     // Static methods
