@@ -1,110 +1,56 @@
 export default class Component {
-  constructor(options = {}) {
-    let tag = options.tag || "div";
-    this.props = options;
-    this.element = document.createElement(tag);
+  constructor(props) {
+    this.props = props;
+    this.state = {};
+    this.domParentElement = null;
+    this.elements = null;
     this.children = [];
-    this.renderedChildren = [];
-    this.parent = document.body;
-    this.textNode = null;
-
+    this.parent = null;
     this.init();
   }
-
-  init() {
-    this.state = {};
-  }
-  /**
-   * @param {Component} child
-   */
-  addChild(child) {
-    if (child instanceof Component) {
-      child.setParent(this);
-      this.children.push(child);
-    } else {
-      this.textNode = child;
-    }
-  }
+  init() {}
 
   setState(newState) {
-    this.state = { ...this.state, ...newState };
+    this.state = Object.assign(this.state, newState);
     this.update();
     this.onStateChange(this.state);
   }
   onStateChange(...param) {}
 
-  setParent(parent) {
-    this.parent = parent;
-  }
-
-  setAttribute(key, value) {
-    if (key.startsWith("on")) {
-      this.element.addEventListener(key.substring(2).toLowerCase(), value);
-    } else if (key == "class") {
-      this.element.classList.add(...value);
-    } else if (key == "style") {
-      for (let style in value) {
-        this.element.style[style] = value[style];
-      }
+  destroy() {
+    this.children.forEach((child) => {
+      child.destroy();
+    });
+    this.children = [];
+    if (this.domElements instanceof Array) {
+      this.elements.forEach((element) => {
+        element.domElement.remove();
+      });
     } else {
-      this.element.setAttribute(key, value);
+      this.elements.domElement.remove();
     }
-  }
-  getAttribute(key) {
-    return this.element.getAttribute(key);
-  }
-
-  render() {
-    return this.children;
   }
 
   update() {
-    if (this.parent instanceof Component) {
-      this.parent.destroy();
-      this.parent.build();
+    //this.destroy();
+    this.build(this.domParentElement, this.parent, true);
+  }
+
+  build(domParentElement, parentn, replace = false) {
+    let rendered = null;
+    this.parent = parent;
+    this.domParentElement = domParentElement;
+    if (this.elements) {
+      rendered = this.elements;
+    }
+    this.elements = this.render();
+
+    if (this.elements instanceof Array) {
+      this.elements.forEach((element) => {
+        element.build(domParentElement, this);
+      });
     } else {
-      this.destroy();
-      this.build();
+      this.elements.build(domParentElement, this, rendered);
     }
-  }
-
-  destroy() {
-    this.renderedChildren.forEach((child) => {
-      if (child instanceof Component) {
-        child.destroy();
-      }
-    });
-    this.element.remove();
-  }
-
-  build() {
-    let children = this.render() || this.children || [];
-    if (!Array.isArray(children)) children = [children];
-    children.forEach((child) => {
-      child.setParent(this);
-    });
-
-    if (this.parent instanceof Component) {
-      this.parent.element.appendChild(this.element);
-    } else this.parent.appendChild(this.element);
-
-    //add the text node
-    try {
-      if (this.textNode != null) {
-        let textNode = document.createTextNode(this.textNode);
-        this.element.appendChild(textNode);
-      }
-    } catch (error) {
-      console.error(error);
-      console.log(this.element);
-    }
-
-    children.forEach((child, i) => {
-      if (child instanceof Component) {
-        child.build();
-      }
-    });
-
-    this.renderedChildren = children;
   }
 }
