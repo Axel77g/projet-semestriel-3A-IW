@@ -31,6 +31,7 @@ export default class Element {
   }
 
   createListener(domElement, eventName, callback) {
+    console.log("createListener", eventName, callback);
     domElement.addEventListener(eventName, callback.bind(this.component));
   }
 
