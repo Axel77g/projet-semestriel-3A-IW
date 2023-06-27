@@ -200,3 +200,10 @@ Route::delete('/article-comments/{id}', [
         "Auth"
     ]
 ]);
+
+// Installer Routes ---------------------------------------------------------------
+
+Route::post('/install', [
+    "controller" => "Installer",
+    "action" => "create",
+]);

@@ -29,7 +29,9 @@ export default class Component {
   setState(newState) {
     this.state = { ...this.state, ...newState };
     this.update();
+    this.onStateChange(this.state);
   }
+  onStateChange(...param) {}
 
   setParent(parent) {
     this.parent = parent;

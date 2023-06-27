@@ -1,4 +1,5 @@
 import { ArticlesList } from "../components/ArticlesList.js";
+import { Installer } from "../components/Installer/Installer.js";
 import Component from "./Component.js";
 
 window.createElement = function (tag, attrs = {}, children = []) {
@@ -20,6 +21,6 @@ window.createElement = function (tag, attrs = {}, children = []) {
   return component;
 };
 
-window.app = new ArticlesList();
+window.app = new Installer();
 
 app.build();
