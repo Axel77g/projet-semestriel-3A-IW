@@ -69,10 +69,25 @@ abstract class Model implements Sanitize{
     }
 
     public function toJson(){
+
+        $columns = $this->getColumns();
+
+        if(isset($columns["password"])){
+            unset($columns["password"]);
+        }
+
         return json_encode($this->getColumns());
     }
+    
     public function toArray(){
-        return $this->getColumns();
+
+        $columns = $this->getColumns();
+        
+        if(isset($columns["password"])){
+            unset($columns["password"]);
+        }
+        
+        return $columns;
     }
 
     public function set(array $params){
