@@ -21,7 +21,7 @@ class Database{
     }
 
     private function getConnectionString(){
-        return DB_DRIVER . ':host=' . DB_HOST . ';dbname=' . DB_NAME . '';
+        return DB_DRIVER . ':host=' . DB_HOST . ';dbname=' . DB_NAME . ';port=' . DB_PORT . '';
     }
 
     private function getCredentials(){

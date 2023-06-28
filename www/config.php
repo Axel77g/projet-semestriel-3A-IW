@@ -7,6 +7,7 @@ define("DEFAULT_ROLE",2);
 define("ENV", "dev");
 
 define("DB_DRIVER", "pgsql");
+define("DB_PORT", 5432);
 define("DB_HOST", "database");
 define("DB_NAME", "esgi");
 define("DB_USERNAME","esgi");
