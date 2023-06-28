@@ -52,10 +52,6 @@ class Collection implements Sanitize{
     public function sort($callback){
         usort($this->items, $callback);
     }
-
-  
-
-
-
+    
 }
 

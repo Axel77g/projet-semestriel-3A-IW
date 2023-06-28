@@ -5,6 +5,7 @@ namespace App\Models;
 
 use App\Core\Model;
 use App\Utils\Protection;
+use App\Models\Role;
 
 class User extends Model{
 
@@ -12,7 +13,9 @@ class User extends Model{
     protected string $firstname = "";
     protected string $lastname = "";
     protected string $email = "";
+    # [password]
     protected string $password = "";
+    
 
     public function setFirstname($str){
         $this->firstname =  Protection::protect(ucwords(strtolower(trim($str))));
@@ -28,11 +31,6 @@ class User extends Model{
         $this->email = $email;
     }
 
-    public function setRoleId(Int $role_id){
-        
-        $this->role_id = $role_id;
-    }
-
     public function setPassword($str){
         $password =  Protection::protect($str);
         if(strlen($password) < 8) throw new \Exception("Password must be at least 8 characters");
@@ -43,12 +41,21 @@ class User extends Model{
         return $this->password;
     }
 
+    public function setRoleId(Int $role_id){
+        
+        $this->role_id = $role_id;
+    }
+
     public function role() {
         return Role::fetch(["id"=>$this->role_id]);
     }
 
     public function hasRole(Role $role) {    
         return $this->role_id == $role->getId();
+    }
+
+    public function isAdmin() {
+        return $this->hasRole(Role::fetch(["name"=>"admin"]));
     }
 
 }
