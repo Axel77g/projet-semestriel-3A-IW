@@ -33,6 +33,7 @@ abstract class Model implements Sanitize{
         $class = get_called_class();
         $model = new $class();
         $query = $model->query();
+
         $result = $query->select()->where($params)->execute();
         return $result->fetch();
     }
@@ -76,6 +77,11 @@ abstract class Model implements Sanitize{
             unset($columns["password"]);
         }
 
+        foreach($columns as $key => $value){
+            if(is_a($value, Model::class)){
+                $columns[$key] = $value->toJson();
+            }
+        }
         return json_encode($this->getColumns());
     }
     
@@ -86,7 +92,13 @@ abstract class Model implements Sanitize{
         if(isset($columns["password"])){
             unset($columns["password"]);
         }
-        
+
+        foreach($columns as $key => $value){
+            if(is_a($value, Model::class)){
+                $columns[$key] = $value->toArray();
+            }
+        }
+
         return $columns;
     }
 

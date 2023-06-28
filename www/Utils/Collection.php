@@ -27,6 +27,7 @@ class Collection implements Sanitize{
         foreach($this->items as &$item){
             $item = $callback($item);
         }
+        return $this;
     }
 
     public function each($callback){

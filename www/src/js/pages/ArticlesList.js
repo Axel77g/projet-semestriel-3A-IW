@@ -1,7 +1,7 @@
 import Api from "../core/Api.js";
-import Component from "../core/Component.js";
 
 // Components
+import Component from "../core/Component.js";
 import { ArticlesCard } from "../components/ArticleCard.js";
 
 export class ArticlesList extends Component {
@@ -22,11 +22,11 @@ export class ArticlesList extends Component {
   }
 
   render() {
-    return createElement("div", { class: ["article-container"] }, [
+    return createElement("div", { class: ["container-fluid", "mt-4"] }, [
       createElement("h1", {}, "Liste de tous les articles"),
       createElement(
         "div",
-        { class: ["article-list"] },
+        { class: ["row"] },
         this.state.articles.map((article) => {
           return new ArticlesCard({ article: article });
         })

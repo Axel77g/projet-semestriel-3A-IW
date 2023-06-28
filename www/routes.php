@@ -2,6 +2,12 @@
 
 use App\Core\Route;
 
+Route::get('/api/articles', [
+    "controller" => "Articles",
+    "action" => "index",
+]);
+
+
 Route::get("/",[
     "controller" => "Main",
     "action" => "index",
@@ -129,12 +135,8 @@ Route::delete('/api/roles/{id}', [
 ]);
 
 // Articles Routes ----------------------------------------------
-Route::get('/api/articles', [
-    "controller" => "Articles",
-    "action" => "index",
-]);
 
-Route::get('/api/articles/{id}', [
+Route::get('/api/article/{slug}', [
     "controller" => "Articles",
     "action" => "show",
 ]);

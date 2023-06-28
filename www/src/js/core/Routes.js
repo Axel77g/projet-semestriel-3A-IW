@@ -1,4 +1,4 @@
-import Article from "../components/Article.js";
+import { Article } from "../pages/Article.js";
 import Home from "../components/Home.js";
 
 // Pages

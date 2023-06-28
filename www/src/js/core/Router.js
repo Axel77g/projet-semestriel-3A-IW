@@ -58,14 +58,14 @@ export default class Router {
     }
 
     if (target == null) {
-      route = Routes.find((r) => r.path == "/");
+      target = Routes.find((r) => r.path == "/");
     }
 
-    let component = new target.component();
     this.route = {
       ...target,
       params,
     };
+    let component = new target.component();
     Renderer.execute(component, document.body);
   }
 }
