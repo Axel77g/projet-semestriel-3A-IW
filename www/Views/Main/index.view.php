@@ -1,1 +1,1 @@
-<script src="src/js/index.js" type="module"></script>
+<script src="/src/js/index.js" type="module"></script>
