@@ -7,7 +7,7 @@ use App\Errors\NotFoundError;
 use App\Errors\UserAlreadyExists;
 use App\Errors\WrongPassword;
 use App\Models\User;
-use App\Policies\UserPolicies;
+use App\Policies\UserPolicy;
 use App\Services\AuthServices;
 
 
@@ -30,7 +30,7 @@ class Users extends Controller{
 
         $user = User::fetch($params['id']);
         
-        UserPolicies::fetch(request()->auth()->user(),$user);
+        UserPolicy::index(request()->auth()->user(),$user);
 
         if(!$user) throw new NotFoundError();
         return $user;

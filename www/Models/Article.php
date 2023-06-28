@@ -27,7 +27,7 @@ Class Article extends Model{
     public function getContent(){
         return $this->content;
     }
-    public function getAuthor(){
+    public function getAuthorId(){
         return $this->author;
     }
 
