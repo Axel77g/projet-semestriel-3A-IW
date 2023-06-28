@@ -6,6 +6,7 @@ export default class Router {
     this.routes = [];
     this.lastRendered = null;
     window.addEventListener("routeChange", this.refresh.bind(this));
+    this.route = null;
   }
 
   push(route, state = {}, unused = "") {
@@ -26,11 +27,45 @@ export default class Router {
 
     const pathname = window.location.pathname;
     let route = Routes.find((r) => r.path == pathname);
-    if (route == null) {
+    let params = {};
+    let pass = false;
+    let target = null;
+    for (let route of Routes) {
+      pass = false;
+      params = {};
+      let routePathnameSplited = route.path.split("/");
+      let pathnameSplited = pathname.split("/");
+      if (pathnameSplited.length != routePathnameSplited.length) continue;
+      let i = 0;
+      for (let segment of routePathnameSplited) {
+        let pathSegment = pathnameSplited[i];
+        if (segment.startsWith(":")) {
+          pass = true;
+          params[segment.substring(1)] = pathSegment;
+        } else if (segment == pathSegment) {
+          pass = true;
+        } else {
+          pass = false;
+          break;
+        }
+        i++;
+      }
+
+      if (pass) {
+        target = route;
+        break;
+      }
+    }
+
+    if (target == null) {
       route = Routes.find((r) => r.path == "/");
     }
 
-    let component = new route.component();
+    let component = new target.component();
+    this.route = {
+      ...target,
+      params,
+    };
     Renderer.execute(component, document.body);
   }
 }
