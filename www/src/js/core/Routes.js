@@ -1,6 +1,8 @@
 import Article from "../components/Article.js";
-import { ArticlesList } from "../components/ArticlesList.js";
 import Home from "../components/Home.js";
+
+// Pages
+import { ArticlesList } from "../pages/ArticlesList.js";
 
 export default [
   {

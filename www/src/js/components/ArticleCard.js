@@ -5,7 +5,7 @@ export class ArticlesCard extends Component {
     let article = this.props.article;
     return createElement("div", { class: ["articlesCard"] }, [
       createElement("h1", {}, article.title),
-      createElement("p", {}, article.description),
+      createElement("p", {}, article.content),
     ]);
   }
 }
