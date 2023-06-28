@@ -34,7 +34,7 @@ export default class Component {
     this.build(this.domParentElement, this.parent, true);
   }
 
-  build(domParentElement, parentn, replace = false) {
+  build(domParentElement, parent, replace = false) {
     let rendered = null;
     this.parent = parent;
     this.domParentElement = domParentElement;

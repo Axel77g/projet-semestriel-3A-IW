@@ -38,9 +38,11 @@ export default class Element {
     this.component = component;
     let domElement = document.createElement(this.tag);
     this.setAttributes(domElement, this._attributes);
+
     if (this.children instanceof Array) {
-      this.children.forEach((child) => {
+      this.children.forEach((child, i) => {
         if (child instanceof Component) {
+          child.state = rendered?.children[i]?.state || child.state;
           component.children.push(child);
         }
         child.build(domElement, component);
@@ -49,6 +51,8 @@ export default class Element {
       const textNode = document.createTextNode(this.children);
       domElement.appendChild(textNode);
     }
+
+    /* Update DOM */
     if (rendered != null) {
       parentDomElment.replaceChild(domElement, rendered.domElement);
     } else {
