@@ -68,8 +68,9 @@ class Route{
     function middlewareChain($i=0) {
   
         if($i < count($this->getMiddlewares())){
-            $middleware = "\\App\\Middlewares\\" . $this->getMiddlewares()[$i];
-            $middleware = new $middleware();
+            $middlewareInfos = explode(":",$this->getMiddlewares()[$i]);
+            $middleware = "\\App\\Middlewares\\" . $middlewareInfos[0];
+            $middleware = new $middleware(count($middlewareInfos) > 1 ? explode(",",$middlewareInfos[1]) : null);
             $middleware->handle(function() use ($i){
                 $this->middlewareChain($i+1);
             });
