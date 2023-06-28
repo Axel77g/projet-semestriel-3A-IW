@@ -5,7 +5,7 @@ use App\Core\Controller;
 use App\Errors\NotFoundError;
 use Error;
 use App\Models\User;
-use App\Erros\UserAlreadyExists;
+use App\Errors\UserAlreadyExists;
 
 class Installer extends Controller{
 
