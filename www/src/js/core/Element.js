@@ -25,7 +25,7 @@ export default class Element {
           domElement.style[style] = value[style];
         }
       } else {
-        domElement.setAttribute(key, this.attributes[key]);
+        domElement.setAttribute(key, attributes[key]);
       }
     }
   }
