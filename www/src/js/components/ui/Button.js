@@ -1,28 +1,21 @@
-import Component from "../core/Component.js";
+import Component from "../../core/Component.js";
 
-export default class Button extends Component{
-    constructor(){
-        super("button");
-    }
-    render(){
+export default class Button extends Component {
+  init() {}
 
-    }
-}
+  get colorClass() {
+    return "btn-" + this.props.color ?? "primary";
+  }
 
-
-
-function UserList(){
-    const users = []
-    const fetchUser = ()  =>{
-        users = res.data
-    }
-
-
-
-    return <div>
-        <button onClick={fetchUser}>Fetch User</button>
-        <ul>
-            {users.map(user => <li>{user.name}</li>)}
-        </ul>
-    </div>
+  render() {
+    return createElement(
+      "button",
+      {
+        type: this.props.type ?? "button",
+        class: ["btn", this.colorClass],
+        onclick: (e) => this.props.onClick(e),
+      },
+      this.props.children
+    );
+  }
 }
