@@ -21,8 +21,13 @@ class User extends Model{
         return $this->reset_code;
     }
 
-    public function setResetCode(){
-        $this->reset_code = rand(100000,999999);
+    public function setResetCode($int = 1){
+        if($int == 1){
+            $this->reset_code = rand(100000,999999);
+        }
+        else{
+            $this->reset_code = $int;
+        }
     }
 
     public function setVerificationCode(){

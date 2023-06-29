@@ -51,12 +51,12 @@ Route::delete("/api/comments/{id}",[
     "action" => "delete"
 ]);
 
-Route::get("/api/login",[
+Route::post("/api/login",[
     "controller" => "Auth",
     "action" => "login"
 ]);
 
-Route::get("/api/register",[
+Route::post("/api/register",[
     "controller" => "Auth",
     "action" => "register"
 ]);
@@ -66,22 +66,12 @@ Route::get("/verify",[
     "action" => "verify"
 ]);
 
-Route::get("/forgot-password",[
+Route::post("/api/forgot-password",[
     "controller" => "Auth", 
     "action" => "forgotPassword"
 ]);
 
-Route::post("/reset-password",[
-    "controller" => "Auth",
-    "action" => "resetPassword"
-]);
-
-Route::get("/change-password",[
-    "controller" => "Auth",
-    "action" => "changePassword",
-]);
-
-Route::post("/update-password",[
+Route::post("/api/update-password",[
     "controller" => "Auth",
     "action" => "updatePassword",
 ]);
@@ -93,17 +83,6 @@ Route::get("/users/me",[
         "Auth"
     ]
 ]);
-
-Route::post('/api/users/register',[
-    "controller" => "Users",
-    "action" => "register",
-]);
-
-Route::post('/api/users/login',[
-    "controller" => "Users",
-    "action" => "login",
-]);
-
 
 Route::get("/api/users/{id}",[
     "controller" => "Users",

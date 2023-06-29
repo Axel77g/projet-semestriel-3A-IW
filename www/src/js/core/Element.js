@@ -53,6 +53,7 @@ export default class Element {
     }
 
     /* Update DOM */
+
     if (rendered != null) {
       parentDomElment.replaceChild(domElement, rendered.domElement);
     } else {

@@ -26,7 +26,7 @@ Class Mailer{
         public function sendMail($reciever,$subject = "Test subject",$body = "Test body"){
             $mail = new PHPMailer();
             $mail->SMTPDebug = 0;                               
-            $mail->isSMTP();                                      
+            $mail->isSMTP();                                   
             $mail->Host =  $this->SMTPhost;                            
             $mail->SMTPAuth = true;                               
             $mail->Username = $this->senderEmail;                 
