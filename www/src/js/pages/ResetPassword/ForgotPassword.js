@@ -7,6 +7,7 @@ export default class ForgotPassword extends Component {
     this.state = {
       success: false,
       email: "",
+      messages: {},
     };
   }
   handleSumbit(e) {
@@ -15,12 +16,14 @@ export default class ForgotPassword extends Component {
     api.post("api/forgot-password", this.state).then((response) => {
       if (response.success === true) {
         this.setState({ success: true });
+      } else {
+        this.setState({ messages: response.messages });
       }
     });
   }
 
   handleChange(e) {
-    this.setState({ [e.name]: e.value });
+    this.state[e.name] = e.value;
   }
 
   render() {
@@ -34,7 +37,7 @@ export default class ForgotPassword extends Component {
         ),
       ]);
     } else {
-      return createElement("div", { class: ["login"] }, [
+      return createElement("div", {}, [
         createElement("h1", { class: ["header"] }, "Forgot Password ?"),
         createElement(
           "form",
@@ -48,6 +51,7 @@ export default class ForgotPassword extends Component {
               placeholder: "Email",
               onChange: this.handleChange.bind(this),
               value: this.state.email,
+              message: this.state.messages.email,
             }),
             createElement(
               "button",

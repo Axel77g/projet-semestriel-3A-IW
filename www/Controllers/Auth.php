@@ -6,9 +6,10 @@ use App\Core\Controller;
 use App\Models\User;
 use App\Core\Mailer;
 use App\Errors\NotFoundError;
-use App\Erros\UserAlreadyExists;
-use App\Erros\WrongPassword;
+use App\Errors\UserAlreadyExists;
+use App\Errors\WrongPassword;
 use App\Services\AuthServices;
+use App\Core\Validator;
 
 class Auth extends Controller
 {
@@ -88,6 +89,18 @@ class Auth extends Controller
     {
 
         $payload = request()->json();
+        $validator = new Validator();
+        $validator->validate(
+        $payload,[
+            "email"=>"required|email"
+        ]);
+        if($validator->hasErrors()){
+            echo json_encode([
+                "success"=> false,
+                "messages" => $validator->getErrors()            
+            ]);
+            return;
+        }
         $user = User::fetch(["email"=>$payload['email']]);
         if($user){
             $user->setResetCode();
@@ -102,7 +115,6 @@ class Auth extends Controller
                 <a href='http://localhost:8080/change-password?email=".$mail."&code=".$reset_code."'>Change your password</a>
             ";
             $mailer->sendMail($user->getEmail(), $subject, $message);
-
             echo json_encode([
                 "success"=> true
             ]);

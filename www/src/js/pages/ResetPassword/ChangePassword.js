@@ -21,7 +21,7 @@ export default class ChangePassword extends Component {
       });
   }
   handleChange(e) {
-    this.setState({ [e.name]: e.value });
+    this.state[e.name] = e.value;
   }
   render() {
     if (router.route.query.has("email") && router.route.query.has("code")) {

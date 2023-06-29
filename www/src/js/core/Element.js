@@ -43,7 +43,9 @@ export default class Element {
           let val = newInput.value;
           newInput.value = "";
           newInput.value = val;
-        } catch (error) {}
+        } catch (error) {
+          console.error(error);
+        }
       });
       return;
     }

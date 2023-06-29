@@ -1,5 +1,5 @@
 import Article from "../components/Article.js";
-import { ArticlesList } from "../components/ArticlesList.js";
+import { ArticlesList } from "../pages/ArticlesList.js";
 import { Installer } from "../components/Installer/Installer.js";
 import Home from "../components/Home.js";
 import Login from "../pages/Login/Login.js";

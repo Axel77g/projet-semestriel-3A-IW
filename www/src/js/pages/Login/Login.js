@@ -20,40 +20,34 @@ export default class Login extends Component {
     });
   }
   handleChange(e) {
-    this.setState({ [e.name]: e.value });
+    this.state[e.name] = e.value;
   }
   render() {
-    return createElement("div", { class: ["login"] }, [
-      createElement("h1", { class: ["header"] }, "Login"),
-      createElement(
-        "form",
-        { class: ["login-form"], onsubmit: this.handleSumbit },
-        [
-          new Input({
-            name: "email",
-            type: "email",
-            class: ["form-control"],
-            id: "email",
-            placeholder: "Email",
-            onChange: this.handleChange.bind(this),
-            value: this.state.email,
-          }),
-          new Input({
-            name: "password",
-            type: "password",
-            class: ["form-control"],
-            id: "password",
-            placeholder: "Password",
-            onChange: this.handleChange.bind(this),
-            value: this.state.password,
-          }),
-          createElement(
-            "button",
-            { class: ["btn", "btn-primary", "login-button"] },
-            "Login"
-          ),
-        ]
-      ),
+    return createElement("div", {}, [
+      createElement("h1", {}, "Login"),
+      createElement("form", { onsubmit: this.handleSumbit }, [
+        new Input({
+          name: "email",
+          type: "email",
+          id: "email",
+          placeholder: "Email",
+          onChange: this.handleChange.bind(this),
+          value: this.state.email,
+        }),
+        new Input({
+          name: "password",
+          type: "password",
+          id: "password",
+          placeholder: "Password",
+          onChange: this.handleChange.bind(this),
+          value: this.state.password,
+        }),
+        createElement(
+          "button",
+          { class: ["btn", "btn-primary", "login-button"] },
+          "Login"
+        ),
+      ]),
       createElement(
         "a",
         { href: "/forgot-password", class: ["login-link"] },
