@@ -62,18 +62,13 @@ export class Installer extends Component {
 
   submitForm(event) {
     event.preventDefault();
-
-    console.log("submit");
-
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
       this.setState({ messages: response });
-      console.log(this.state);
     });
   }
 
   render() {
-    console.log("render");
     return createElement(
       "div",
       { class: ["container", "d-flex", "flex-column", "w-50"] },
