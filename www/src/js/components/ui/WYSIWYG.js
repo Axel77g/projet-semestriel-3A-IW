@@ -16,7 +16,51 @@ export default class WYSIWYG extends Component {
     });
   }
 
-  onUpdate() {
+  async addLibraries() {
+    await this.addScript();
+    await this.addStyle();
+  }
+
+  addScript() {
+    return new Promise((resolve, reject) => {
+      let exist = document.head.querySelector(
+        "script[src='https://cdn.quilljs.com/1.1.9/quill.js']"
+      );
+
+      if (!exist) {
+        let script = document.createElement("script");
+        script.src = "https://cdn.quilljs.com/1.1.9/quill.js";
+        document.head.appendChild(script);
+        script.onload = () => {
+          console.log("loaded script");
+          resolve();
+        };
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  addStyle() {
+    return new Promise((resolve, reject) => {
+      let exist = document.head.querySelector(
+        "link[href='https://cdn.quilljs.com/1.1.9/quill.snow.css']"
+      );
+      if (!exist) {
+        let link = document.createElement("link");
+        link.href = "https://cdn.quilljs.com/1.1.9/quill.snow.css";
+        link.rel = "stylesheet";
+        document.head.appendChild(link);
+        link.onload = () => {
+          console.log("loaded style");
+          resolve();
+        };
+      } else resolve();
+    });
+  }
+
+  async onUpdate() {
+    await this.addLibraries();
     const container = this.elements.domElement;
     let quill = new Quill(container.querySelector("#editor"), {
       modules: {

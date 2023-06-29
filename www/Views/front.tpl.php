@@ -10,8 +10,6 @@
     <title>Front Template</title>
 
 
-    <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
-    <link href="https://cdn.quilljs.com/1.1.9/quill.snow.css" rel="stylesheet">
 </head>
 
 <body>
