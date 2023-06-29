@@ -12,26 +12,35 @@ class Installer{
 
     public function create($params){
 
+        // if config.php exists, throw error
         if(file_exists('./config.php')){
             throw new Error();
         }
 
+        
         $payload = request()->json();
-
+        
+        // if config.php does not exist, create it
         writeConfig($payload);
 
+        // if config.php exists, throw error (Supposed to be created by writeConfig)
+        if(file_exists('./config.php')){
+            throw new Error();
+        }
+
+        // include config.php (To be able to use the define variables)
         include("./config.php");
 
+        // Write a file to create the initial database (With the prefix)
         writeInitialDatabase($payload["input_table_prefix_database"]);
 
+        // Execute the file to create the initial database
         $db = new Database();
-
         $query = file_get_contents("./initialDatabase.sql");
-        var_dump($query);
-
         $db->getConnection()->exec($query);
 
 
+        // Create the first user (Admin)
         createUser($payload);
     }
 
