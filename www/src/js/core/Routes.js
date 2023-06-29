@@ -1,5 +1,6 @@
 import Article from "../components/Article.js";
 import { ArticlesList } from "../components/ArticlesList.js";
+import { Installer } from "../components/Installer/Installer.js";
 import Home from "../components/Home.js";
 import Login from "../pages/Login/Login.js";
 import Register from "../pages/Register/Register.js";
@@ -34,5 +35,9 @@ export default [
   {
     path: "/change-password",
     component: ChangePassword,
+  },
+  {
+    path: "/installer",
+    component: Installer,
   },
 ];
