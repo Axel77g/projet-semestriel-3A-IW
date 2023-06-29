@@ -29,23 +29,7 @@ export class Installer extends Component {
         input_username_smtp: "",
         input_password_smtp: "",
       },
-      messages: {
-        input_name_site: "",
-        input_firstname_site: "",
-        input_lastname_site: "",
-        input_password_site: "",
-        input_email_site: "",
-        input_name_database: "",
-        input_port_database: "",
-        input_username_database: "",
-        input_password_database: "",
-        input_host_database: "",
-        input_table_prefix_database: "",
-        input_host_smtp: "",
-        input_port_smtp: "",
-        input_username_smtp: "",
-        input_password_smtp: "",
-      },
+      messages: {},
       currentStep: 0,
 
       steps: [
@@ -55,88 +39,6 @@ export class Installer extends Component {
         "Mail informations",
         "Finish",
       ],
-    };
-
-    this.validators = {
-      input_name_site: {
-        required: true,
-        minLength: 3,
-        maxLength: 20,
-      },
-      input_firstname_site: {
-        required: true,
-        minLength: 3,
-        maxLength: 20,
-      },
-      input_lastname_site: {
-        required: true,
-        minLength: 3,
-        maxLength: 20,
-      },
-      input_password_site: {
-        required: true,
-        minLength: 8,
-        maxLength: 20,
-      },
-      input_email_site: {
-        required: true,
-        minLength: 6,
-        maxLength: 320,
-        regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-        message:
-          "Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'",
-      },
-      input_name_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-
-      input_port_database: {
-        required: true,
-        regex: /^[0-9]{1,10}$/,
-      },
-      input_username_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-      input_password_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 255,
-      },
-      input_host_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-      input_table_prefix_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 10,
-      },
-      input_host_smtp: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-      input_port_smtp: {
-        required: true,
-        regex: /^[0-9]{1,10}$/,
-      },
-      input_username_smtp: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-        message:
-          "Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'",
-      },
-      input_password_smtp: {
-        required: true,
-        minLength: 1,
-        maxLength: 255,
-      },
     };
   }
 
@@ -165,7 +67,8 @@ export class Installer extends Component {
 
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
-      this.setState({ messages: response.data.messages });
+      this.setState({ messages: response });
+      console.log(this.state);
     });
   }
 
@@ -182,16 +85,19 @@ export class Installer extends Component {
             new Step1({
               currentStep: this.state.currentStep,
               form: this.state.form,
+              messages: this.state.messages,
               setForm: this.setForm,
             }),
             new Step2({
               currentStep: this.state.currentStep,
               form: this.state.form,
+              messages: this.state.messages,
               setForm: this.setForm,
             }),
             new Step3({
               currentStep: this.state.currentStep,
               form: this.state.form,
+              messages: this.state.messages,
               setForm: this.setForm,
             }),
 
