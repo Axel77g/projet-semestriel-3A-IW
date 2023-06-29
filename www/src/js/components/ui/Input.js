@@ -20,16 +20,8 @@ export default class Input extends Component {
           ],
           id: this.props.name,
           placeholder: this.props.placeholder,
-          value: this.props.value ?? "",
-          onchange(e) {
-            this.props.onChange({
-              name: this.props.name,
-              value: e.target.value,
-              type: this.props.type,
-              id: this.props.id,
-              event: e,
-            });
-          },
+          value: this.state.value ?? "",
+          onchange: this.handleChange.bind(this),
         },
         []
       ),
