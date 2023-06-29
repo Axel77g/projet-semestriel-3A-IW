@@ -50,13 +50,13 @@ class Validator implements Sanitize{
         }
 
         public function max($key, $value, $ruleValue){
-            if(!$value > $ruleValue){
+            if($value > $ruleValue){
                 $this->errors[$key][] = "Le champ doit être inférieur à $ruleValue";
             }
         }
 
         public function min($key, $value, $ruleValue){
-            if(!$value < $ruleValue){
+            if($value < $ruleValue){
                 $this->errors[$key][] = "Le champ doit être supérieur à $ruleValue";
             }
         }

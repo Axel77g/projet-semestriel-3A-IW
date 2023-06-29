@@ -60,11 +60,28 @@ export class Installer extends Component {
     });
   }
 
+  redirectFromError() {
+    let stape = 4;
+    for (let key in this.state.messages) {
+      if (key.includes("_site")) {
+        stape = 1;
+      }
+      if (key.includes("_database") && stape > 2) {
+        stape = 2;
+      }
+      if (key.includes("_smtp") && stape > 3) {
+        stape = 3;
+      }
+    }
+    this.setState({ currentStep: stape });
+  }
+
   submitForm(event) {
     event.preventDefault();
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
       this.setState({ messages: response });
+      this.redirectFromError();
     });
   }
 
