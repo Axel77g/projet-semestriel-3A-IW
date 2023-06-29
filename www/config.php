@@ -11,12 +11,12 @@ define("DB_HOST", "database");
 define("DB_NAME", "esgi");
 define("DB_USERNAME","esgi");
 define("DB_PASSWORD","Test1234");
-define("DB_PREFIX","frw_");
+define("DB_PREFIX","test_");
 
 define("APP_KEY", "SALT");
 
 
-define("SMTP_HOST", "123");
-define("SMTP_PORT", 2323);
-define("SMTP_USERNAME", "axel");
-define("SMTP_PASSWORD", "axel");
+define("SMTP_HOST", "host");
+define("SMTP_PORT", 123);
+define("SMTP_USERNAME", "aprudhomme1@myges.fr");
+define("SMTP_PASSWORD", "password");

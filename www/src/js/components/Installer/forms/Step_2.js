@@ -28,14 +28,10 @@ export class Step2 extends Component {
             name: "input_name_site",
             placeholder: "Site name",
             value: this.props.form.input_name_site,
-<<<<<<< HEAD
             message: this.props.messages.input_name_site,
-            onChange: (e) => {},
-=======
             onChange: (e) => {
               this.props.setForm({ input_name_site: e.value });
             },
->>>>>>> develop
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
@@ -43,14 +39,10 @@ export class Step2 extends Component {
             name: "input_firstname_site",
             placeholder: "Firstname",
             value: this.props.form.input_firstname_site,
-<<<<<<< HEAD
             message: this.props.messages.input_firstname_site,
-            onChange: (e) => {},
-=======
             onChange: (e) => {
               this.props.setForm({ input_firstname_site: e.value });
             },
->>>>>>> develop
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
@@ -58,14 +50,10 @@ export class Step2 extends Component {
             name: "input_lastname_site",
             placeholder: "Lastname",
             value: this.props.form.input_lastname_site,
-<<<<<<< HEAD
             message: this.props.messages.input_lastname_site,
-            onChange: (e) => {},
-=======
             onChange: (e) => {
               this.props.setForm({ input_lastname_site: e.value });
             },
->>>>>>> develop
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
@@ -74,14 +62,10 @@ export class Step2 extends Component {
             type: "password",
             placeholder: "Password",
             value: this.props.form.input_password_site,
-<<<<<<< HEAD
             message: this.props.messages.input_password_site,
-            onChange: (e) => {},
-=======
             onChange: (e) => {
               this.props.setForm({ input_password_site: e.value });
             },
->>>>>>> develop
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
@@ -89,14 +73,10 @@ export class Step2 extends Component {
             name: "input_email_site",
             placeholder: "Email",
             value: this.props.form.input_email_site,
-<<<<<<< HEAD
             message: this.props.messages.input_email_site,
-            onChange: (e) => {},
-=======
             onChange: (e) => {
               this.props.setForm({ input_email_site: e.value });
             },
->>>>>>> develop
           }),
         ]),
       ]

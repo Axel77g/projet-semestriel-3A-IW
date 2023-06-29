@@ -63,11 +63,12 @@ export class Installer extends Component {
 
   redirectFromError() {
     let stape = 4;
+    console.log(this.state.messages);
     for (let key in this.state.messages) {
-      if (key.includes("_site")) {
+      if (key.includes("_database") && stape > 2) {
         stape = 1;
       }
-      if (key.includes("_database") && stape > 2) {
+      if (key.includes("_site")) {
         stape = 2;
       }
       if (key.includes("_smtp") && stape > 3) {
@@ -77,12 +78,15 @@ export class Installer extends Component {
     this.setState({ currentStep: stape });
   }
 
-
   submitForm() {
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
-      this.setState({ messages: response });
-      this.redirectFromError();
+      if (!response.success) {
+        this.setState({ messages: response.messages });
+        this.redirectFromError();
+      } else {
+        window.location.href = "/";
+      }
     });
   }
 
@@ -91,49 +95,26 @@ export class Installer extends Component {
       "div",
       { class: ["container", "d-flex", "flex-column", "w-50"] },
       [
-<<<<<<< HEAD
-        createElement(
-          "form",
-          { onchange: this.setForm, onsubmit: this.submitForm },
-          [
-            new Step0({ currentStep: this.state.currentStep }),
-            new Step1({
-              currentStep: this.state.currentStep,
-              form: this.state.form,
-              messages: this.state.messages,
-              setForm: this.setForm,
-            }),
-            new Step2({
-              currentStep: this.state.currentStep,
-              form: this.state.form,
-              messages: this.state.messages,
-              setForm: this.setForm,
-            }),
-            new Step3({
-              currentStep: this.state.currentStep,
-              form: this.state.form,
-              messages: this.state.messages,
-              setForm: this.setForm,
-            }),
-=======
         createElement("form", {}, [
           new Step0({ currentStep: this.state.currentStep }),
           new Step1({
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
+            messages: this.state.messages,
           }),
           new Step2({
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
+            messages: this.state.messages,
           }),
           new Step3({
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
+            messages: this.state.messages,
           }),
->>>>>>> develop
 
           new Step4({ currentStep: this.state.currentStep }),
 

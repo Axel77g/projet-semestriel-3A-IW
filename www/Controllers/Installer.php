@@ -45,7 +45,12 @@ class Installer {
 
         // if validation fails, throw error
         if($validator->hasErrors()){
-            echo json_encode($validator->getErrors());
+            echo 
+            json_encode(
+                ["success" => false,
+                "messages" => $validator->getErrors()
+                ]
+            );
             return;
         }
 
@@ -74,6 +79,8 @@ class Installer {
 
         // Create the first user (Admin)
         createUser($payload);
+
+        echo json_encode(["success" => true]);
     }
 
 }
