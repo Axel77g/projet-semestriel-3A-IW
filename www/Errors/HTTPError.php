@@ -13,6 +13,15 @@ class HTTPError extends Exception
 
     function __destruct()
     {
+
+        $request = request()->getHeaders();
+
+        if(isset($request['Accept']) && $request['Accept'] == 'application/json'){
+            header('Content-Type: application/json');
+            echo json_encode(["code" => $this->code, "message" => $this->message]);
+            return;
+        }
+
         $view = new View(null, "error");
         $view->massAsign( ["code" => $this->code, "message" => $this->message]);
     }

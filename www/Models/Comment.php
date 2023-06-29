@@ -7,7 +7,11 @@ use App\Utils\Protection;
 
 class Comment extends Model{
 
+    protected string $author_id;
+    protected string $comment_id;
     protected string $content;
+    protected string $created_at;
+    protected string $updated_at;
 
     public function setContent($str){
         $this->content = Protection::protect(trim($str));
@@ -33,5 +37,8 @@ class Comment extends Model{
         return $this->updated_at;
     }
 
+    public function getAuthorId() {
+        return $this->author_id;
+    }
 
 }

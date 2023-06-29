@@ -41,6 +41,10 @@ class Auth extends Model{
         return User::fetch(["id"=>$this->user_id]);
     }
 
+    public function author() {
+        return User::fetch(["id"=>$this->author_id]);
+    }
+
     function isValid(){
         $tokenExploded = explode(".",$this->token);
         $payload = json_decode(base64_decode($tokenExploded[0]),true);
