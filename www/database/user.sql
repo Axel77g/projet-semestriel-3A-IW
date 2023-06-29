@@ -14,4 +14,4 @@ CREATE TABLE frw_user (
 );
 
 
-INSERT INTO frw_user (role_id, firstname, lastname, email, password) VALUES (1, 'John', 'Doe', 'test@mail.fr', 'password');>>>>>>> Stashed changes
+INSERT INTO frw_user (role_id, firstname, lastname, email, password) VALUES (1, 'John', 'Doe', 'test@mail.fr', 'password');

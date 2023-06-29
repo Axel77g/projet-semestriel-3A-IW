@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\User;
-use App\Core\View;
 use App\Core\Mailer;
 use App\Errors\NotFoundError;
 use App\Erros\UserAlreadyExists;

@@ -58,7 +58,7 @@ export default class ChangePassword extends Component {
         ),
       ]);
     } else {
-      return createElement("div", {}, [
+      return createElement("div", { class: ["alert", "alert-danger"] }, [
         createElement("h1", { class: ["header"] }, "Invalid Link"),
       ]);
     }

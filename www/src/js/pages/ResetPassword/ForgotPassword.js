@@ -25,7 +25,7 @@ export default class ForgotPassword extends Component {
 
   render() {
     if (this.state.success === true) {
-      return createElement("div", {}, [
+      return createElement("div", { class: ["alert", "alert-success"] }, [
         createElement("h1", { class: ["header"] }, "Email Sent"),
         createElement(
           "p",
