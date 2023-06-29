@@ -8,6 +8,7 @@ import { Step1 } from "./forms/Step_1.js";
 import { Step2 } from "./forms/Step_2.js";
 import { Step3 } from "./forms/Step_3.js";
 import { Step4 } from "./forms/Step_4.js";
+import Button from "../ui/Button.js";
 
 export class Installer extends Component {
   init() {
@@ -45,6 +46,8 @@ export class Installer extends Component {
   nextStep() {
     if (this.state.currentStep < this.state.steps.length - 1) {
       this.setState({ currentStep: this.state.currentStep + 1 });
+    } else {
+      this.submitForm();
     }
   }
 
@@ -54,10 +57,8 @@ export class Installer extends Component {
     }
   }
 
-  setForm(event) {
-    this.setState({
-      form: { ...this.state.form, [event.target.name]: event.target.value },
-    });
+  setForm(payload) {
+    this.state.form = { ...this.state.form, ...payload };
   }
 
   redirectFromError() {
@@ -76,8 +77,8 @@ export class Installer extends Component {
     this.setState({ currentStep: stape });
   }
 
-  submitForm(event) {
-    event.preventDefault();
+
+  submitForm() {
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
       this.setState({ messages: response });
@@ -90,6 +91,7 @@ export class Installer extends Component {
       "div",
       { class: ["container", "d-flex", "flex-column", "w-50"] },
       [
+<<<<<<< HEAD
         createElement(
           "form",
           { onchange: this.setForm, onsubmit: this.submitForm },
@@ -113,37 +115,43 @@ export class Installer extends Component {
               messages: this.state.messages,
               setForm: this.setForm,
             }),
+=======
+        createElement("form", {}, [
+          new Step0({ currentStep: this.state.currentStep }),
+          new Step1({
+            currentStep: this.state.currentStep,
+            form: this.state.form,
+            setForm: this.setForm.bind(this),
+          }),
+          new Step2({
+            currentStep: this.state.currentStep,
+            form: this.state.form,
+            setForm: this.setForm.bind(this),
+          }),
+          new Step3({
+            currentStep: this.state.currentStep,
+            form: this.state.form,
+            setForm: this.setForm.bind(this),
+          }),
+>>>>>>> develop
 
-            new Step4({ currentStep: this.state.currentStep }),
+          new Step4({ currentStep: this.state.currentStep }),
 
-            createElement("div", { class: ["d-flex", "justify-content-end"] }, [
-              createElement(
-                "button",
-                {
-                  class: ["btn", "mx-3", "btn-primary", "w-25"],
-                  onclick: this.previousStep,
-                  type: "button",
-                },
-                "Previous"
-              ),
-
-              createElement(
-                "button",
-                {
-                  class: ["btn", "mx-3", "btn-primary", "w-25"],
-                  onclick: this.nextStep,
-                  type:
-                    this.state.currentStep < this.state.steps.length - 1
-                      ? "button"
-                      : "submit",
-                },
+          createElement("div", { class: ["d-flex", "justify-content-end"] }, [
+            new Button({
+              class: ["mr-2"],
+              onClick: this.previousStep.bind(this),
+              children: "Previous",
+            }),
+            new Button({
+              onClick: this.nextStep.bind(this),
+              children:
                 this.state.currentStep < this.state.steps.length - 1
                   ? "Next"
-                  : "Finish"
-              ),
-            ]),
-          ]
-        ),
+                  : "Finish",
+            }),
+          ]),
+        ]),
       ]
     );
   }

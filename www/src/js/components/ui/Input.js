@@ -1,36 +1,76 @@
 import Component from "../../core/Component.js";
 
 export default class Input extends Component {
-  init() {}
-  render() {
-    return createElement("div", { class: ["has-validation"] }, [
-      createElement(
-        "label",
-        { for: this.props.name, class: ["form-label"] },
-        this.props.placeholder
-      ),
-      createElement(
+  init() {
+    this.state = {
+      value: this.props.value ?? "",
+    };
+  }
+  handleChange(e) {
+    if (this.props.onChange)
+      this.props.onChange({
+        name: this.props.name,
+        value: e.target.value,
+        type: this.props.type,
+        id: this.props.id,
+        event: e,
+      });
+    this.setState({ value: e.target.value });
+  }
+
+  get input() {
+    if (this.props.type === "textarea") {
+      return createElement(
+        "textarea",
+        {
+          name: this.props.name,
+          class: ["form-control"],
+          id: this.props.name,
+          placeholder: this.props.placeholder,
+          value: this.state.value ?? "",
+          onchange: this.handleChange.bind(this),
+        },
+        this.state.value ?? ""
+      );
+    } else {
+      return createElement(
         "input",
         {
           type: this.props.type ?? "text",
           name: this.props.name,
-          class: [
-            "form-control",
-            // this.props.message ? "is-invalid" : "s-valid",
-          ],
+          class: ["form-control"],
           id: this.props.name,
           placeholder: this.props.placeholder,
           value: this.state.value ?? "",
           onchange: this.handleChange.bind(this),
         },
         []
-      ),
+      );
+    }
+  }
 
-      createElement(
-        "div",
-        { class: ["text-danger", "fs-6"] },
-        this.props.message ? this.props.message[0] : ""
-      ),
-    ]);
+  render() {
+    return createElement(
+      "div",
+      {
+        class: ["form-group"],
+      },
+      [
+        createElement(
+          "label",
+          {
+            for: this.props.name,
+            class: ["form-label"],
+          },
+          this.props.placeholder
+        ),
+        this.input,
+        createElement(
+          "div",
+          { class: ["text-danger", "fs-6"] },
+          this.props.message ? this.props.message[0] : ""
+        ),
+      ]
+    );
   }
 }

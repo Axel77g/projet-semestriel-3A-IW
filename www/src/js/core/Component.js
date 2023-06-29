@@ -41,6 +41,7 @@ export default class Component {
   }
 
   build(domParentElement, parent) {
+    this.children = [];
     let rendered = null;
     let firstBuild = true;
     this.parent = parent;
