@@ -31,10 +31,31 @@ export default class Element {
   }
 
   createListener(domElement, eventName, callback) {
+    if (eventName == "change") {
+      domElement.addEventListener("input", (e) => {
+        callback.call(this.component, e);
+        try {
+          let newInput = document.querySelector(
+            "[value='" + e.target.value + "']"
+          );
+          newInput.focus();
+          /* set cursor at the end */
+          let val = newInput.value;
+          newInput.value = "";
+          newInput.value = val;
+        } catch (error) {}
+      });
+      return;
+    }
     domElement.addEventListener(eventName, callback.bind(this.component));
   }
 
-  build(parentDomElment, component, rendered = null) {
+  /* 
+    @param {HTMLElement} parentDomElment
+    @param {Component} component
+    @param {Element} rendered
+  */
+  build(parentDomElment, component, rendered) {
     this.component = component;
     let domElement = document.createElement(this.tag);
     this.setAttributes(domElement, this._attributes);
@@ -43,6 +64,7 @@ export default class Element {
       this.children.forEach((child, i) => {
         if (child instanceof Component) {
           child.state = rendered?.children[i]?.state || child.state;
+          child.elements = rendered?.children[i]?.elements || child.elements;
           component.children.push(child);
         }
         child.build(domElement, component);
@@ -52,12 +74,17 @@ export default class Element {
       domElement.appendChild(textNode);
     }
 
+    this.domElement = domElement;
+
     /* Update DOM */
     if (rendered != null) {
-      parentDomElment.replaceChild(domElement, rendered.domElement);
+      try {
+        parentDomElment.replaceChild(domElement, rendered.domElement);
+      } catch (error) {
+        parentDomElment.appendChild(domElement);
+      }
     } else {
       parentDomElment.appendChild(domElement);
     }
-    this.domElement = domElement;
   }
 }
