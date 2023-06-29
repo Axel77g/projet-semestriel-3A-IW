@@ -2,7 +2,7 @@
 
 define('ROUTES', 'routes.php');
 
-define("DEFAULT_ROLE",2);
+define("DEFAULT_ROLE","user");
 
 define("ENV", "dev");
 

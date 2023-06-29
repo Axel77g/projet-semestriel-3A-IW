@@ -199,3 +199,10 @@ Route::delete('/api/article-comments/{id}', [
         "Auth"
     ]
 ]);
+
+// Installer Routes ---------------------------------------------------------------
+
+Route::post('/api/install', [
+    "controller" => "Installer",
+    "action" => "create",
+]);

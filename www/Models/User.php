@@ -9,7 +9,7 @@ use App\Models\Role;
 
 class User extends Model{
 
-    protected Int $role_id = DEFAULT_ROLE;
+    protected String $role = DEFAULT_ROLE;
     protected string $firstname = "";
     protected string $lastname = "";
     protected string $email = "";
@@ -41,21 +41,21 @@ class User extends Model{
         return $this->password;
     }
 
-    public function setRoleId(Int $role_id){
+    public function setRole(String $role){
         
-        $this->role_id = $role_id;
+        $this->role = $role;
     }
 
     public function role() {
-        return Role::fetch(["id"=>$this->role_id]);
+        return Role::fetch(["id"=>$this->role]);
     }
 
     public function hasRole(Role $role) {    
-        return $this->role_id == $role->getId();
+        return $this->role == $role;
     }
 
     public function isAdmin() {
-        return $this->hasRole(Role::fetch(["name"=>"admin"]));
+        return $this->role == "admin";
     }
 
 }

@@ -56,7 +56,6 @@ export default class Router {
         break;
       }
     }
-
     if (target == null) {
       target = Routes.find((r) => r.path == "/");
     }
