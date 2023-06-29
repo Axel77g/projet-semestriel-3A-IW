@@ -165,7 +165,7 @@ export class Installer extends Component {
 
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
-      console.log(response);
+      this.setState({ messages: response.data.messages });
     });
   }
 
