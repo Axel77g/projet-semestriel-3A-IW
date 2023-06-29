@@ -13,7 +13,7 @@ export class Step1 extends Component {
         createElement(
           "h1",
           { class: ["mb-3", "text-center"] },
-          "Database informations"
+          "Database informations. Step 1/4"
         ),
         createElement("div", { class: ["mb-3"] }, [
           new Input({

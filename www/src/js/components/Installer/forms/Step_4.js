@@ -11,7 +11,7 @@ export class Step4 extends Component {
         createElement(
           "h1",
           { class: ["mb-3", "text-center"] },
-          "Thank you for installing our CMS !"
+          "Thank you for installing our CMS !. Step 4/4"
         ),
       ]
     );

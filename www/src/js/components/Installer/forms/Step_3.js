@@ -12,7 +12,7 @@ export class Step3 extends Component {
         createElement(
           "h1",
           { class: ["mb-3", "text-center"] },
-          "Mailer informations"
+          "Mailer informations. Step 3/4"
         ),
         createElement("div", { class: ["mb-3"] }, [
           new Input({
