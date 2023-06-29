@@ -78,9 +78,9 @@ export default class Element {
 
     /* Update DOM */
     if (rendered != null) {
-      try {
+      if (parentDomElment.contains(rendered.domElement)) {
         parentDomElment.replaceChild(domElement, rendered.domElement);
-      } catch (error) {
+      } else {
         parentDomElment.appendChild(domElement);
       }
     } else {

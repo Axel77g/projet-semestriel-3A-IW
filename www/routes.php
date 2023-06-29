@@ -4,7 +4,7 @@ use App\Core\Route;
 
 Route::get("/",[
     "controller" => "Main",
-    "action" => "index"
+    "action" => "index",
 ]);
 
 Route::get("/contact",[
@@ -12,17 +12,12 @@ Route::get("/contact",[
     "action" => "contact"
 ]);
 
-
-Route::get("/admin/login",[
-    "controller" => "Admin",
-    "action" => "login"
-]);
-
 Route::get("/admin",[
-    "controller" => "Admin",
+    "controller" => "Users",
     "action" => "index",
     "middlewares" => [
-        "Auth"
+        "Auth",
+        "Permission:admin"
     ]
 ]);
 
@@ -199,4 +194,11 @@ Route::delete('/api/article-comments/{id}', [
     "middlewares" => [
         "Auth"
     ]
+]);
+
+// Installer Routes ---------------------------------------------------------------
+
+Route::post('/api/install', [
+    "controller" => "Installer",
+    "action" => "create",
 ]);

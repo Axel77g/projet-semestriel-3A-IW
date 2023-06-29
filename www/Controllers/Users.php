@@ -1,27 +1,42 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Errors\NotFoundError;
-use App\Erros\UserAlreadyExists;
-use App\Erros\WrongPassword;
+use App\Errors\UserAlreadyExists;
+use App\Errors\WrongPassword;
 use App\Models\User;
+use App\Policies\UserPolicies;
 use App\Services\AuthServices;
+
 
 class Users extends Controller{
     
-    public function me(){
+    function index() {
+
+        $users = User::all();
+
+        return $users;
+    }
+
+    public function me() {
         $auth = request()->auth();
         return $auth->user();
     }
 
-    function show($params){
+
+    function show($params) {
+
         $user = User::fetch($params['id']);
+        
+        UserPolicies::fetch(request()->auth()->user(),$user);
+
         if(!$user) throw new NotFoundError();
         return $user;
     }
 
-    function update($params){
+    function update($params) {
         $payload = request()->json();
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
@@ -30,16 +45,17 @@ class Users extends Controller{
         echo $user->toJson();
     }
 
-    function destroy($params){
+    function destroy($params) {
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
         $user->destroy();
     }
 
-    function register(){
+    function register() {
         $payload = request()->json();
 
         $existing = User::fetch(["email"=>$payload['email']]);
+        
         if($existing) throw new UserAlreadyExists();
 
         $user = new User();
@@ -52,10 +68,11 @@ class Users extends Controller{
         return $user;
     }
 
-    function login(){
+    function login() {
         $payload = request()->json();
         
         $user = User::fetch(["email"=>$payload['email']]);
+        
         if(!$user) throw new NotFoundError();
 
         $pass = AuthServices::isCorrectPassword($payload['password'],$user->getPassword());

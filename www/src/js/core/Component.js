@@ -16,7 +16,9 @@ export default class Component {
   setState(newState) {
     this.state = Object.assign(this.state, newState);
     this.update();
+    this.onStateChange(this.state);
   }
+  onStateChange(...param) {}
 
   destroy() {
     this.children.forEach((child) => {

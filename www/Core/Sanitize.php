@@ -5,9 +5,7 @@ interface Sanitize {
 
     public function toJson();
         
-    
     public function toArray();
 
-    
 }
 
