@@ -3,7 +3,7 @@ import Component from "../../core/Component.js";
 export default class Input extends Component {
   init() {
     this.state = {
-      value: this.state.value ?? "",
+      value: this.props.value ?? "",
     };
   }
   handleChange(e) {
@@ -15,7 +15,6 @@ export default class Input extends Component {
         id: this.props.id,
         event: e,
       });
-
     this.setState({ value: e.target.value });
   }
 
