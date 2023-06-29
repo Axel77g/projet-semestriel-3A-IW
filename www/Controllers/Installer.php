@@ -2,24 +2,35 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Database;
 use App\Errors\NotFoundError;
 use Error;
 use App\Models\User;
 use App\Errors\UserAlreadyExists;
 
-class Installer extends Controller{
+class Installer{
 
     public function create($params){
 
-        // if(file_exists('./config.php')){
-        //     throw new Error();
-        // }
+        if(file_exists('./config.php')){
+            throw new Error();
+        }
 
         $payload = request()->json();
 
         writeConfig($payload);
 
-        writeInitialDatabase($payload);
+        include("./config.php");
+
+        writeInitialDatabase($payload["input_table_prefix_database"]);
+
+        $db = new Database();
+
+        $query = file_get_contents("./initialDatabase.sql");
+        var_dump($query);
+
+        $db->getConnection()->exec($query);
+
 
         createUser($payload);
     }
@@ -27,7 +38,7 @@ class Installer extends Controller{
 }
 
 function writeConfig($payload){
-    $myfile = fopen("./config.txt", "w");
+    $myfile = fopen("./config.php", "w");
 
     fwrite($myfile, '<?php'); 
     fwrite($myfile, "\n");  
@@ -38,7 +49,7 @@ function writeConfig($payload){
     fwrite($myfile, 'define("ENV", "dev");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("DEFAULT_ROLE",2);');
+    fwrite($myfile, 'define("DEFAULT_ROLE","user");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
 
@@ -54,6 +65,7 @@ function writeConfig($payload){
     fwrite($myfile, "\n");
     fwrite($myfile, 'define("DB_PASSWORD","' . $payload["input_password_database"] . '");');
     fwrite($myfile, "\n");
+    fwrite($myfile, 'define("DB_PREFIX","' . $payload["input_table_prefix_database"] . '");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
 
@@ -66,7 +78,7 @@ function writeConfig($payload){
     fwrite($myfile, "\n");
     fwrite($myfile, 'define("SMTP_PORT", ' . $payload["input_port_smtp"] . ');');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("SMTP_USERNAME", "' . $payload["input_username_smtp"] . '");"');
+    fwrite($myfile, 'define("SMTP_USERNAME", "' . $payload["input_username_smtp"] . '");');
     fwrite($myfile, "\n");
     fwrite($myfile, 'define("SMTP_PASSWORD", "' . $payload["input_password_smtp"] . '");');
     fwrite($myfile, "\n");
@@ -74,9 +86,77 @@ function writeConfig($payload){
     fclose($myfile);
 }
 
-function writeInitialDatabase($payload){
+function writeInitialDatabase($prefix){
     $myfile = fopen("./initialDatabase.sql", "w");
+    fwrite($myfile, "
+    -- Author: ESGI
+    -- Date: 2019-01-10 10:00:00
+    -- Last update: 2019-01-10 10:00:00
+    -- Version: 1.0.0
 
+
+    DROP TYPE IF EXISTS TYPEROLE CASCADE;
+    CREATE TYPE TYPEROLE AS ENUM ('admin', 'user');
+
+
+    -- USERS
+    DROP TABLE IF EXISTS " . $prefix . "user CASCADE;
+    CREATE TABLE " . $prefix . "user (
+        id SERIAL PRIMARY KEY,
+        role TYPEROLE DEFAULT 'user',
+        firstname VARCHAR(100) NOT NULL,
+        lastname VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        password VARCHAR(100) NOT NULL
+    );
+
+    -- ARTICLES
+
+    DROP TABLE IF EXISTS " . $prefix . "article CASCADE;
+    CREATE TABLE " . $prefix . "article (
+        id SERIAL,
+        title varchar(255) NOT NULL,
+        description text NOT NULL,
+        content text NOT NULL,
+        author int NOT NULL,
+        views int NOT NULL DEFAULT 0,
+    --    likes int NOT NULL DEFAULT 0,
+        created_at TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE
+    );
+
+    -- COMMENTS
+
+    DROP TABLE IF EXISTS " . $prefix . "comment CASCADE;
+    CREATE TABLE " . $prefix . "comment (
+        id SERIAL,
+        content text NOT NULL,
+        author int NOT NULL,
+        article int NOT NULL,
+        comment int,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
+        FOREIGN KEY (article) REFERENCES " . $prefix . "article(id) ON DELETE CASCADE,
+        FOREIGN KEY (comment) REFERENCES " . $prefix . "comment(id) ON DELETE CASCADE,
+        PRIMARY KEY (id)
+    );
+
+    -- Auth
+    DROP TABLE IF EXISTS " . $prefix . "auth CASCADE;
+    CREATE TABLE " . $prefix . "auth (
+        id SERIAL,
+        token varchar NULL,
+        expire_on TIMESTAMP NULL,
+        user_id int4 NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        FOREIGN KEY (user_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
+        PRIMARY KEY (id)
+    );
+    ");
     fclose($myfile);
 }
 
@@ -89,6 +169,6 @@ function createUser($payload){
         $user->setLastname($payload['input_lastname_site']);
         $user->setEmail($payload['input_email_site']);
         $user->setPassword($payload['input_password_site']);
-        $user->setRoleId(1);
+        $user->setRole("admin");
         $user->save();
 }

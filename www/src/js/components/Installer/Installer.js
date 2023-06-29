@@ -1,5 +1,7 @@
 import Component from "../../core/Component.js";
 import API from "../../core/API.js";
+import Renderer from "../../core/Renderer.js";
+import Element from "../../core/Element.js";
 
 import { Step0 } from "./forms/Step_0.js";
 import { Step1 } from "./forms/Step_1.js";
@@ -129,3 +131,11 @@ export class Installer extends Component {
     );
   }
 }
+
+function createElement(tag, attributes, children) {
+  return new Element(tag, attributes, children);
+}
+globalThis.createElement = createElement;
+
+let component = new Installer();
+Renderer.execute(component, document.body);

@@ -57,7 +57,7 @@ abstract class Model implements Sanitize{
         $classNameExploded = explode("\\", $className);
         $endClassName = end($classNameExploded);
         $endClassName =  StringHelpers::camelCaseToSnakeCase($endClassName);
-        return "frw_" . $endClassName ;
+        return DB_PREFIX . $endClassName ;
 
     }
 

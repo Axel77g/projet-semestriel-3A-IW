@@ -1,0 +1,1 @@
+<script src="/src/js/components/Installer/Installer.js" type="module"></script>
