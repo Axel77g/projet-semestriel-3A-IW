@@ -9,6 +9,9 @@ export default class Component {
     this.init();
   }
   init() {}
+  onUpdate() {}
+  onMount() {}
+  onDestroy() {}
 
   setState(newState) {
     this.state = Object.assign(this.state, newState);
@@ -29,6 +32,7 @@ export default class Component {
     } else {
       this.elements.domElement.remove();
     }
+    this.onDestroy();
   }
 
   update() {
@@ -36,12 +40,14 @@ export default class Component {
     this.build(this.domParentElement, this.parent, true);
   }
 
-  build(domParentElement, parent, replace = false) {
+  build(domParentElement, parent) {
     let rendered = null;
+    let firstBuild = true;
     this.parent = parent;
     this.domParentElement = domParentElement;
     if (this.elements) {
       rendered = this.elements;
+      firstBuild = false;
     }
     this.elements = this.render();
 
@@ -52,5 +58,11 @@ export default class Component {
     } else {
       this.elements.build(domParentElement, this, rendered);
     }
+
+    if (firstBuild) {
+      this.onMount();
+    }
+
+    this.onUpdate();
   }
 }

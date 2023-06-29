@@ -1,5 +1,5 @@
 import Component from "../../core/Component.js";
-import API from "../../core/API.js";
+import API from "../../core/Api.js";
 import Renderer from "../../core/Renderer.js";
 import Element from "../../core/Element.js";
 
@@ -170,6 +170,7 @@ export class Installer extends Component {
   }
 
   render() {
+    console.log("render");
     return createElement(
       "div",
       { class: ["container", "d-flex", "flex-column", "w-50"] },

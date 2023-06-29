@@ -56,17 +56,16 @@ export default class Router {
         break;
       }
     }
-
     if (target == null) {
-      route = Routes.find((r) => r.path == "/");
+      target = Routes.find((r) => r.path == "/");
     }
 
-    let component = new target.component();
     this.route = {
       ...target,
       params,
       query: new URLSearchParams(window.location.search),
     };
+    let component = new target.component();
     Renderer.execute(component, document.body);
   }
 }

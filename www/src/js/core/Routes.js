@@ -6,11 +6,16 @@ import Login from "../pages/Login/Login.js";
 import Register from "../pages/Register/Register.js";
 import ForgotPassword from "../pages/ResetPassword/ForgotPassword.js";
 import ChangePassword from "../pages/ResetPassword/ChangePassword.js";
+import ArticleForm from "../components/articles/ArticleForm.js";
 
 export default [
   {
     path: "/",
     component: Home,
+  },
+  {
+    path: "/article/:slug/edit",
+    component: ArticleForm,
   },
   {
     path: "/article/:slug",

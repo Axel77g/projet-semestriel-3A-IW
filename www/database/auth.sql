@@ -13,3 +13,4 @@ CREATE TABLE frw_auth (
 );
 
 ALTER TABLE frw_auth ADD CONSTRAINT user_foregin FOREIGN KEY (user_id) REFERENCES frw_user(id);
+

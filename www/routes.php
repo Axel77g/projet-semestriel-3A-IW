@@ -2,6 +2,12 @@
 
 use App\Core\Route;
 
+Route::get('/api/articles', [
+    "controller" => "Articles",
+    "action" => "index",
+]);
+
+
 Route::get("/",[
     "controller" => "Main",
     "action" => "index",
@@ -21,6 +27,7 @@ Route::get("/admin",[
     ]
 ]);
 
+// Comments Routes ---------------------------------------------------------------
 Route::get("/api/comments",[
     "controller" => "Comments",
     "action" => "index"
@@ -110,7 +117,7 @@ Route::delete('/users/{id}',[
 ]);
 
 
-// Roles Routes
+// Roles Routes ---------------------------------------------------------------
 Route::post('/api/roles/create', [
     "controller" => "Roles",
     "action" => "create",
@@ -136,12 +143,8 @@ Route::delete('/api/roles/{id}', [
 ]);
 
 // Articles Routes ----------------------------------------------
-Route::get('/api/articles', [
-    "controller" => "Articles",
-    "action" => "index",
-]);
 
-Route::get('/api/articles/{id}', [
+Route::get('/api/article/{slug}', [
     "controller" => "Articles",
     "action" => "show",
 ]);
@@ -171,7 +174,6 @@ Route::delete('/api/articles/{id}', [
 ]);
 
 // Article Comment Routes ---------------------------------------------------------------
-
 Route::get('/api/article-comments', [
     "controller" => "ArticleComments",
     "action" => "index",
