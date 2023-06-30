@@ -8,6 +8,7 @@ use App\Errors\NotFoundError;
 use Error;
 use App\Models\User;
 use App\Errors\UserAlreadyExists;
+use App\Errors\ValidatorError;
 ;
 
 class Installer {
@@ -41,17 +42,13 @@ class Installer {
             "input_email_site" => "required|email",
             "input_password_site" => "required|minLength:8|maxLength:50",
 
+
         ]);
 
         // if validation fails, throw error
         if($validator->hasErrors()){
-            echo 
-            json_encode(
-                ["success" => false,
-                "messages" => $validator->getErrors()
-                ]
-            );
-            return;
+            throw new ValidatorError($validator->getErrors());
+
         }
 
 

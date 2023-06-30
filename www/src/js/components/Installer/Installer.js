@@ -63,7 +63,6 @@ export class Installer extends Component {
 
   redirectFromError() {
     let stape = 4;
-    console.log(this.state.messages);
     for (let key in this.state.messages) {
       if (key.includes("_database") && stape > 2) {
         stape = 1;
@@ -82,7 +81,7 @@ export class Installer extends Component {
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
       if (!response.success) {
-        this.setState({ messages: response.messages });
+        this.setState({ messages: JSON.parse(response.messages) });
         this.redirectFromError();
       } else {
         window.location.href = "/";
