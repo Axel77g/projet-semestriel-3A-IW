@@ -8,6 +8,7 @@ use App\Errors\NotFoundError;
 use Error;
 use App\Models\User;
 use App\Errors\UserAlreadyExists;
+use App\Errors\ValidatorError;
 ;
 
 class Installer {
@@ -26,26 +27,28 @@ class Installer {
         $validator = new Validator();
         $validator->validate($payload, [
             "input_host_database" => "required",
-            "input_port_database" => "required",
+            "input_port_database" => "required|numeric",
             "input_name_database" => "required",
             "input_username_database" => "required",
             "input_password_database" => "required",
             "input_table_prefix_database" => "required",
             "input_host_smtp" => "required",
-            "input_port_smtp" => "required",
+            "input_port_smtp" => "required|numeric",
             "input_username_smtp" => "required",
             "input_password_smtp" => "required",
+            "input_name_site" => "required",
             "input_firstname_site" => "required",
             "input_lastname_site" => "required",
             "input_email_site" => "required|email",
             "input_password_site" => "required|minLength:8|maxLength:50",
 
+
         ]);
 
         // if validation fails, throw error
         if($validator->hasErrors()){
-            echo json_encode($validator->getErrors());
-            return;
+            throw new ValidatorError($validator->getErrors());
+
         }
 
 
@@ -55,7 +58,7 @@ class Installer {
         writeConfig($payload);
 
         // if config.php exists, throw error (Supposed to be created by writeConfig)
-        if(file_exists('./config.php')){
+        if(!file_exists('./config.php')){
             throw new Error();
         }
 
@@ -73,6 +76,8 @@ class Installer {
 
         // Create the first user (Admin)
         createUser($payload);
+
+        echo json_encode(["success" => true]);
     }
 
 }
