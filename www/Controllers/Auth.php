@@ -10,6 +10,7 @@ use App\Errors\UserAlreadyExists;
 use App\Errors\WrongPassword;
 use App\Services\AuthServices;
 use App\Core\Validator;
+use App\Errors\ValidatorError;
 
 class Auth extends Controller
 {
@@ -23,33 +24,9 @@ class Auth extends Controller
             "password"=>"required|CheckPassword:". $payload['email'],
         ]);
         if($validator->hasErrors()){
-            echo json_encode([
-                "success"=> false,
-                "messages" => $validator->getErrors()            
-            ]);
-            return;
+            throw new ValidatorError($validator->getErrors());
         }
         $user = User::fetch(["email"=>$payload['email']]);
-        /* if(!$user) throw new NotFoundError();
-        if(!$user){
-            echo json_encode([
-                "success"=> false,
-                "messages" => ["email"=>"Cet email n'existe pas"]            
-            ]);
-            return;
-        }
-
-        $pass = AuthServices::isCorrectPassword($payload['password'],$user->getPassword());
-        
-        if(!$pass) throw new WrongPassword();
-        if(!$pass){
-            echo json_encode([
-                "success"=> false,
-                "messages" => ["password"=>"Le mot de passe est incorrect"]            
-            ]);
-            return;
-        } */
-
 
         $token = AuthServices::generateToken($user);
         echo json_encode([
@@ -75,15 +52,9 @@ class Auth extends Controller
             "password"=>"required",
         ]);
         if($validator->hasErrors()){
-            echo json_encode([
-                "success"=> false,
-                "messages" => $validator->getErrors()            
-            ]);
-            return;
+            throw new ValidatorError($validator->getErrors());
         }
-        /* $existing = User::fetch(["email"=>$payload['email']]);
-        if($existing) throw new UserAlreadyExists(); */
-
+       
         $user = new User();
         $user->setFirstname($payload['firstname']);
         $user->setLastname($payload['lastname']);
@@ -140,11 +111,7 @@ class Auth extends Controller
             "email"=>"required|email|emailNotExists"
         ]);
         if($validator->hasErrors()){
-            echo json_encode([
-                "success"=> false,
-                "messages" => $validator->getErrors()            
-            ]);
-            return;
+            throw new ValidatorError($validator->getErrors());
         }
         $user = User::fetch(["email"=>$payload['email']]);
         $user->setResetCode();
@@ -179,11 +146,7 @@ class Auth extends Controller
             "confirmPassword"=>"required|ConfirmPassword:". $pwd,
         ]);
         if($validator->hasErrors()){
-            echo json_encode([
-                "success"=> false,
-                "messages" => $validator->getErrors()            
-            ]);
-            return;
+            throw new ValidatorError($validator->getErrors());
         }
    
         if(isset($email) && isset($code)){

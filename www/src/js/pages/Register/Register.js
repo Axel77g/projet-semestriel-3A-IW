@@ -19,7 +19,7 @@ export default class Register extends Component {
       if (response.success === true) {
         router.push("/login");
       } else {
-        this.setState({ messages: response.messages });
+        this.setState({ messages: JSON.parse(response.messages) });
       }
     });
   }

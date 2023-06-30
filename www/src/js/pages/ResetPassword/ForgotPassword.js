@@ -17,7 +17,7 @@ export default class ForgotPassword extends Component {
       if (response.success === true) {
         this.setState({ success: true });
       } else {
-        this.setState({ messages: response.messages });
+        this.setState({ messages: JSON.parse(response.messages) });
       }
     });
   }

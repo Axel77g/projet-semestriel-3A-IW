@@ -18,7 +18,7 @@ export default class Login extends Component {
         localStorage.setItem("token", response.token);
         router.push("/");
       } else {
-        this.setState({ messages: response.messages });
+        this.setState({ messages: JSON.parse(response.messages) });
       }
     });
   }
