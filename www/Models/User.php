@@ -15,7 +15,34 @@ class User extends Model{
     protected string $email = "";
     # [password]
     protected string $password = "";
-    
+    protected Int $is_verified = 0;
+    protected string $verification_code = "";
+    protected Int $reset_code = 0;
+
+    public function getResetCode(){
+        return $this->reset_code;
+    }
+
+    public function setResetCode($int = 1){
+        if($int == 1){
+            $this->reset_code = rand(100000,999999);
+        }
+        else{
+            $this->reset_code = $int;
+        }
+    }
+
+    public function setVerificationCode(){
+        $this->verification_code = bin2hex(random_bytes(32));
+    }
+
+    public function getVerificationCode(){
+        return $this->verification_code;
+    }
+
+    public function setIsVerified($int){
+        $this->is_verified = $int;
+    }
 
     public function setFirstname($str){
         $this->firstname =  Protection::protect(ucwords(strtolower(trim($str))));
@@ -23,6 +50,10 @@ class User extends Model{
 
     public function setLastname($str){
         $this->lastname =  Protection::protect(strtoupper(trim($str)));
+    }
+
+    public function getEmail(){
+        return $this->email;
     }
     
     public function setEmail($str){
@@ -57,5 +88,4 @@ class User extends Model{
     public function isAdmin() {
         return $this->role == "admin";
     }
-
 }

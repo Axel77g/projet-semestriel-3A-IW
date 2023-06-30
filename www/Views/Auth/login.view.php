@@ -11,7 +11,7 @@
             <button type="submit">Connexion</button>
         </form>
 
-        <small><a href="#">Mot de passe oublié?</a></small>
+        <small><a href="/forgot-password">Mot de passe oublié?</a></small>
 
         <!-- <p>Vous n'avez pas de compte ? <a href="#">Inscrivez-vous</a></p> -->
     </div>

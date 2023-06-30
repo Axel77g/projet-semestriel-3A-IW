@@ -80,6 +80,7 @@ export default class Element {
     this.domElement = domElement;
 
     /* Update DOM */
+
     if (rendered != null) {
       if (parentDomElment.contains(rendered.domElement)) {
         parentDomElment.replaceChild(domElement, rendered.domElement);

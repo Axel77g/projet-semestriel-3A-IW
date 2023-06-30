@@ -53,18 +53,31 @@ Route::delete("/api/comments/{id}",[
     "action" => "delete"
 ]);
 
-// Authentication Routes ---------------------------------------------------------------
-Route::get("/api/login",[
+Route::post("/api/login",[
     "controller" => "Auth",
     "action" => "login"
 ]);
 
-Route::get("/api/register",[
+Route::post("/api/register",[
     "controller" => "Auth",
     "action" => "register"
 ]);
 
-// Users Routes ---------------------------------------------------------------
+Route::get("/verify",[
+    "controller" => "Auth",
+    "action" => "verify"
+]);
+
+Route::post("/api/forgot-password",[
+    "controller" => "Auth", 
+    "action" => "forgotPassword"
+]);
+
+Route::post("/api/update-password",[
+    "controller" => "Auth",
+    "action" => "updatePassword",
+]);
+
 Route::get("/users/me",[
     "controller" => "Users",
     "action" => "me",
@@ -72,17 +85,6 @@ Route::get("/users/me",[
         "Auth"
     ]
 ]);
-
-Route::post('/api/users/register',[
-    "controller" => "Users",
-    "action" => "register",
-]);
-
-Route::post('/api/users/login',[
-    "controller" => "Users",
-    "action" => "login",
-]);
-
 
 Route::get("/api/users/{id}",[
     "controller" => "Users",
@@ -98,6 +100,12 @@ Route::put("/users/{id}",[
     "middlewares" => [
         "Auth"
     ]
+]);
+
+
+Route::post("/api/users",[
+    "controller" => "Users",
+    "action" => "register"
 ]);
 
 Route::delete('/api/users/{id}',[

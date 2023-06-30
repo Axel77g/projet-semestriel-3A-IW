@@ -63,6 +63,7 @@ export default class Router {
     this.route = {
       ...target,
       params,
+      query: new URLSearchParams(window.location.search),
     };
     let component = new target.component();
     Renderer.execute(component, document.body);

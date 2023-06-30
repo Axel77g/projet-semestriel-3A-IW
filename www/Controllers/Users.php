@@ -9,6 +9,7 @@ use App\Errors\WrongPassword;
 use App\Models\User;
 use App\Policies\UserPolicy;
 use App\Services\AuthServices;
+use App\Core\Mailer;    
 
 
 class Users extends Controller{
@@ -51,38 +52,4 @@ class Users extends Controller{
         $user->destroy();
     }
 
-    function register() {
-        $payload = request()->json();
-
-        $existing = User::fetch(["email"=>$payload['email']]);
-        
-        if($existing) throw new UserAlreadyExists();
-
-        $user = new User();
-        $user->setFirstname($payload['firstname']);
-        $user->setLastname($payload['lastname']);
-        $user->setEmail($payload['email']);
-        $user->setPassword($payload['password']);
-        $user->save();
-
-        return $user;
-    }
-
-    function login() {
-        $payload = request()->json();
-        
-        $user = User::fetch(["email"=>$payload['email']]);
-        
-        if(!$user) throw new NotFoundError();
-
-        $pass = AuthServices::isCorrectPassword($payload['password'],$user->getPassword());
-        
-        if(!$pass) throw new WrongPassword();
-
-        $token = AuthServices::generateToken($user);
-        echo json_encode([
-            "token"=> $token
-        ]);
-
-    }
 }
