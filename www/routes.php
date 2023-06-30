@@ -108,7 +108,7 @@ Route::post("/api/users",[
     "action" => "register"
 ]);
 
-Route::delete('/users/{id}',[
+Route::delete('/api/users/{id}',[
     "controller" => "Users",
     "action" => "destroy",
     "middlewares" => [
