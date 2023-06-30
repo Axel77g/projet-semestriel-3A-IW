@@ -13,10 +13,10 @@ class Articles extends Controller{
             
             $articles = Article::all();
 
-            $articles->map(function($article){
-                $article->author = $article->getAuthor();
-                return $article;
-            });
+            // $articles->map(function($article){
+            //     $article->author = $article->getAuthor();
+            //     return $article;
+            // });
 
             return $articles;
         }
