@@ -3,6 +3,7 @@ import { ArticlesList } from "../pages/ArticlesList.js";
 import { Installer } from "../components/Installer/Installer.js";
 import Home from "../components/Home.js";
 import ArticleForm from "../components/articles/ArticleForm.js";
+import AboutUs from "../components/AboutUs/AboutUs.js";
 
 export default [
   {
@@ -24,5 +25,9 @@ export default [
   {
     path: "/installer",
     component: Installer,
+  },
+  {
+    path: "/about-us",
+    component: AboutUs,
   },
 ];
