@@ -46,7 +46,6 @@ export default class ForgotPassword extends Component {
             new Input({
               name: "email",
               type: "email",
-              class: ["form-control"],
               id: "email",
               placeholder: "Email",
               onChange: this.handleChange.bind(this),

@@ -66,6 +66,11 @@ export default class Input extends Component {
           this.props.placeholder
         ),
         this.input,
+        createElement(
+          "div",
+          { class: ["text-danger", "fs-6"] },
+          this.props.message ? this.props.message[0] : ""
+        ),
       ]
     );
   }

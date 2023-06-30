@@ -9,14 +9,17 @@ export default class Register extends Component {
       lastname: "",
       email: "",
       password: "",
+      messages: {},
     };
   }
   handleSumbit(e) {
     e.preventDefault();
     let api = new Api();
     api.post("api/register", this.state).then((response) => {
-      if (response.id) {
+      if (response.success === true) {
         router.push("/login");
+      } else {
+        this.setState({ messages: response.messages });
       }
     });
   }
@@ -34,6 +37,7 @@ export default class Register extends Component {
           placeholder: "Firstname",
           onChange: this.handleChange.bind(this),
           value: this.state.firstname,
+          message: this.state.messages.firstname,
         }),
         new Input({
           name: "lastname",
@@ -42,6 +46,7 @@ export default class Register extends Component {
           placeholder: "Lastname",
           onChange: this.handleChange.bind(this),
           value: this.state.lastname,
+          message: this.state.messages.lastname,
         }),
         new Input({
           name: "email",
@@ -50,6 +55,7 @@ export default class Register extends Component {
           placeholder: "Email",
           onChange: this.handleChange.bind(this),
           value: this.state.email,
+          message: this.state.messages.email,
         }),
         new Input({
           name: "password",
@@ -58,6 +64,7 @@ export default class Register extends Component {
           placeholder: "Password",
           onChange: this.handleChange.bind(this),
           value: this.state.password,
+          message: this.state.messages.password,
         }),
         createElement(
           "button",

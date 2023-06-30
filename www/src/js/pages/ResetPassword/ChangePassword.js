@@ -7,6 +7,7 @@ export default class ChangePassword extends Component {
     this.state = {
       password: "",
       confirmPassword: "",
+      messages: {},
     };
   }
   handleSumbit(e) {
@@ -17,6 +18,8 @@ export default class ChangePassword extends Component {
       .then((response) => {
         if (response.success === true) {
           router.push("/login");
+        } else {
+          this.setState({ messages: response.messages });
         }
       });
   }
@@ -25,7 +28,7 @@ export default class ChangePassword extends Component {
   }
   render() {
     if (router.route.query.has("email") && router.route.query.has("code")) {
-      return createElement("div", { class: ["login"] }, [
+      return createElement("div", {}, [
         createElement("h1", { class: ["header"] }, "Change your password"),
         createElement(
           "form",
@@ -34,11 +37,11 @@ export default class ChangePassword extends Component {
             new Input({
               name: "password",
               type: "password",
-              class: ["form-control"],
               id: "password",
               placeholder: "New Password",
               onChange: this.handleChange.bind(this),
               value: this.state.password,
+              message: this.state.messages.password,
             }),
             new Input({
               name: "confirmPassword",
@@ -48,6 +51,7 @@ export default class ChangePassword extends Component {
               placeholder: "Confirm Password",
               onChange: this.handleChange.bind(this),
               value: this.state.confirmPassword,
+              message: this.state.messages.confirmPassword,
             }),
             createElement(
               "button",

@@ -7,15 +7,18 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      messages: {},
     };
   }
   handleSumbit(e) {
     e.preventDefault();
     let api = new Api();
     api.post("api/login", this.state).then((response) => {
-      if (response.token) {
+      if (response.success === true) {
         localStorage.setItem("token", response.token);
         router.push("/");
+      } else {
+        this.setState({ messages: response.messages });
       }
     });
   }
@@ -33,6 +36,7 @@ export default class Login extends Component {
           placeholder: "Email",
           onChange: this.handleChange.bind(this),
           value: this.state.email,
+          message: this.state.messages.email,
         }),
         new Input({
           name: "password",
@@ -41,6 +45,7 @@ export default class Login extends Component {
           placeholder: "Password",
           onChange: this.handleChange.bind(this),
           value: this.state.password,
+          message: this.state.messages.password,
         }),
         createElement(
           "button",

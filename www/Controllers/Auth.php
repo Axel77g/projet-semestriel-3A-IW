@@ -16,15 +16,44 @@ class Auth extends Controller
 
     function login(){
         $payload = request()->json();
+        $validator = new Validator();
+        $validator->validate(
+        $payload,[
+            "email"=>"required|email|emailNotExists",
+            "password"=>"required|CheckPassword:". $payload['email'],
+        ]);
+        if($validator->hasErrors()){
+            echo json_encode([
+                "success"=> false,
+                "messages" => $validator->getErrors()            
+            ]);
+            return;
+        }
         $user = User::fetch(["email"=>$payload['email']]);
-        if(!$user) throw new NotFoundError();
+        /* if(!$user) throw new NotFoundError();
+        if(!$user){
+            echo json_encode([
+                "success"=> false,
+                "messages" => ["email"=>"Cet email n'existe pas"]            
+            ]);
+            return;
+        }
 
         $pass = AuthServices::isCorrectPassword($payload['password'],$user->getPassword());
         
         if(!$pass) throw new WrongPassword();
+        if(!$pass){
+            echo json_encode([
+                "success"=> false,
+                "messages" => ["password"=>"Le mot de passe est incorrect"]            
+            ]);
+            return;
+        } */
+
 
         $token = AuthServices::generateToken($user);
         echo json_encode([
+            "success"=> true,
             "token"=> $token
         ]);
     }
@@ -37,9 +66,23 @@ class Auth extends Controller
     function register(){
 
         $payload = request()->json();
-
-        $existing = User::fetch(["email"=>$payload['email']]);
-        if($existing) throw new UserAlreadyExists();
+        $validator = new Validator();
+        $validator->validate(
+        $payload,[
+            "firstname"=>"required",
+            "lastname"=>"required",
+            "email"=>"required|email|emailAlreadyExists",
+            "password"=>"required",
+        ]);
+        if($validator->hasErrors()){
+            echo json_encode([
+                "success"=> false,
+                "messages" => $validator->getErrors()            
+            ]);
+            return;
+        }
+        /* $existing = User::fetch(["email"=>$payload['email']]);
+        if($existing) throw new UserAlreadyExists(); */
 
         $user = new User();
         $user->setFirstname($payload['firstname']);
@@ -62,7 +105,9 @@ class Auth extends Controller
         ";
         $mailer->sendMail($user->getEmail(), $subject, $message);
 
-        echo $user->toJson();
+        echo json_encode([
+            "success"=> true,
+        ]);
     }
 
     public function verify()
@@ -92,7 +137,7 @@ class Auth extends Controller
         $validator = new Validator();
         $validator->validate(
         $payload,[
-            "email"=>"required|email"
+            "email"=>"required|email|emailNotExists"
         ]);
         if($validator->hasErrors()){
             echo json_encode([
@@ -102,26 +147,21 @@ class Auth extends Controller
             return;
         }
         $user = User::fetch(["email"=>$payload['email']]);
-        if($user){
-            $user->setResetCode();
-            $user->save();
-            $mailer = new Mailer(SMTP_USERNAME, SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST);
-            $mail = $user->getEmail();
-            $reset_code = $user->getResetCode();
+        $user->setResetCode();
+        $user->save();
+        $mailer = new Mailer(SMTP_USERNAME, SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST);
+        $mail = $user->getEmail();
+        $reset_code = $user->getResetCode();
 
-            $subject = "Change your password";
-            $message = "
-                <p>Click on the link below to change your password</p>
-                <a href='http://localhost:8080/change-password?email=".$mail."&code=".$reset_code."'>Change your password</a>
-            ";
-            $mailer->sendMail($user->getEmail(), $subject, $message);
-            echo json_encode([
-                "success"=> true
-            ]);
-            
-        }else{
-            echo "Invalid email";
-        }
+        $subject = "Change your password";
+        $message = "
+            <p>Click on the link below to change your password</p>
+            <a href='http://localhost:8080/change-password?email=".$mail."&code=".$reset_code."'>Change your password</a>
+        ";
+        $mailer->sendMail($user->getEmail(), $subject, $message);
+        echo json_encode([
+            "success"=> true
+        ]);
     }
 
     public function updatePassword()
@@ -131,21 +171,31 @@ class Auth extends Controller
         $cpwd = $payload['confirmPassword'];
         $email = $_REQUEST['email'];
         $code = $_REQUEST['code'];
+
+        $validator = new Validator();
+        $validator->validate(
+        $payload,[
+            "password"=>"required",
+            "confirmPassword"=>"required|ConfirmPassword:". $pwd,
+        ]);
+        if($validator->hasErrors()){
+            echo json_encode([
+                "success"=> false,
+                "messages" => $validator->getErrors()            
+            ]);
+            return;
+        }
    
         if(isset($email) && isset($code)){
             $user = User::fetch(["email"=>$email]);
             if($user){
                 if($user->getResetCode() == $code){
-                    if($pwd == $cpwd){
-                        $user->setPassword($pwd);
-                        $user->setResetCode(0);
-                        $user->save();
-                        echo json_encode([
-                            "success"=> true
-                        ]);
-                    }else{
-                        echo "Passwords don't match";
-                    }
+                    $user->setPassword($pwd);
+                    $user->setResetCode(0);
+                    $user->save();
+                    echo json_encode([
+                        "success"=> true
+                    ]);
                 }else{
                     echo "Invalid reset code";
                 }
