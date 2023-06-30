@@ -2,3 +2,4 @@ db_data
 www/config.php
 www/vendor
 initialDatabase.sql
+www/initialDatabase.sql
