@@ -73,4 +73,8 @@ Class Article extends Model{
         return $this->author_id;
     }
 
+    public function getSlug(){
+        return $this->slug;
+    }
+
 }
