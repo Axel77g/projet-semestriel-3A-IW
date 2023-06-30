@@ -2,6 +2,15 @@ import Component from "../../../core/Component.js";
 import Input from "../../ui/Input.js";
 
 export class Step3 extends Component {
+  get values() {
+    let res = {};
+    this.children.forEach((child) => {
+      if (child instanceof Input) {
+        res[child.props.name] = child.state.value;
+      }
+    });
+    return res;
+  }
   render() {
     return createElement(
       "div",
@@ -19,7 +28,10 @@ export class Step3 extends Component {
             name: "input_host_smtp",
             placeholder: "SMTP Host",
             value: this.props.form.input_host_smtp,
-            onChange: (e) => {},
+            message: this.props.messages.input_host_smtp,
+            onChange: (e) => {
+              this.props.setForm({ input_host_smtp: e.value });
+            },
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
@@ -27,7 +39,10 @@ export class Step3 extends Component {
             name: "input_port_smtp",
             placeholder: "SMTP Port",
             value: this.props.form.input_port_smtp,
-            onChange: (e) => {},
+            message: this.props.messages.input_port_smtp,
+            onChange: (e) => {
+              this.props.setForm({ input_port_smtp: e.value });
+            },
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
@@ -35,7 +50,10 @@ export class Step3 extends Component {
             name: "input_username_smtp",
             placeholder: "SMTP Username",
             value: this.props.form.input_username_smtp,
-            onChange: (e) => {},
+            message: this.props.messages.input_username_smtp,
+            onChange: (e) => {
+              this.props.setForm({ input_username_smtp: e.value });
+            },
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
@@ -44,7 +62,10 @@ export class Step3 extends Component {
             type: "password",
             placeholder: "SMTP Password",
             value: this.props.form.input_password_smtp,
-            onChange: (e) => {},
+            message: this.props.messages.input_password_smtp,
+            onChange: (e) => {
+              this.props.setForm({ input_password_smtp: e.value });
+            },
           }),
         ]),
       ]

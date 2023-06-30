@@ -8,6 +8,7 @@ import { Step1 } from "./forms/Step_1.js";
 import { Step2 } from "./forms/Step_2.js";
 import { Step3 } from "./forms/Step_3.js";
 import { Step4 } from "./forms/Step_4.js";
+import Button from "../ui/Button.js";
 
 export class Installer extends Component {
   init() {
@@ -29,23 +30,7 @@ export class Installer extends Component {
         input_username_smtp: "",
         input_password_smtp: "",
       },
-      messages: {
-        input_name_site: "",
-        input_firstname_site: "",
-        input_lastname_site: "",
-        input_password_site: "",
-        input_email_site: "",
-        input_name_database: "",
-        input_port_database: "",
-        input_username_database: "",
-        input_password_database: "",
-        input_host_database: "",
-        input_table_prefix_database: "",
-        input_host_smtp: "",
-        input_port_smtp: "",
-        input_username_smtp: "",
-        input_password_smtp: "",
-      },
+      messages: {},
       currentStep: 0,
 
       steps: [
@@ -56,93 +41,13 @@ export class Installer extends Component {
         "Finish",
       ],
     };
-
-    this.validators = {
-      input_name_site: {
-        required: true,
-        minLength: 3,
-        maxLength: 20,
-      },
-      input_firstname_site: {
-        required: true,
-        minLength: 3,
-        maxLength: 20,
-      },
-      input_lastname_site: {
-        required: true,
-        minLength: 3,
-        maxLength: 20,
-      },
-      input_password_site: {
-        required: true,
-        minLength: 8,
-        maxLength: 20,
-      },
-      input_email_site: {
-        required: true,
-        minLength: 6,
-        maxLength: 320,
-        regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-        message:
-          "Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'",
-      },
-      input_name_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-
-      input_port_database: {
-        required: true,
-        regex: /^[0-9]{1,10}$/,
-      },
-      input_username_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-      input_password_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 255,
-      },
-      input_host_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-      input_table_prefix_database: {
-        required: true,
-        minLength: 1,
-        maxLength: 10,
-      },
-      input_host_smtp: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-      },
-      input_port_smtp: {
-        required: true,
-        regex: /^[0-9]{1,10}$/,
-      },
-      input_username_smtp: {
-        required: true,
-        minLength: 1,
-        maxLength: 64,
-        message:
-          "Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'",
-      },
-      input_password_smtp: {
-        required: true,
-        minLength: 1,
-        maxLength: 255,
-      },
-    };
   }
 
   nextStep() {
     if (this.state.currentStep < this.state.steps.length - 1) {
       this.setState({ currentStep: this.state.currentStep + 1 });
+    } else {
+      this.submitForm();
     }
   }
 
@@ -152,76 +57,107 @@ export class Installer extends Component {
     }
   }
 
-  setForm(event) {
-    this.setState({
-      form: { ...this.state.form, [event.target.name]: event.target.value },
-    });
+  setForm(payload) {
+    this.state.form = { ...this.state.form, ...payload };
   }
 
-  submitForm(event) {
-    event.preventDefault();
+  redirectFromError() {
+    let stape = 4;
+    for (let key in this.state.messages) {
+      if (key.includes("_database") && stape > 2) {
+        stape = 1;
+      }
+      if (key.includes("_site")) {
+        stape = 2;
+      }
+      if (key.includes("_smtp") && stape > 3) {
+        stape = 3;
+      }
+    }
+    this.setState({ currentStep: stape });
+  }
 
-    console.log("submit");
-
+  submitForm() {
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
-      this.setState({ messages: response.data.messages });
+      if (!response.success) {
+        this.setState({ messages: JSON.parse(response.messages) });
+        this.redirectFromError();
+      } else {
+        window.location.href = "/";
+      }
     });
   }
 
   render() {
-    console.log("render");
     return createElement(
       "div",
-      { class: ["container", "d-flex", "flex-column", "w-50"] },
+      {
+        class: [
+          "container",
+          "d-flex",
+          "justify-content-center",
+          "align-items-center",
+          "min-vw-100",
+          "min-vh-100",
+        ],
+      },
       [
         createElement(
-          "form",
-          { onchange: this.setForm, onsubmit: this.submitForm },
+          "div",
+          {
+            class: [
+              "container",
+              "d-flex",
+              "flex-column",
+              "w-50",
+              "border",
+              "rounded",
+              "border-2",
+              "p-5",
+            ],
+          },
           [
-            new Step0({ currentStep: this.state.currentStep }),
-            new Step1({
-              currentStep: this.state.currentStep,
-              form: this.state.form,
-              setForm: this.setForm,
-            }),
-            new Step2({
-              currentStep: this.state.currentStep,
-              form: this.state.form,
-              setForm: this.setForm,
-            }),
-            new Step3({
-              currentStep: this.state.currentStep,
-              form: this.state.form,
-              setForm: this.setForm,
-            }),
+            createElement("form", {}, [
+              new Step0({ currentStep: this.state.currentStep }),
+              new Step1({
+                currentStep: this.state.currentStep,
+                form: this.state.form,
+                setForm: this.setForm.bind(this),
+                messages: this.state.messages,
+              }),
+              new Step2({
+                currentStep: this.state.currentStep,
+                form: this.state.form,
+                setForm: this.setForm.bind(this),
+                messages: this.state.messages,
+              }),
+              new Step3({
+                currentStep: this.state.currentStep,
+                form: this.state.form,
+                setForm: this.setForm.bind(this),
+                messages: this.state.messages,
+              }),
 
-            new Step4({ currentStep: this.state.currentStep }),
-
-            createElement("div", { class: ["d-flex", "justify-content-end"] }, [
-              createElement(
-                "button",
-                {
-                  class: ["btn", "mx-3", "btn-primary", "w-25"],
-                  onclick: this.previousStep,
-                  type: "button",
-                },
-                "Previous"
-              ),
+              new Step4({ currentStep: this.state.currentStep }),
 
               createElement(
-                "button",
-                {
-                  class: ["btn", "mx-3", "btn-primary", "w-25"],
-                  onclick: this.nextStep,
-                  type:
-                    this.state.currentStep < this.state.steps.length - 1
-                      ? "button"
-                      : "submit",
-                },
-                this.state.currentStep < this.state.steps.length - 1
-                  ? "Next"
-                  : "Finish"
+                "div",
+                { class: ["d-flex", "justify-content-end"] },
+                [
+                  new Button({
+                    class: ["mr-2"],
+                    onClick: this.previousStep.bind(this),
+                    children: "Previous",
+                  }),
+                  new Button({
+                    onClick: this.nextStep.bind(this),
+                    children:
+                      this.state.currentStep < this.state.steps.length - 1
+                        ? "Next"
+                        : "Finish",
+                  }),
+                ]
               ),
             ]),
           ]

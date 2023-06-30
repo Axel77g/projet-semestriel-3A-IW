@@ -34,6 +34,7 @@ export default class Element {
     if (eventName == "change") {
       domElement.addEventListener("input", (e) => {
         callback.call(this.component, e);
+
         try {
           let newInput = document.querySelector(
             "[value='" + e.target.value + "']"

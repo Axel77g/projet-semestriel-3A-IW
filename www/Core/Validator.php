@@ -22,13 +22,19 @@ class Validator implements Sanitize{
     
         public function required($key, $value, $ruleValue){
             if(empty($value)){
-                $this->errors[$key][] = "Le champ $key est requis";
+                $this->errors[$key][] = "Le champ est requis";
             }
         }
     
         public function email($key, $value, $ruleValue){
             if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
-                $this->errors[$key][] = "Le champ $key doit être un email valide";
+                $this->errors[$key][] = "Le champ doit être un email valide";
+            }
+        }
+
+        public function numeric($key, $value, $ruleValue){
+            if(!is_numeric($value)){
+                $this->errors[$key][] = "Le champ doit être un nombre";
             }
         }
 
@@ -66,26 +72,26 @@ class Validator implements Sanitize{
         }
 
         public function maxLength($key, $value, $ruleValue){
-            if(!$value > $ruleValue){
-                $this->errors[$key][] = "Le champ $key doit contenir moins de $ruleValue caractères";
+            if(strlen($value) > $ruleValue){
+                $this->errors[$key][] = "Le champ doit contenir moins de $ruleValue caractères";
             }
         }
 
         public function minLength($key, $value, $ruleValue){
-            if(!$value < $ruleValue){
-                $this->errors[$key][] = "Le champ $key doit contenir plus de $ruleValue caractères";
+            if(strlen($value) < $ruleValue){
+                $this->errors[$key][] = "Le champ doit contenir plus de $ruleValue caractères";
             }
         }
 
         public function max($key, $value, $ruleValue){
-            if(!$value > $ruleValue){
-                $this->errors[$key][] = "Le champ $key doit être inférieur à $ruleValue";
+            if($value > $ruleValue){
+                $this->errors[$key][] = "Le champ doit être inférieur à $ruleValue";
             }
         }
 
         public function min($key, $value, $ruleValue){
-            if(!$value < $ruleValue){
-                $this->errors[$key][] = "Le champ $key doit être supérieur à $ruleValue";
+            if($value < $ruleValue){
+                $this->errors[$key][] = "Le champ doit être supérieur à $ruleValue";
             }
         }
 
@@ -99,7 +105,7 @@ class Validator implements Sanitize{
 
             $result = $model->where($key, $value)->first();
             if($result){
-                $this->errors[$key][] = "Le champ $key doit être unique";
+                $this->errors[$key][] = "Le champ doit être unique";
             }
         }
     
