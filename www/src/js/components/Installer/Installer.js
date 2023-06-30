@@ -65,10 +65,10 @@ export class Installer extends Component {
     let stape = 4;
     console.log(this.state.messages);
     for (let key in this.state.messages) {
-      if (key.includes("_database") && stape > 2) {
+      if (key.includes("_database")) {
         stape = 1;
       }
-      if (key.includes("_site")) {
+      if (key.includes("_site") && stape > 2) {
         stape = 2;
       }
       if (key.includes("_smtp") && stape > 3) {
