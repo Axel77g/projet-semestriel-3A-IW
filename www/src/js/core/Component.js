@@ -1,69 +1,43 @@
+import DomRenderer from "./DomRenderer.js";
+
 export default class Component {
-  constructor(props) {
+  static component_last_id = 1;
+
+  constructor(props = {}, state = {}, parent) {
+    this.state = state;
     this.props = props;
-    this.state = {};
-    this.domParentElement = null;
-    this.elements = null;
-    this.children = [];
-    this.parent = null;
+    this.$parent = parent;
+    this.$components = [];
+    this.id = Number(Component.component_last_id);
+    Component.component_last_id += 1;
     this.init();
   }
+
+  redefine(props = {}, state = {}, parent = null) {
+    let newState = { ...this.state, ...state };
+    let hasStateChange = JSON.stringify(newState) != JSON.stringify(this.state);
+    this.state = newState;
+    this.props = { ...this.props, ...props };
+    this.parent = parent || this.parent;
+
+    if (hasStateChange) {
+      this.update();
+    }
+  }
+
   init() {}
-  onUpdate() {}
-  onMount() {}
-  onDestroy() {}
-
-  setState(newState) {
-    this.state = Object.assign(this.state, newState);
-    this.update();
-    this.onStateChange(this.state);
-  }
-  onStateChange(...param) {}
-
-  destroy() {
-    this.children.forEach((child) => {
-      child.destroy();
-    });
-    this.children = [];
-    if (this.domElements instanceof Array) {
-      this.elements.forEach((element) => {
-        element.domElement.remove();
-      });
-    } else {
-      this.elements.domElement.remove();
-    }
-    this.onDestroy();
-  }
-
   update() {
-    //this.destroy();
-    this.build(this.domParentElement, this.parent, true);
+    DomRenderer.update();
+  }
+  setState(newState) {
+    this.state = {
+      ...this.state,
+      ...newState,
+    };
+    this.update();
   }
 
-  build(domParentElement, parent) {
-    this.children = [];
-    let rendered = null;
-    let firstBuild = true;
-    this.parent = parent;
-    this.domParentElement = domParentElement;
-    if (this.elements) {
-      rendered = this.elements;
-      firstBuild = false;
-    }
-    this.elements = this.render();
-
-    if (this.elements instanceof Array) {
-      this.elements.forEach((element) => {
-        element.build(domParentElement, this);
-      });
-    } else {
-      this.elements.build(domParentElement, this, rendered);
-    }
-
-    if (firstBuild) {
-      this.onMount();
-    }
-
-    this.onUpdate();
+  get structure() {
+    return this.render();
   }
 }

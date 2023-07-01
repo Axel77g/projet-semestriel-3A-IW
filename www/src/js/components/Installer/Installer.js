@@ -1,7 +1,8 @@
 import Component from "../../core/Component.js";
 import API from "../../core/Api.js";
-import Renderer from "../../core/Renderer.js";
-import Element from "../../core/Element.js";
+import DomRenderer from "../../core/DomRenderer.js";
+
+import { createElement } from "../../core/Element.js";
 
 import { Step0 } from "./forms/Step_0.js";
 import { Step1 } from "./forms/Step_1.js";
@@ -9,6 +10,7 @@ import { Step2 } from "./forms/Step_2.js";
 import { Step3 } from "./forms/Step_3.js";
 import { Step4 } from "./forms/Step_4.js";
 import Button from "../ui/Button.js";
+import Input from "../ui/Input.js";
 
 export class Installer extends Component {
   init() {
@@ -19,7 +21,7 @@ export class Installer extends Component {
         input_lastname_site: "",
         input_password_site: "",
         input_email_site: "",
-        input_name_database: "",
+        input_name_database: "input_name_database",
         input_port_database: "",
         input_username_database: "",
         input_password_database: "",
@@ -47,7 +49,7 @@ export class Installer extends Component {
         input_username_smtp: "",
         input_password_smtp: "",
       },
-      currentStep: 0,
+      currentStep: 1,
 
       steps: [
         "Welcome",
@@ -156,7 +158,7 @@ export class Installer extends Component {
   }
 
   setForm(payload) {
-    this.state.form = { ...this.state.form, ...payload };
+    this.setState({ form: { ...this.state.form, ...payload } });
   }
 
   submitForm() {
@@ -172,32 +174,33 @@ export class Installer extends Component {
       { class: ["container", "d-flex", "flex-column", "w-50"] },
       [
         createElement("form", {}, [
-          new Step0({ currentStep: this.state.currentStep }),
-          new Step1({
+          createElement(Step0, {
+            currentStep: this.state.currentStep,
+          }),
+          createElement(Step1, {
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
           }),
-          new Step2({
+          createElement(Step2, {
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
           }),
-          new Step3({
+          createElement(Step3, {
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
           }),
-
-          new Step4({ currentStep: this.state.currentStep }),
+          createElement(Step4, { currentStep: this.state.currentStep }),
 
           createElement("div", { class: ["d-flex", "justify-content-end"] }, [
-            new Button({
+            createElement(Button, {
               class: ["mr-2"],
               onClick: this.previousStep.bind(this),
               children: "Previous",
             }),
-            new Button({
+            createElement(Button, {
               onClick: this.nextStep.bind(this),
               children:
                 this.state.currentStep < this.state.steps.length - 1
@@ -211,10 +214,7 @@ export class Installer extends Component {
   }
 }
 
-function createElement(tag, attributes, children) {
-  return new Element(tag, attributes, children);
-}
 globalThis.createElement = createElement;
 
 let component = new Installer();
-Renderer.execute(component, document.body);
+DomRenderer.build(document.body, component);

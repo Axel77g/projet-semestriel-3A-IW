@@ -1,4 +1,4 @@
-import Renderer from "./Renderer.js";
+import DomRenderer from "./DomRenderer.js";
 import Routes from "./Routes.js";
 
 export default class Router {
@@ -65,6 +65,6 @@ export default class Router {
       params,
     };
     let component = new target.component();
-    Renderer.execute(component, document.body);
+    DomRenderer.build(document.body, component);
   }
 }

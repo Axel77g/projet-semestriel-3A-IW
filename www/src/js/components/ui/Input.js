@@ -1,21 +1,17 @@
 import Component from "../../core/Component.js";
 
 export default class Input extends Component {
-  init() {
-    this.state = {
-      value: this.props.value ?? "",
-    };
-  }
   handleChange(e) {
-    if (this.props.onChange)
+    if (this.props.onChange) {
+      console.log("change", this.props.onChange);
       this.props.onChange({
-        name: this.props.name,
-        value: e.target.value,
-        type: this.props.type,
-        id: this.props.id,
         event: e,
+        value: e.target.value,
+        name: this?.props?.name,
+        type: this?.props?.type,
+        id: this?.props?.id,
       });
-    this.setState({ value: e.target.value });
+    }
   }
 
   get input() {
@@ -27,8 +23,8 @@ export default class Input extends Component {
           class: ["form-control"],
           id: this.props.name,
           placeholder: this.props.placeholder,
-          value: this.state.value ?? "",
-          onchange: this.handleChange.bind(this),
+          value: this.props.value ?? "",
+          oninput: this.handleChange.bind(this),
         },
         this.state.value ?? ""
       );
@@ -41,8 +37,8 @@ export default class Input extends Component {
           class: ["form-control"],
           id: this.props.name,
           placeholder: this.props.placeholder,
-          value: this.state.value ?? "",
-          onchange: this.handleChange.bind(this),
+          value: this.props.value ?? "",
+          oninput: this.handleChange.bind(this),
         },
         []
       );
