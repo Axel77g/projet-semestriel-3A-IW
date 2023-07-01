@@ -3,7 +3,6 @@ import Component from "../../core/Component.js";
 export default class Input extends Component {
   handleChange(e) {
     if (this.props.onChange) {
-      console.log("change", this.props.onChange);
       this.props.onChange({
         event: e,
         value: e.target.value,
@@ -24,7 +23,7 @@ export default class Input extends Component {
           id: this.props.name,
           placeholder: this.props.placeholder,
           value: this.props.value ?? "",
-          oninput: this.handleChange.bind(this),
+          onchange: this.handleChange.bind(this),
         },
         this.state.value ?? ""
       );
@@ -38,7 +37,7 @@ export default class Input extends Component {
           id: this.props.name,
           placeholder: this.props.placeholder,
           value: this.props.value ?? "",
-          oninput: this.handleChange.bind(this),
+          onchange: this.handleChange.bind(this),
         },
         []
       );

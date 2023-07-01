@@ -15,6 +15,7 @@ export default class DomRenderer {
     DomRenderer.root = component;
 
     let structure = DomRenderer.getStrucutre(component);
+    console.log("Builded Struture", structure);
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.last_dom_rendered = dom;
     domParent.appendChild(DomRenderer.last_dom_rendered);
@@ -22,6 +23,7 @@ export default class DomRenderer {
 
   static update() {
     let structure = DomRenderer.getStrucutre(DomRenderer.root);
+    console.log("Updated Struture", structure);
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.compareAndModifyDOM(DomRenderer.last_dom_rendered, dom);
   }
@@ -29,17 +31,15 @@ export default class DomRenderer {
   static getStrucutre(component) {
     /**  @type {Element} */
     let element = component.structure;
+    component.componentIndex = 0;
 
-    DomRenderer.getElementStruture(
-      element,
-      component,
-      [...component.$components],
-      0
-    );
+    let oldComponents = [...component.$components];
+    DomRenderer.getElementStruture(element, component, oldComponents);
+
     return element;
   }
 
-  static getElementStruture(element, component, oldComponents, componentIndex) {
+  static getElementStruture(element, component, oldComponents) {
     if (Array.isArray(element.children)) {
       element.children = element.children.map(
         /**
@@ -47,34 +47,32 @@ export default class DomRenderer {
          */
         (childElement) => {
           if (typeof childElement.tag == "function") {
-            let oldConstructor = Boolean(oldComponents[componentIndex])
-              ? oldComponents[componentIndex].__proto__.constructor
-              : null;
+            const old = component.findChildren(
+              childElement?.key || childElement.tag.name,
+              oldComponents,
+              component.componentIndex
+            );
+            const oldConstructor = old ? old.protoConstructor : null;
             let childComponent;
 
-            if (
-              childElement.tag == oldConstructor &&
-              oldComponents[componentIndex]
-            ) {
-              childComponent = oldComponents[componentIndex];
-              console.log(childComponent, childElement.attributes);
+            if (childElement.tag == oldConstructor && old) {
+              childComponent = old;
               childComponent.redefine(childElement.attributes);
             } else {
               childComponent = new childElement.tag(
                 childElement.attributes,
-                null,
+                {},
                 component
               );
+              component.$components.push(childComponent);
             }
-            component.$components.push(childComponent);
             childElement = DomRenderer.getStrucutre(childComponent);
-            componentIndex++;
+            component.componentIndex++;
           } else {
             childElement = DomRenderer.getElementStruture(
               childElement,
               component,
-              oldComponents,
-              componentIndex
+              oldComponents
             );
           }
           return childElement;

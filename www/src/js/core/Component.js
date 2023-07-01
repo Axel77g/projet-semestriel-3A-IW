@@ -4,13 +4,15 @@ export default class Component {
   static component_last_id = 1;
 
   constructor(props = {}, state = {}, parent) {
-    this.state = state;
+    this.state = state || {};
     this.props = props;
     this.$parent = parent;
     this.$components = [];
     this.id = Number(Component.component_last_id);
+    this.key = props?.key || this.__proto__.constructor.name;
     Component.component_last_id += 1;
     this.init();
+    console.log("New Component", this.name, this.id, "created", this);
   }
 
   redefine(props = {}, state = {}, parent = null) {
@@ -19,7 +21,6 @@ export default class Component {
     this.state = newState;
     this.props = { ...this.props, ...props };
     this.parent = parent || this.parent;
-
     if (hasStateChange) {
       this.update();
     }
@@ -35,6 +36,27 @@ export default class Component {
       ...newState,
     };
     this.update();
+  }
+
+  findChildren(key, components = this.$components, componentIndex = 0) {
+    if (key) {
+      let childsMatch = components.filter((c) => c.key == key);
+      if (childsMatch.length == 1) {
+        let child = childsMatch[0];
+        return child;
+      }
+    }
+
+    if (components.length > componentIndex) return components[componentIndex];
+    return null;
+  }
+
+  get name() {
+    return this.protoConstructor.name;
+  }
+
+  get protoConstructor() {
+    return this.__proto__.constructor;
   }
 
   get structure() {
