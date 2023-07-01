@@ -48,7 +48,7 @@ export class Installer extends Component {
         input_username_smtp: "",
         input_password_smtp: "",
       },
-      currentStep: 1,
+      currentStep: 0,
 
       steps: [
         "Welcome",
