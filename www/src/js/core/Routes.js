@@ -7,6 +7,7 @@ import Register from "../pages/Register/Register.js";
 import ForgotPassword from "../pages/ResetPassword/ForgotPassword.js";
 import ChangePassword from "../pages/ResetPassword/ChangePassword.js";
 import ArticleForm from "../components/articles/ArticleForm.js";
+import AboutUs from "../components/AboutUs/AboutUs.js";
 
 export default [
   {
@@ -44,5 +45,9 @@ export default [
   {
     path: "/installer",
     component: Installer,
+  },
+  {
+    path: "/about-us",
+    component: AboutUs,
   },
 ];
