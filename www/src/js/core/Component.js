@@ -12,6 +12,7 @@ export default class Component {
     this.key = props?.key || this.__proto__.constructor.name;
     Component.component_last_id += 1;
     this.init();
+    this.onMounted();
     //console.log("New Component", this.name, this.id, "created", this);
   }
 
@@ -26,9 +27,9 @@ export default class Component {
     }
   }
 
-  init() {}
   update() {
     DomRenderer.update();
+    this.onUpdate();
   }
   setState(newState) {
     this.state = {
@@ -37,6 +38,14 @@ export default class Component {
     };
     this.update();
   }
+
+  init() {}
+
+  onRerender() {}
+
+  onUpdate() {}
+
+  onMounted() {}
 
   findChildren(key, components = this.$components, componentIndex = 0) {
     if (key) {
@@ -61,5 +70,13 @@ export default class Component {
 
   get structure() {
     return this.render();
+  }
+
+  propagate(event, data) {
+    this.$components.forEach((c) => {
+      c.propagate(event, data);
+    });
+
+    if (this[`on${event}`]) this[`on${event}`](data);
   }
 }

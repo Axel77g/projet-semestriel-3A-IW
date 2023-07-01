@@ -23,9 +23,14 @@ export default class DomRenderer {
 
   static update() {
     let structure = DomRenderer.getStrucutre(DomRenderer.root);
-    console.log("Updated Struture", structure);
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.compareAndModifyDOM(DomRenderer.last_dom_rendered, dom);
+    DomRenderer.root.propagate("Rerender");
+    console.log(
+      "Updated Struture",
+      DomRenderer.last_dom_rendered,
+      DomRenderer.root
+    );
   }
 
   static getStrucutre(component) {
@@ -35,7 +40,7 @@ export default class DomRenderer {
 
     let oldComponents = [...component.$components];
     DomRenderer.getElementStruture(element, component, oldComponents);
-
+    component.renderElement = element;
     return element;
   }
 
@@ -84,7 +89,6 @@ export default class DomRenderer {
 
   static getDOM(obj) {
     const element = document.createElement(obj.tag);
-
     if (obj.attributes) {
       for (const attr in obj.attributes) {
         if (attr.startsWith("on")) {
@@ -122,7 +126,7 @@ export default class DomRenderer {
       const textNode = document.createTextNode(obj.children);
       element.appendChild(textNode);
     }
-
+    obj.domElement = element;
     return element;
   }
 
