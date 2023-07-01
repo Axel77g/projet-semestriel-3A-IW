@@ -209,6 +209,22 @@ function writeInitialDatabase($prefix){
         FOREIGN KEY (user_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
+    -- Upload
+    DROP TABLE IF EXISTS " . $prefix . "file CASCADE;
+    CREATE TABLE " . $prefix . "file (
+        id SERIAL,
+        name varchar NULL,
+        path varchar NULL,
+        extension varchar NULL,
+        size int4 NULL,
+        mime varchar NULL,
+        hash varchar NULL,
+        user_id int4 NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        FOREIGN KEY (user_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
+        PRIMARY KEY (id)
+    );
     ");
     fclose($myfile);
 }
