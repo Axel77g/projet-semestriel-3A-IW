@@ -152,7 +152,12 @@ function writeInitialDatabase($prefix){
         firstname VARCHAR(100) NOT NULL,
         lastname VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
-        password VARCHAR(100) NOT NULL
+        password VARCHAR(100) NOT NULL,
+        is_verified BOOLEAN DEFAULT FALSE,
+        verification_code VARCHAR(255),
+        reset_code INTEGER,
+        created_at TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP NOT NULL
     );
 
     -- ARTICLES
@@ -160,12 +165,14 @@ function writeInitialDatabase($prefix){
     DROP TABLE IF EXISTS " . $prefix . "article CASCADE;
     CREATE TABLE " . $prefix . "article (
         id SERIAL,
+        slug varchar(255) NOT NULL,
         title varchar(255) NOT NULL,
         description text NOT NULL,
         content text NOT NULL,
         author int NOT NULL,
+        image varchar(255) NOT NULL,
         views int NOT NULL DEFAULT 0,
-    --    likes int NOT NULL DEFAULT 0,
+        likes int NOT NULL DEFAULT 0,
         created_at TIMESTAMP NOT NULL,
         updated_at TIMESTAMP NOT NULL,
         PRIMARY KEY (id),
