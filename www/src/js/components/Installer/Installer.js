@@ -104,67 +104,6 @@ export class Installer extends Component {
         ],
       },
       [
-<<<<<<< HEAD
-        createElement(
-          "div",
-          {
-            class: [
-              "container",
-              "d-flex",
-              "flex-column",
-              "w-50",
-              "border",
-              "rounded",
-              "border-2",
-              "p-5",
-            ],
-          },
-          [
-            createElement("form", {}, [
-              new Step0({ currentStep: this.state.currentStep }),
-              new Step1({
-                currentStep: this.state.currentStep,
-                form: this.state.form,
-                setForm: this.setForm.bind(this),
-                messages: this.state.messages,
-              }),
-              new Step2({
-                currentStep: this.state.currentStep,
-                form: this.state.form,
-                setForm: this.setForm.bind(this),
-                messages: this.state.messages,
-              }),
-              new Step3({
-                currentStep: this.state.currentStep,
-                form: this.state.form,
-                setForm: this.setForm.bind(this),
-                messages: this.state.messages,
-              }),
-
-              new Step4({ currentStep: this.state.currentStep }),
-
-              createElement(
-                "div",
-                { class: ["d-flex", "justify-content-end"] },
-                [
-                  new Button({
-                    class: ["mr-2"],
-                    onClick: this.previousStep.bind(this),
-                    children: "Previous",
-                  }),
-                  new Button({
-                    onClick: this.nextStep.bind(this),
-                    children:
-                      this.state.currentStep < this.state.steps.length - 1
-                        ? "Next"
-                        : "Finish",
-                  }),
-                ]
-              ),
-            ]),
-          ]
-        ),
-=======
         createElement("form", {}, [
           createElement(Step0, {
             currentStep: this.state.currentStep,
@@ -201,7 +140,6 @@ export class Installer extends Component {
             }),
           ]),
         ]),
->>>>>>> 225ae54a1fd6ad046d9bd17cd9e9e3a67cf9f32c
       ]
     );
   }

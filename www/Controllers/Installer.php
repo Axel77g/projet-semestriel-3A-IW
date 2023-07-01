@@ -56,13 +56,8 @@ class Installer {
        
 
         // if config.php exists, throw error (Supposed to be created by writeConfig)
-<<<<<<< HEAD
-        if(!file_exists('./config.php')){
-            throw new Error();
-=======
         if(file_exists('./config.php')){
             throw new BadRequest();
->>>>>>> 225ae54a1fd6ad046d9bd17cd9e9e3a67cf9f32c
         }
 
         // if config.php does not exist, create it
