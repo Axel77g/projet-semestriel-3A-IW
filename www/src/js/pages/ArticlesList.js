@@ -9,7 +9,9 @@ export class ArticlesList extends Component {
     this.state = {
       articles: [],
     };
-    this.fetchArticles();
+    setTimeout(() => {
+      this.fetchArticles();
+    }, 1000);
   }
 
   fetchArticles() {
@@ -26,6 +28,7 @@ export class ArticlesList extends Component {
       return createElement("div", { class: ["container-fluid", "mt-4"] }, [
         createElement("p", {}, "Loading"),
       ]);
+
     return createElement("div", { class: ["container-fluid", "mt-4"] }, [
       createElement("h1", {}, "Liste de tous les articles"),
       createElement(
@@ -33,6 +36,7 @@ export class ArticlesList extends Component {
         { class: ["row"] },
         this.state.articles.map((article) => {
           return createElement(ArticlesCard, {
+            key: "article-" + article.id,
             article,
           });
         })
