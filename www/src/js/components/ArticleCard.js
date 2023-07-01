@@ -1,4 +1,5 @@
 import Component from "../core/Component.js";
+import Button from "./ui/Button.js";
 
 export class ArticlesCard extends Component {
   render() {
@@ -12,22 +13,20 @@ export class ArticlesCard extends Component {
         }),
         createElement("div", { class: ["card-body"] }, [
           createElement("h5", { class: ["card-title"] }, article.title),
-          // createElement(
-          //   "h6",
-          //   { class: ["card-title"] },
-          //   "Auteur de l'article : " + article.author.firstname
-          // ),
-          createElement("p", { class: ["card-text"] }, article.description),
           createElement(
-            "button",
-            {
-              class: ["btn", "btn-primary"],
-              onclick: () => {
-                router.push("/article/" + article.slug);
-              },
-            },
-            "Lire l'article"
+            "h6",
+            { class: ["card-title"] },
+            "Auteur de l'article : " + article.author.firstname
           ),
+          createElement("p", { class: ["card-text"] }, article.description),
+          createElement(Button, {
+            class: ["btn", "btn-primary"],
+            onClick: () => {
+              console.log("ici clicked");
+              router.push("/article/" + article.slug);
+            },
+            children: "Lire l'article",
+          }),
         ]),
       ]),
     ]);

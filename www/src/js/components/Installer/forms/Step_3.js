@@ -24,7 +24,8 @@ export class Step3 extends Component {
           "Mailer informations. Step 3/4"
         ),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_host_smtp",
             name: "input_host_smtp",
             placeholder: "SMTP Host",
             value: this.props.form.input_host_smtp,
@@ -35,7 +36,8 @@ export class Step3 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_port_smtp",
             name: "input_port_smtp",
             placeholder: "SMTP Port",
             value: this.props.form.input_port_smtp,
@@ -46,7 +48,8 @@ export class Step3 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_username_smtp",
             name: "input_username_smtp",
             placeholder: "SMTP Username",
             value: this.props.form.input_username_smtp,
@@ -57,7 +60,8 @@ export class Step3 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_password_smtp",
             name: "input_password_smtp",
             type: "password",
             placeholder: "SMTP Password",
