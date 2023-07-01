@@ -4,7 +4,7 @@ import HomeHeader from "./HomeHeader.js";
 export default class Home extends Component {
   render() {
     return createElement("div", { class: ["home"] }, [
-      new HomeHeader(),
+      createElement(HomeHeader, {}),
       createElement(
         "button",
         { onclick: () => router.push("/articles") },

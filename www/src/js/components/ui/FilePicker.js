@@ -29,7 +29,7 @@ export default class FilePicker extends Component {
           type: "file",
           class: ["custom-file-input"],
           id: this.props.id,
-          onchange: this.handleChange,
+          onchange: this.handleChange.bind(this),
         }),
         createElement(
           "label",

@@ -1,10 +1,12 @@
 import Component from "../../core/Component.js";
+import { createElement } from "../../core/Element.js";
 
 export default class WYSIWYG extends Component {
   init() {
     this.state = {
-      value: this.state.value ?? "",
+      value: this.state.value ?? "<p>test</p>",
     };
+    this.onUpdate();
   }
   handleChange(e) {
     this.props.onChange({
@@ -17,8 +19,7 @@ export default class WYSIWYG extends Component {
   }
 
   async addLibraries() {
-    await this.addScript();
-    await this.addStyle();
+    await Promise.all([this.addScript(), this.addStyle()]);
   }
 
   addScript() {
@@ -61,8 +62,12 @@ export default class WYSIWYG extends Component {
 
   async onUpdate() {
     await this.addLibraries();
-    const container = this.elements.domElement;
-    let quill = new Quill(container.querySelector("#editor"), {
+    this.onRerender();
+  }
+
+  onRerender() {
+    const container = document.querySelector("#editor-container");
+    this.quill = new Quill(container.querySelector("#editor"), {
       modules: {
         toolbar: [
           ["bold", "italic"],
@@ -73,22 +78,26 @@ export default class WYSIWYG extends Component {
       theme: "snow",
     });
 
-    quill.root.innerHTML = this.state.value;
+    this.quill.root.innerHTML = this.state.value;
 
-    quill.on("text-change", () => {
-      this.state.value = quill.root.innerHTML;
+    this.quill.on("text-change", () => {
+      if (this.state.value !== this.quill.root.innerHTML) {
+        this.state.value = this.quill.root.innerHTML;
+        if (this.props.name) {
+          this.$parent.state[this.props.name] = this.state.value;
+        }
+      }
     });
   }
 
   render() {
-    return createElement("div", {}, [
-      createElement("div", { id: "toolbar" }, []),
+    return createElement("div", { id: "editor-container" }, [
       createElement(
         "div",
         {
           id: "editor",
         },
-        []
+        [createElement("div", { id: "toolbar" }, [])]
       ),
     ]);
   }

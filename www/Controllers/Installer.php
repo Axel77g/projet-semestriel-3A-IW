@@ -4,8 +4,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\Database;
 use App\Core\Validator;
-use App\Errors\NotFoundError;
-use Error;
+use App\Errors\BadRequest;
 use App\Models\User;
 use App\Errors\UserAlreadyExists;
 use App\Errors\ValidatorError;
@@ -17,7 +16,7 @@ class Installer {
 
         // if config.php exists, throw error
         if(file_exists('./config.php')){
-            throw new Error();
+            throw new BadRequest();
         }
 
         
@@ -54,13 +53,15 @@ class Installer {
 
 
         
-        // if config.php does not exist, create it
-        writeConfig($payload);
+       
 
         // if config.php exists, throw error (Supposed to be created by writeConfig)
-        if(!file_exists('./config.php')){
-            throw new Error();
+        if(file_exists('./config.php')){
+            throw new BadRequest();
         }
+
+        // if config.php does not exist, create it
+        writeConfig($payload);
 
         // include config.php (To be able to use the define variables)
         include("./config.php");

@@ -1,7 +1,8 @@
 import Component from "../../core/Component.js";
 import API from "../../core/Api.js";
-import Renderer from "../../core/Renderer.js";
-import Element from "../../core/Element.js";
+import DomRenderer from "../../core/DomRenderer.js";
+
+import { createElement } from "../../core/Element.js";
 
 import { Step0 } from "./forms/Step_0.js";
 import { Step1 } from "./forms/Step_1.js";
@@ -58,7 +59,7 @@ export class Installer extends Component {
   }
 
   setForm(payload) {
-    this.state.form = { ...this.state.form, ...payload };
+    this.setState({ form: { ...this.state.form, ...payload } });
   }
 
   redirectFromError() {
@@ -103,74 +104,49 @@ export class Installer extends Component {
         ],
       },
       [
-        createElement(
-          "div",
-          {
-            class: [
-              "container",
-              "d-flex",
-              "flex-column",
-              "w-50",
-              "border",
-              "rounded",
-              "border-2",
-              "p-5",
-            ],
-          },
-          [
-            createElement("form", {}, [
-              new Step0({ currentStep: this.state.currentStep }),
-              new Step1({
-                currentStep: this.state.currentStep,
-                form: this.state.form,
-                setForm: this.setForm.bind(this),
-                messages: this.state.messages,
-              }),
-              new Step2({
-                currentStep: this.state.currentStep,
-                form: this.state.form,
-                setForm: this.setForm.bind(this),
-                messages: this.state.messages,
-              }),
-              new Step3({
-                currentStep: this.state.currentStep,
-                form: this.state.form,
-                setForm: this.setForm.bind(this),
-                messages: this.state.messages,
-              }),
+        createElement("form", {}, [
+          createElement(Step0, {
+            currentStep: this.state.currentStep,
+          }),
+          createElement(Step1, {
+            currentStep: this.state.currentStep,
+            form: this.state.form,
+            setForm: this.setForm.bind(this),
+          }),
+          createElement(Step2, {
+            currentStep: this.state.currentStep,
+            form: this.state.form,
+            setForm: this.setForm.bind(this),
+          }),
+          createElement(Step3, {
+            currentStep: this.state.currentStep,
+            form: this.state.form,
+            setForm: this.setForm.bind(this),
+          }),
+          createElement(Step4, { currentStep: this.state.currentStep }),
 
-              new Step4({ currentStep: this.state.currentStep }),
-
-              createElement(
-                "div",
-                { class: ["d-flex", "justify-content-end"] },
-                [
-                  new Button({
-                    class: ["mr-2"],
-                    onClick: this.previousStep.bind(this),
-                    children: "Previous",
-                  }),
-                  new Button({
-                    onClick: this.nextStep.bind(this),
-                    children:
-                      this.state.currentStep < this.state.steps.length - 1
-                        ? "Next"
-                        : "Finish",
-                  }),
-                ]
-              ),
-            ]),
-          ]
-        ),
+          createElement("div", { class: ["d-flex", "justify-content-end"] }, [
+            createElement(Button, {
+              class: ["mr-2"],
+              onClick: this.previousStep.bind(this),
+              children: "Previous",
+            }),
+            createElement(Button, {
+              onClick: this.nextStep.bind(this),
+              children:
+                this.state.currentStep < this.state.steps.length - 1
+                  ? "Next"
+                  : "Finish",
+            }),
+          ]),
+        ]),
       ]
     );
   }
 }
 
-function createElement(tag, attributes, children) {
-  return new Element(tag, attributes, children);
+export function startInstaller() {
+  globalThis.createElement = createElement;
+  let component = new Installer();
+  DomRenderer.build(document.body, component);
 }
-globalThis.createElement = createElement;
-
-let component = new Installer();
-Renderer.execute(component, document.body);

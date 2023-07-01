@@ -10,7 +10,7 @@ export default class ArticleForm extends Component {
     this.state = {
       article: null,
       title: "",
-      content: "",
+      content: "<p>test</p>",
       description: "",
     };
   }
@@ -22,40 +22,41 @@ export default class ArticleForm extends Component {
   }
 
   async handleSubmit(e) {
-    let payload = {};
-    this.children.forEach((child) => {
-      if (child.props.name)
-        payload[child.props.name] = child.state?.value || null;
-    });
-
-    let api = new Api();
+    console.log(this.state);
+    /* let api = new Api();
     let response = await api.put("articles/" + this.state.article.id, payload);
     console.log(response);
-    this.setState(rpayloades);
+    this.setState(rpayloades); */
   }
 
   render() {
     return createElement("form", { class: ["form-article"] }, [
-      new Input({
+      createElement(Input, {
+        key: "title",
         name: "title",
         placeholder: "Title",
         value: this.state.title,
+        onChange: (e) => this.setState({ title: e.value }),
       }),
-      new Input({
+      createElement(Input, {
+        key: "description",
         type: "textarea",
         name: "description",
         placeholder: "Description",
         value: this.state.description,
+        onChange: (e) => this.setState({ description: e.value }),
       }),
-      new FilePicker({
+      createElement(FilePicker, {
         name: "image",
         id: "file",
         placeholder: "Choisir une image",
+        onChange: (e) => this.setState({ image: e.value }),
       }),
-      new WYSIWYG({
+      createElement(WYSIWYG, {
         name: "content",
+        value: this.state.content,
       }),
-      new Button({
+      createElement(Button, {
         color: "primary",
         onClick: (e) => this.handleSubmit(e),
         children: "Envoyer",

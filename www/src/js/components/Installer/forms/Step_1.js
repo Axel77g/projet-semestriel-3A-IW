@@ -23,8 +23,10 @@ export class Step1 extends Component {
           { class: ["mb-3", "text-center"] },
           "Database informations. Step 1/4"
         ),
+
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_name_database",
             name: "input_name_database",
             placeholder: "Database name",
             value: this.props.form.input_name_database,
@@ -35,7 +37,8 @@ export class Step1 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_username_database",
             name: "input_username_database",
             placeholder: "Username",
             value: this.props.form.input_username_database,
@@ -45,8 +48,10 @@ export class Step1 extends Component {
             },
           }),
         ]),
+
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_password_database",
             name: "input_password_database",
             placeholder: "Password",
             type: "password",
@@ -59,7 +64,8 @@ export class Step1 extends Component {
         ]),
 
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_host_database",
             name: "input_host_database",
             placeholder: "Host",
             value: this.props.form.input_host_database,
@@ -70,7 +76,8 @@ export class Step1 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_port_database",
             name: "input_port_database",
             placeholder: "Port",
             value: this.props.form.input_port_database,
@@ -81,7 +88,8 @@ export class Step1 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_table_prefix_database",
             name: "input_table_prefix_database",
             placeholder: "Table prefix",
             value: this.props.form.input_table_prefix_database,
