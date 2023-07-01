@@ -24,7 +24,8 @@ export class Step2 extends Component {
           "Site informations. Step 2/4"
         ),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_name_site",
             name: "input_name_site",
             placeholder: "Site name",
             value: this.props.form.input_name_site,
@@ -34,7 +35,8 @@ export class Step2 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_firstname_site",
             name: "input_firstname_site",
             placeholder: "Firstname",
             value: this.props.form.input_firstname_site,
@@ -44,7 +46,8 @@ export class Step2 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_lastname_site",
             name: "input_lastname_site",
             placeholder: "Lastname",
             value: this.props.form.input_lastname_site,
@@ -54,7 +57,8 @@ export class Step2 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_password_site",
             name: "input_password_site",
             type: "password",
             placeholder: "Password",
@@ -65,7 +69,8 @@ export class Step2 extends Component {
           }),
         ]),
         createElement("div", { class: ["mb-3"] }, [
-          new Input({
+          createElement(Input, {
+            key: "input_email_site",
             name: "input_email_site",
             placeholder: "Email",
             value: this.props.form.input_email_site,

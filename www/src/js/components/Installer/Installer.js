@@ -10,7 +10,6 @@ import { Step2 } from "./forms/Step_2.js";
 import { Step3 } from "./forms/Step_3.js";
 import { Step4 } from "./forms/Step_4.js";
 import Button from "../ui/Button.js";
-import Input from "../ui/Input.js";
 
 export class Installer extends Component {
   init() {
