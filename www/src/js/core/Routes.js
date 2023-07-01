@@ -14,7 +14,7 @@ export default [
     component: Home,
   },
   {
-    path: "/article/:slug/edit",
+    path: "/article/edit/:slug",
     component: ArticleForm,
   },
   {

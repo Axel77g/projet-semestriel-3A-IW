@@ -214,3 +214,11 @@ Route::post('/api/install', [
     "controller" => "Installer",
     "action" => "create",
 ]);
+
+// Sitemap Routes ---------------------------------------------------------------
+
+Route::get('/sitemap.xml', [
+    "controller" => "Sitemap",
+    "action" => "index",
+]);
+
