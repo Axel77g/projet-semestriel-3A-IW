@@ -32,7 +32,7 @@ class Request{
 
     public function getHeaders(){
         if($this->headers == null){
-            $this->headers = getallheaders();
+            $this->headers = array_change_key_case(getallheaders(), CASE_LOWER);
         }
         return $this->headers;
     }
@@ -47,8 +47,8 @@ class Request{
 
     public function auth(){
         $headers = $this->getHeaders();
-        if(isset($headers['Authorization'])){
-            $token = $headers['Authorization'];
+        if(isset($headers['authorization'])){
+            $token = $headers['authorization'];
             return Auth::get($token);
         }
         return null;

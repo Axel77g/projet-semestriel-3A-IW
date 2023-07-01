@@ -77,11 +77,7 @@ class User extends Model{
         $this->role = $role;
     }
 
-    public function role() {
-        return Role::fetch(["id"=>$this->role]);
-    }
-
-    public function hasRole(Role $role) {    
+    public function hasRole(string $role) {    
         return $this->role == $role;
     }
 

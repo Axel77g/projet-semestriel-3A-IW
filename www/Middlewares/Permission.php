@@ -20,7 +20,7 @@ class Permission extends Middleware{
         $hasPerms = false;
         
         foreach($this->permissions as $permission){
-            $hasPerms = $user->hasRole(Role::fetch(["name"=>$permission]));
+            $hasPerms = $user->hasRole($permission);
             if($hasPerms) {
                 break;
             };

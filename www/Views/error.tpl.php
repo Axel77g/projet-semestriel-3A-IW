@@ -19,7 +19,14 @@
             <?= $code ?>
         </h1>
         <h2>
+
+      
+        <?php if(is_array($message)): ?>
+                <?php dump($message) ?>
+        <?php else: ?>
             <?= $message ?>
+        <?php endif; ?>
+
         </h2>
 
         <a href="/">

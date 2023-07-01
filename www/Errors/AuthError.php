@@ -5,8 +5,8 @@ use App\Errors\HTTPError;
 
 class Unauthorized extends HTTPError{
     
-    protected $code = 404;
-    protected $message = 'Not Found';
+    protected $code = 401;
+    protected $message = 'Unauthorized';
 }
 
 class WrongPassword extends HTTPError{   
