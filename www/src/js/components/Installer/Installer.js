@@ -20,7 +20,7 @@ export class Installer extends Component {
         input_lastname_site: "",
         input_password_site: "",
         input_email_site: "",
-        input_name_database: "input_name_database",
+        input_name_database: "",
         input_port_database: "",
         input_username_database: "",
         input_password_database: "",
@@ -213,7 +213,8 @@ export class Installer extends Component {
   }
 }
 
-globalThis.createElement = createElement;
-
-let component = new Installer();
-DomRenderer.build(document.body, component);
+export function startInstaller() {
+  globalThis.createElement = createElement;
+  let component = new Installer();
+  DomRenderer.build(document.body, component);
+}
