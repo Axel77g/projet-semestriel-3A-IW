@@ -15,6 +15,9 @@ class UploadService{
         $fileModel->setMime($file["type"]);
         $fileModel->setSize($file["size"]);
     
+        if(!file_exists("uploads")){
+            mkdir("uploads");
+        }
         move_uploaded_file($file["tmp_name"], $fileModel->getPath());
 
         $fileModel->setUserId($user->id);
