@@ -12,7 +12,7 @@ export default class Component {
     this.key = props?.key || this.__proto__.constructor.name;
     Component.component_last_id += 1;
     this.init();
-    console.log("New Component", this.name, this.id, "created", this);
+    //console.log("New Component", this.name, this.id, "created", this);
   }
 
   redefine(props = {}, state = {}, parent = null) {

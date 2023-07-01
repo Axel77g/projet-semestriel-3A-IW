@@ -184,10 +184,12 @@ export default class DomRenderer {
       }
     }
 
-    for (let i = oldChildren.length; i < newChildren.length; i++) {
-      const newChild = newChildren[i];
-      const newChildClone = newChild.cloneNode(true);
-      oldElement.appendChild(newChildClone);
+    for (let i = 0; i < newChildren.length; i++) {
+      if (oldChildren[i].tagName != newChildren[i].tagName) {
+        const newChild = newChildren[i];
+
+        oldElement.appendChild(newChild);
+      }
     }
 
     // Compare le texte des éléments
