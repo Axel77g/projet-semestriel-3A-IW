@@ -153,7 +153,7 @@ function writeInitialDatabase($prefix){
         firstname VARCHAR(100) NOT NULL,
         lastname VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
-        password VARCHAR(100) NOT NULL,
+        password VARCHAR(255) NOT NULL,
         is_verified BOOLEAN DEFAULT FALSE,
         verification_code VARCHAR(255),
         reset_code INTEGER,

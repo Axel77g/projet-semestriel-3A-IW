@@ -82,7 +82,7 @@ export class Installer extends Component {
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
       if (!response.success) {
-        this.setState({ messages: JSON.parse(response.messages) });
+        this.setState({ messages: response.message });
         this.redirectFromError();
       } else {
         window.location.href = "/";
