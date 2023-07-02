@@ -2,7 +2,7 @@ export default class Api {
   header = new Headers({
     "Content-Type": "application/json",
     Accept: "application/json",
-    Authorization: "Bearer " + localStorage.getItem("token"),
+    Authorization: localStorage.getItem("authorization"),
   });
 
   baseUrl = "http://" + window.location.hostname + ":8080/";
@@ -13,8 +13,16 @@ export default class Api {
       headers: this.header,
       ...options,
     })
-      .then((res) => res.json())
-      .catch((err) => err);
+      .then((res) => {
+        if (res.status === 401) {
+          localStorage.removeItem("authorization");
+          window.location.href = "/login";
+        }
+        return res.json();
+      })
+      .catch((err) => {
+        return err;
+      });
   }
 
   post(url, data, options = {}) {
@@ -24,8 +32,16 @@ export default class Api {
       body: JSON.stringify(data),
       ...options,
     })
-      .then((res) => res.json())
-      .catch((err) => err);
+      .then((res) => {
+        if (res.status === 401) {
+          localStorage.removeItem("authorization");
+          window.location.href = "/login";
+        }
+        return res.json();
+      })
+      .catch((err) => {
+        return err;
+      });
   }
 
   put(url, data, options = {}) {
@@ -35,8 +51,16 @@ export default class Api {
       body: JSON.stringify(data),
       ...options,
     })
-      .then((res) => res.json())
-      .catch((err) => err);
+      .then((res) => {
+        if (res.status === 401) {
+          localStorage.removeItem("authorization");
+          window.location.href = "/login";
+        }
+        return res.json();
+      })
+      .catch((err) => {
+        return err;
+      });
   }
 
   delete(url, options = {}) {
@@ -45,7 +69,15 @@ export default class Api {
       headers: this.header,
       ...options,
     })
-      .then((res) => res.json())
-      .catch((err) => err);
+      .then((res) => {
+        if (res.status === 401) {
+          localStorage.removeItem("authorization");
+          window.location.href = "/login";
+        }
+        return res.json();
+      })
+      .catch((err) => {
+        return err;
+      });
   }
 }
