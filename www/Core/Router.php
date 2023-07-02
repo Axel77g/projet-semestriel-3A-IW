@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use App\Errors\RouteNotFound;
+use App\Errors\MethodNotAllowed;
 use App\Utils\Singleton;
 
 class Router extends Singleton{
@@ -20,7 +20,10 @@ class Router extends Singleton{
                 return $route;
             }
         }
-        return $viewRoute;
+        if($viewRoute == null)
+            throw new MethodNotAllowed();
+        else
+            return $viewRoute;
     }
 
     function addRoute(Route $route){

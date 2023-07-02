@@ -222,3 +222,22 @@ Route::get('/sitemap.xml', [
     "action" => "index",
 ]);
 
+
+// Upload Routes ---------------------------------------------------------------
+
+Route::post('/api/upload', [
+    "controller" => "Upload",
+    "action" => "store",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::delete('/api/upload/{id}', [
+    "controller" => "Upload",
+    "action" => "delete",
+    "middlewares" => [
+        "Auth"
+    ]
+]);

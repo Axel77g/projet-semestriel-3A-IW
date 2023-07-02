@@ -16,7 +16,7 @@ class HTTPError extends Exception
 
         $request = request()->getHeaders();
 
-        if(isset($request['Accept']) && $request['Accept'] == 'application/json'){
+        if(isset($request['accept']) && $request['accept'] == 'application/json'){
             header('Content-Type: application/json');
             echo json_encode(["code" => $this->code, "message" => $this->message]);
             return;
@@ -40,4 +40,9 @@ class InternalError extends HTTPError{
 class BadRequest extends HTTPError{
     protected $code = 400;
     protected $message;
+}
+
+class MethodNotAllowed extends HTTPError{
+    protected $code = 405;
+    protected $message = 'Method Not Allowed';
 }
