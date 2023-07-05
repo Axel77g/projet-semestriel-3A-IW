@@ -38,7 +38,7 @@ class Menu extends Model {
     /*
     * Setters
     */
-    public function setParentId(int $parent_id): void {
+    public function setParentId(?int $parent_id = null): void {
         $this->parent_id = $parent_id;
     }   
 

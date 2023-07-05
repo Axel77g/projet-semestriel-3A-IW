@@ -34,7 +34,7 @@ export default class ArticleForm extends Component {
       createElement(Input, {
         key: "title",
         name: "title",
-        placeholder: "Title",
+        placeholder: "Titre de l'article",
         value: this.state.title,
         onChange: (e) => this.setState({ title: e.value }),
       }),

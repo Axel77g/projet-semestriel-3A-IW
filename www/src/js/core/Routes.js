@@ -11,6 +11,7 @@ import ArticleForm from "../components/articles/ArticleForm.js";
 import AboutUs from "../components/AboutUs/AboutUs.js";
 import PageEdit from "../pages/Backoffice/PageEdit.js";
 import MenuList from "../pages/menus/MenuList.js";
+import MenuForm from "../components/menus/MenuForm.js";
 
 export default [
   {
@@ -60,5 +61,13 @@ export default [
   {
     path: "/menus",
     component: MenuList,
+  },
+  {
+    path: "/menu/create",
+    component: MenuForm,
+  },
+  {
+    path: "/menu/edit/:id",
+    component: MenuForm,
   },
 ];

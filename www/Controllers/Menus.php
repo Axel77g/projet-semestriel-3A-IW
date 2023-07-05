@@ -7,6 +7,10 @@ use App\Core\Controller;
 use App\Errors\HTTPError;
 use App\Errors\NotFoundError;
 
+// Validators
+use App\Core\Validator;
+use App\Errors\ValidatorError;
+
 class Menus extends Controller{
 
     function index() {
@@ -21,25 +25,39 @@ class Menus extends Controller{
 
         $payload = request()->json();
 
+        $validator = new Validator();
+
+        $validator->validate($payload, [
+            "title" => "required",
+            "url" => "required",
+            "position" => "numeric",
+            "visible" => "required"
+        ]);
+
+        if($validator->hasErrors()) {
+            throw new ValidatorError($validator->getErrors());
+        }
+
         $menu = new Menu();
 
         $menu->setTitle($payload['title']); 
         $menu->setUrl($payload['url']);
-
-        if(!empty($payload['parent_id'])) {
-            $menu->setParentId($payload['parent_id']);
-        }
-
-        if(!Menu::exists(['title' => $menu->title])) {
-            $menu->save();
-        } else {
-            throw new HTTPError('Title already exist', 400);
-        }
+        $menu->setPosition($payload['position']);
+        $menu->setVisible($payload['visible']);
 
         $menu->save();
 
         return $menu;
 
+    }
+
+    public function show($params) {
+
+        $menu = Menu::fetch($params['id']);
+
+        if(!$menu) throw new NotFoundError();
+
+        return $menu;
 
     }
 
@@ -51,12 +69,6 @@ class Menus extends Controller{
         
         if(!$menu) throw new NotFoundError();
         
-        if(!Menu::exists(['title' => $payload['title']])) {
-            $menu->setTitle($payload['title']);
-        } else {
-            throw new HTTPError('Title already exist', 400);
-        }
-
         $menu->set($payload);
         
         $menu->save();

@@ -229,13 +229,13 @@ Route::get('/api/menus', [
 Route::get('/api/menu/{id}', [
     "controller" => "Menus",
     "action" => "show",
-    "middlewares" => [
-        "Auth",
-        "Permission:admin"
-    ]
+    // "middlewares" => [
+    //     "Auth",
+    //     "Permission:admin"
+    // ]
 ]);
 
-Route::post('/api/menus', [
+Route::post('/api/menu', [
     "controller" => "Menus",
     "action" => "create",
     "middlewares" => [

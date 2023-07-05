@@ -35,7 +35,10 @@ export default class Menu extends Component {
               "a",
               {
                 class: ["dropdown-item"],
-                href: "#",
+                onclick: (e) => {
+                  e.preventDefault();
+                  router.push(menu.url);
+                },
               },
               menu.title
             );
@@ -48,8 +51,11 @@ export default class Menu extends Component {
       createElement(
         "a",
         {
-          class: ["nav-link"],
-          href: "#",
+          class: ["dropdown-item"],
+          onclick: (e) => {
+            e.preventDefault();
+            router.push(this.state.menu.url);
+          },
         },
         this.state.menu.title
       ),

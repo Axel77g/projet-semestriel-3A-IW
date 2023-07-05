@@ -55,26 +55,13 @@ export default class HomeHeader extends Component {
                 .map((menu) => {
                   return createElement(Menu, {
                     menu: menu,
+                    key: menu.id,
                     menuChildren: this.state.menus.filter(
                       (menuChild) => menuChild.parent_id == menu.id
                     ),
                   });
                 })
             ),
-            // createElement("ul", { class: ["navbar-nav", "ml-auto"] }, [
-            //   createElement(
-            //     "li",
-            //     { class: ["nav-item"] },
-            //     createElement(
-            //       Button,
-            //       {
-            //         class: ["btn", "btn-outline-light"],
-            //         href: "#",
-            //       },
-            //       "Connexion"
-            //     )
-            //   ),
-            // ]),
           ]
         ),
         // createElement(
