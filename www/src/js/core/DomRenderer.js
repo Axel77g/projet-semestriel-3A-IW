@@ -189,7 +189,7 @@ export default class DomRenderer {
     }
 
     for (let i = 0; i < newChildren.length; i++) {
-      if (oldChildren[i].tagName != newChildren[i].tagName) {
+      if (oldChildren[i]?.tagName != newChildren[i].tagName) {
         const newChild = newChildren[i];
 
         oldElement.appendChild(newChild);

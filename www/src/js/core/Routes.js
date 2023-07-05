@@ -8,6 +8,7 @@ import ForgotPassword from "../pages/ResetPassword/ForgotPassword.js";
 import ChangePassword from "../pages/ResetPassword/ChangePassword.js";
 import ArticleForm from "../components/articles/ArticleForm.js";
 import AboutUs from "../components/AboutUs/AboutUs.js";
+import PageEdit from "../pages/Backoffice/PageEdit.js";
 
 export default [
   {
@@ -21,6 +22,10 @@ export default [
   {
     path: "/article/:slug",
     component: Article,
+  },
+  {
+    path: "/pages/edit/:slug",
+    component: PageEdit,
   },
   {
     path: "/articles",
