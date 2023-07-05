@@ -1,7 +1,7 @@
 import Component from "../core/Component.js";
 import Button from "./ui/Button.js";
 
-export class ArticlesCard extends Component {
+export default class ArticlesCard extends Component {
   render() {
     let article = this.props.article;
     return createElement("div", { class: ["col-3", "mt-2", "mb-4"] }, [
@@ -16,7 +16,7 @@ export class ArticlesCard extends Component {
           createElement(
             "h6",
             { class: ["card-title"] },
-            "Auteur de l'article : " + article.author.firstname
+            "Auteur de l'article : " + article.author.name
           ),
           createElement("p", { class: ["card-text"] }, article.description),
           createElement(Button, {
