@@ -45,6 +45,8 @@ export default class PageEdit extends Component {
   }
   handleSubmit(e) {
     console.log("submit");
+    console.log(this);
+    console.log(e);
   }
   render() {
     return createElement(
@@ -63,11 +65,13 @@ export default class PageEdit extends Component {
           placeholder: "Template de page",
           onChange: this.handleChange.bind(this),
         }),
+        createElement("div", {}, [
+          createElement(Button, {
+            onClick: this.handleSubmit.bind(this),
+            children: "Enregistrer",
+          }),
+        ]),
         this.editComponent ? createElement(this.editComponent, {}) : null,
-        createElement(Button, {
-          onClick: this.handleSubmit.bind(this),
-          children: "Enregistrer",
-        }),
       ].filter(Boolean)
     );
   }

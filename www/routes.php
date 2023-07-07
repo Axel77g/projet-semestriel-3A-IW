@@ -231,7 +231,7 @@ Route::post('/api/upload', [
     "middlewares" => [
         "Auth",
         "Permission:admin"
-    ]
+    ] 
 ]);
 
 Route::delete('/api/upload/{id}', [

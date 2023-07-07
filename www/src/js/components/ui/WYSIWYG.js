@@ -4,7 +4,7 @@ import { createElement } from "../../core/Element.js";
 export default class WYSIWYG extends Component {
   init() {
     this.state = {
-      value: this.state.value ?? "<p>test</p>",
+      value: this.state.value ?? this.props.value ?? "",
     };
     this.onUpdate();
   }
@@ -92,6 +92,7 @@ export default class WYSIWYG extends Component {
 
   render() {
     return createElement("div", { id: "editor-container" }, [
+      createElement("label", {}, this.props.placeholder),
       createElement(
         "div",
         {
