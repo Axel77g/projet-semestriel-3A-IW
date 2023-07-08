@@ -9,6 +9,7 @@ import ChangePassword from "../pages/ResetPassword/ChangePassword.js";
 import ArticleForm from "../components/articles/ArticleForm.js";
 import AboutUs from "../components/AboutUs/AboutUs.js";
 import PageEdit from "../pages/Backoffice/PageEdit.js";
+import Page_404 from "../pages/Page_404/Page_404.js";
 
 export default [
   {
@@ -54,5 +55,9 @@ export default [
   {
     path: "/about-us",
     component: AboutUs,
+  },
+  {
+    path: "/404",
+    component: Page_404,
   },
 ];
