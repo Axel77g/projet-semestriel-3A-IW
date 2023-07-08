@@ -89,6 +89,7 @@ export default class DomRenderer {
 
   static getDOM(obj) {
     const element = document.createElement(obj.tag);
+
     if (obj.attributes) {
       for (const attr in obj.attributes) {
         if (attr.startsWith("on")) {
@@ -138,7 +139,6 @@ export default class DomRenderer {
     }
 
     // Compare les attributs des éléments
-
     const oldAttrs = oldElement.attributes || {};
     const newAttrs = newElement.attributes || {};
 

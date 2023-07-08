@@ -22,7 +22,7 @@ export class Article extends Component {
   }
 
   render() {
-    if(!this.state.article) return createElement("div", {}, "Chargement...");
+    if (!this.state.article) return createElement("div", {}, "Chargement...");
     return createElement("div", { class: ["container-fluid", "mt-4"] }, [
       createElement("h1", {}, this.state.article.title),
       createElement("p", {}, this.state.article.content),

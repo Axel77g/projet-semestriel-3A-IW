@@ -45,6 +45,8 @@ class QueryBuilder {
     public function update($payload = null){
         if($payload == null)
             $payload = $this->model->getColumns();
+        
+       
     
         $payload = array_intersect_key($payload, array_flip($this->model->getColumnsNames()));
         $base = "UPDATE $this->table SET";
@@ -53,11 +55,13 @@ class QueryBuilder {
             $base .= " $key = :$key,";
         }
         $base = rtrim($base,",");
-        $this->query = $base;
 
+        $this->query = $base;
+        
         //concatenate payload
 
         $this->execPayload = array_merge($this->execPayload, $payload);
+        
         return $this;
     }
 

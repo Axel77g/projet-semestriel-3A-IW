@@ -13,12 +13,13 @@ class StringHelpers{
         return lcfirst(str_replace('_', '', ucwords($string, '_')));
     }
 
-    static public function slugify($string)
-    {
-        $string = strtolower($string);
-        $string = preg_replace('/[^a-z0-9 -]+/', '', $string);
-        $string = preg_replace('/\s+/', '-', $string);
-        return $string;
+    static function slugify($string) {
+
+        $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
+        $slug = strtolower($slug);
+        $slug = trim($slug, '-');
+        
+        return $slug;
     }
     
 }

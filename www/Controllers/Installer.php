@@ -8,7 +8,7 @@ use App\Errors\BadRequest;
 use App\Models\User;
 use App\Errors\UserAlreadyExists;
 use App\Errors\ValidatorError;
-;
+
 
 class Installer {
 
@@ -40,8 +40,6 @@ class Installer {
             "input_lastname_site" => "required",
             "input_email_site" => "required|email",
             "input_password_site" => "required|minLength:8|maxLength:50",
-
-
         ]);
 
         // if validation fails, throw error

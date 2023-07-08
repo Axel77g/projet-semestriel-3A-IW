@@ -72,6 +72,14 @@ class User extends Model{
         return $this->password;
     }
 
+    public function getName(){
+        return $this->firstname;
+    }
+
+    public function getSurname(){
+        return $this->lastname;
+    }
+
     public function setRole(String $role){
         
         $this->role = $role;
