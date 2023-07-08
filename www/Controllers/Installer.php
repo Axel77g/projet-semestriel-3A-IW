@@ -8,7 +8,7 @@ use App\Errors\BadRequest;
 use App\Models\User;
 use App\Errors\UserAlreadyExists;
 use App\Errors\ValidatorError;
-;
+
 
 class Installer {
 
@@ -40,8 +40,6 @@ class Installer {
             "input_lastname_site" => "required",
             "input_email_site" => "required|email",
             "input_password_site" => "required|minLength:8|maxLength:50",
-
-
         ]);
 
         // if validation fails, throw error
@@ -174,8 +172,8 @@ function writeInitialDatabase($prefix){
         image varchar(255) NOT NULL,
         views int NOT NULL DEFAULT 0,
         likes int NOT NULL DEFAULT 0,
-        created_at TIMESTAMP NOT NULL,
-        updated_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         PRIMARY KEY (id),
         FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE
     );
@@ -224,6 +222,22 @@ function writeInitialDatabase($prefix){
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         FOREIGN KEY (user_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
+    );
+
+    -- Menu
+
+    DROP TABLE IF EXISTS " . $prefix . "menu;
+
+    CREATE TABLE " . $prefix . "menu (
+        id SERIAL PRIMARY KEY,
+        parent_id INT NULL DEFAULT 0,
+        title VARCHAR(255) NOT NULL,
+        url VARCHAR(255) NOT NULL,
+        visible SMALLINT NOT NULL DEFAULT 1,
+        position INT NOT NULL DEFAULT 0,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        CONSTRAINT fk_" . $prefix . "menu_parent_id FOREIGN KEY (parent_id) REFERENCES " . $prefix . "menu(id) ON DELETE CASCADE
     );
     ");
     fclose($myfile);

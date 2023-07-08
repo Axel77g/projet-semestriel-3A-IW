@@ -13,7 +13,6 @@ export default class Component {
     Component.component_last_id += 1;
     this.init();
     this.onMounted();
-    //console.log("New Component", this.name, this.id, "created", this);
   }
 
   redefine(props = {}, state = {}, parent = null) {

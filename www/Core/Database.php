@@ -32,10 +32,8 @@ class Database{
     }
 
     public function connect(){
-        //create a PDO connection
         try {
             $this->connection = new \PDO($this->getConnectionString(), $this->getCredentials()['username'], $this->getCredentials()['password']);
-            //code...
         } catch (\Exception $th) {
             throw new DatabaseConnectionError();
         }

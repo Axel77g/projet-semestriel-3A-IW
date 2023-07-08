@@ -2,7 +2,7 @@ import Api from "../core/Api.js";
 
 // Components
 import Component from "../core/Component.js";
-import { ArticlesCard } from "../components/ArticleCard.js";
+import ArticlesCard from "../components/ArticleCard.js";
 
 export class ArticlesList extends Component {
   init() {
