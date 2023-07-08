@@ -29,6 +29,7 @@ export default class MenuFormCreate extends Component {
 
   async handleSubmit(e) {
     let api = new Api();
+
     let payload = {
       title: this.state.title,
       parent_id: this.state.parent_id,
@@ -45,14 +46,11 @@ export default class MenuFormCreate extends Component {
       response = await api.post("api/menu", payload);
     }
 
-    if (response.code != 200) {
-      this.setState({
-        messages: response.message,
-      });
-      return;
+    if (response.status === 200) {
+      router.push("menus");
+    } else {
+      this.setState({ messages: response.data });
     }
-
-    router.push("/menus");
   }
 
   render() {

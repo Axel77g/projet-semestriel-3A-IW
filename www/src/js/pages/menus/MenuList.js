@@ -27,12 +27,21 @@ export default class MenuList extends Component {
   render() {
     if (this.state.menus.length === 0) {
       return createElement("div", { class: ["container-fluid", "mt-4"] }, [
-        createElement("p", {}, "Loading"),
+        createElement("h1", {}, "Liste de tous les menus"),
+        createElement("p", {}, "Aucun menu trouvé"),
+        createElement(Button, {
+          class: ["btn", "btn-primary", "mb-4"],
+          onClick: () => {
+            router.push("menu/create");
+          },
+          children: "Créer un menu",
+        }),
       ]);
     }
 
     return createElement("div", { class: ["container-fluid", "mt-4"] }, [
       createElement("h1", {}, "Liste de tous les menus"),
+
       // Create the grid row
       createElement("div", { class: ["row"] }, [
         // Create the grid column
