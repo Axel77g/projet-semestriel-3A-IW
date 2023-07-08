@@ -57,7 +57,7 @@ export default class Router {
       }
     }
     if (target == null) {
-      target = Routes.find((r) => r.path == "/");
+      target = Routes.find((r) => r.path == "/404");
     }
 
     this.route = {
