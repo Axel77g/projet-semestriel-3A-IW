@@ -63,26 +63,6 @@ export default class HomeHeader extends Component {
             ),
           ]
         ),
-        // createElement(
-        //   "div",
-        //   { class: ["collapse", "navbar-collapse"], id: "navbarNavDropdown" },
-        //   [
-        //     createElement(
-        //       "ul",
-        //       { class: ["navbar-nav"] },
-        //       this.state.menus
-        //         .filter((menu) => menu.parent_id == null)
-        //         .map((menu) => {
-        //           return createElement(Menu, {
-        //             menu: menu,
-        //             menuChildren: this.state.menus.filter(
-        //               (menuChild) => menuChild.parent_id == menu.id
-        //             ),
-        //           });
-        //         })
-        //     ),
-        //   ]
-        // ),
       ]
     );
   }
