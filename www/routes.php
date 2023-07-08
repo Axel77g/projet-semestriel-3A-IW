@@ -8,17 +8,17 @@ Route::get('/api/articles', [
 ]);
 
 
-Route::get("/",[
+Route::get("/", [
     "controller" => "Main",
     "action" => "index",
 ]);
 
-Route::get("/contact",[
+Route::get("/contact", [
     "controller" => "Main",
     "action" => "contact"
 ]);
 
-Route::get("/admin",[
+Route::get("/admin", [
     "controller" => "Users",
     "action" => "index",
     "middlewares" => [
@@ -28,57 +28,73 @@ Route::get("/admin",[
 ]);
 
 // Comments Routes ---------------------------------------------------------------
-Route::get("/api/comments",[
+Route::get("/api/comments", [
     "controller" => "Comments",
-    "action" => "index"
+    "action" => "index",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
-Route::get("/api/comments/{id}",[
+Route::get("/api/comments/{id}", [
     "controller" => "Comments",
-    "action" => "show"
+    "action" => "show",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
-Route::post("/api/comments",[
+Route::post("/api/comments", [
     "controller" => "Comments",
-    "action" => "create"
+    "action" => "create",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
-Route::put("/api/comments/{id}",[
+Route::put("/api/comments/{id}", [
     "controller" => "Comments",
-    "action" => "update"
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+        // "Permission:admin"
+    ]
 ]);
 
-Route::delete("/api/comments/{id}",[
+Route::delete("/api/comments/{id}", [
     "controller" => "Comments",
     "action" => "delete"
 ]);
 
-Route::post("/api/login",[
+// Auth Routes ---------------------------------------------------------------
+Route::post("/api/login", [
     "controller" => "Auth",
     "action" => "login"
 ]);
 
-Route::post("/api/register",[
+Route::post("/api/register", [
     "controller" => "Auth",
     "action" => "register"
 ]);
 
-Route::get("/verify",[
+Route::get("/verify", [
     "controller" => "Auth",
     "action" => "verify"
 ]);
 
-Route::post("/api/forgot-password",[
-    "controller" => "Auth", 
+Route::post("/api/forgot-password", [
+    "controller" => "Auth",
     "action" => "forgotPassword"
 ]);
 
-Route::post("/api/update-password",[
+Route::post("/api/update-password", [
     "controller" => "Auth",
     "action" => "updatePassword",
 ]);
 
-Route::get("/users/me",[
+
+// Users Routes ---------------------------------------------------------------
+Route::get("/users/me", [
     "controller" => "Users",
     "action" => "me",
     "middlewares" => [
@@ -86,7 +102,7 @@ Route::get("/users/me",[
     ]
 ]);
 
-Route::get("/api/users/{id}",[
+Route::get("/api/users/{id}", [
     "controller" => "Users",
     "action" => "show",
     "middlewares" => [
@@ -94,7 +110,7 @@ Route::get("/api/users/{id}",[
     ]
 ]);
 
-Route::put("/users/{id}",[
+Route::put("/users/{id}", [
     "controller" => "Users",
     "action" => "update",
     "middlewares" => [
@@ -103,12 +119,12 @@ Route::put("/users/{id}",[
 ]);
 
 
-Route::post("/api/users",[
+Route::post("/api/users", [
     "controller" => "Users",
     "action" => "register"
 ]);
 
-Route::delete('/api/users/{id}',[
+Route::delete('/api/users/{id}', [
     "controller" => "Users",
     "action" => "destroy",
     "middlewares" => [
@@ -168,7 +184,8 @@ Route::delete('/api/article/{id}', [
     "controller" => "Articles",
     "action" => "delete",
     "middlewares" => [
-        "Auth"
+        "Auth",
+        // "Permission:admin"
     ]
 ]);
 

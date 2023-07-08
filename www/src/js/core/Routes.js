@@ -13,11 +13,17 @@ import PageEdit from "../pages/Backoffice/PageEdit.js";
 import MenuList from "../pages/menus/MenuList.js";
 import MenuForm from "../components/menus/MenuForm.js";
 import Page_404 from "../pages/Page_404/Page_404.js";
+import CommentCard from "../components/comments/CommentCard.js";
+import CommentsList from "../components/comments/CommentsList.js";
 
 export default [
   {
     path: "/",
     component: Home,
+  },
+  {
+    path: "/articles",
+    component: ArticlesList,
   },
   {
     path: "/article/edit/:slug",
@@ -30,10 +36,6 @@ export default [
   {
     path: "/pages/edit/:slug",
     component: PageEdit,
-  },
-  {
-    path: "/articles",
-    component: ArticlesList,
   },
   {
     path: "/login",
@@ -74,5 +76,9 @@ export default [
   {
     path: "/404",
     component: Page_404,
+  },
+  {
+    path: "/comments",
+    component: CommentsList,
   },
 ];
