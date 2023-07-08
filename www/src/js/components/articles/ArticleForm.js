@@ -22,10 +22,8 @@ export default class ArticleForm extends Component {
   }
 
   async handleSubmit(e) {
-    console.log(this.state);
     /* let api = new Api();
     let response = await api.put("articles/" + this.state.article.id, payload);
-    console.log(response);
     this.setState(rpayloades); */
   }
 
@@ -34,7 +32,7 @@ export default class ArticleForm extends Component {
       createElement(Input, {
         key: "title",
         name: "title",
-        placeholder: "Title",
+        placeholder: "Titre de l'article",
         value: this.state.title,
         onChange: (e) => this.setState({ title: e.value }),
       }),

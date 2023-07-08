@@ -33,7 +33,6 @@ export default class WYSIWYG extends Component {
         script.src = "https://cdn.quilljs.com/1.1.9/quill.js";
         document.head.appendChild(script);
         script.onload = () => {
-          console.log("loaded script");
           resolve();
         };
       } else {
@@ -53,7 +52,6 @@ export default class WYSIWYG extends Component {
         link.rel = "stylesheet";
         document.head.appendChild(link);
         link.onload = () => {
-          console.log("loaded style");
           resolve();
         };
       } else resolve();

@@ -1,6 +1,7 @@
-import { Article } from "../pages/Article.js";
 import { ArticlesList } from "../pages/ArticlesList.js";
+import { Article } from "../pages/Article.js";
 import { Installer } from "../components/Installer/Installer.js";
+
 import Home from "../components/Home.js";
 import Login from "../pages/Login/Login.js";
 import Register from "../pages/Register/Register.js";
@@ -9,6 +10,9 @@ import ChangePassword from "../pages/ResetPassword/ChangePassword.js";
 import ArticleForm from "../components/articles/ArticleForm.js";
 import AboutUs from "../components/AboutUs/AboutUs.js";
 import PageEdit from "../pages/Backoffice/PageEdit.js";
+import MenuList from "../pages/menus/MenuList.js";
+import MenuForm from "../components/menus/MenuForm.js";
+import Page_404 from "../pages/Page_404/Page_404.js";
 
 export default [
   {
@@ -54,5 +58,21 @@ export default [
   {
     path: "/about-us",
     component: AboutUs,
+  },
+  {
+    path: "/menus",
+    component: MenuList,
+  },
+  {
+    path: "/menu/create",
+    component: MenuForm,
+  },
+  {
+    path: "/menu/edit/:id",
+    component: MenuForm,
+  },
+  {
+    path: "/404",
+    component: Page_404,
   },
 ];

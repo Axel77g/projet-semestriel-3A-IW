@@ -28,19 +28,15 @@ export default class Input extends Component {
         this.state.value ?? ""
       );
     } else {
-      return createElement(
-        "input",
-        {
-          type: this.props.type ?? "text",
-          name: this.props.name,
-          class: ["form-control"],
-          id: this.props.name,
-          placeholder: this.props.placeholder,
-          value: this.props.value ?? "",
-          onchange: this.handleChange.bind(this),
-        },
-        []
-      );
+      return createElement("input", {
+        type: this.props.type ?? "text",
+        name: this.props.name,
+        class: ["form-control"],
+        id: this.props.name,
+        placeholder: this.props.placeholder,
+        value: this.props.value ?? "",
+        onchange: this.handleChange.bind(this),
+      });
     }
   }
 

@@ -143,7 +143,6 @@ Route::delete('/api/roles/{id}', [
 ]);
 
 // Articles Routes ----------------------------------------------
-
 Route::get('/api/article/{slug}', [
     "controller" => "Articles",
     "action" => "show",
@@ -157,7 +156,7 @@ Route::post('/api/articles', [
     ]
 ]);
 
-Route::put('/api/articles/{id}', [
+Route::put('/api/article/{id}', [
     "controller" => "Articles",
     "action" => "update",
     "middlewares" => [
@@ -165,7 +164,7 @@ Route::put('/api/articles/{id}', [
     ]
 ]);
 
-Route::delete('/api/articles/{id}', [
+Route::delete('/api/article/{id}', [
     "controller" => "Articles",
     "action" => "delete",
     "middlewares" => [
@@ -208,11 +207,56 @@ Route::delete('/api/article-comments/{id}', [
     ]
 ]);
 
-// Installer Routes ---------------------------------------------------------------
+// Menus Routes ---------------------------------------------------------------
+Route::get('/api/menus', [
+    "controller" => "Menus",
+    "action" => "index",
+    // "middlewares" => [
+    //     "Auth",
+    // ]
+]);
 
-Route::post('/api/install', [
-    "controller" => "Installer",
+// Route::get('/api/nav', [
+//     "controller" => "Menus",
+//     "action " => "getNav",
+//     "middlewares" => [
+//         "Auth",
+//         "Permission:admin"
+//     ]
+// ]);
+
+
+Route::get('/api/menu/{id}', [
+    "controller" => "Menus",
+    "action" => "show",
+    // "middlewares" => [
+    //     "Auth",
+    //     "Permission:admin"
+    // ]
+]);
+
+Route::post('/api/menu', [
+    "controller" => "Menus",
     "action" => "create",
+    "middlewares" => [
+        "Auth"
+    ]
+]);
+
+Route::put('/api/menu/{id}', [
+    "controller" => "Menus",
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+    ]
+]);
+
+Route::delete('/api/menu/{id}', [
+    "controller" => "Menus",
+    "action" => "delete",
+    "middlewares" => [
+        "Auth"
+    ]
 ]);
 
 // Sitemap Routes ---------------------------------------------------------------

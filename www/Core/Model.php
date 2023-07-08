@@ -18,6 +18,7 @@ abstract class Model implements Sanitize{
     public function save(){
         $query = $this->query();
         if($this->id > 0){
+            
             $query->update()->where(["id"=>$this->id])->execute();
             return $this;
         }else{
@@ -38,6 +39,11 @@ abstract class Model implements Sanitize{
         return $result->fetch();
     }
 
+    public static function exists($params){
+        
+        return (boolean) self::fetch($params);
+    }
+
     public static function all(){
         $class = get_called_class();
         $model = new $class();
@@ -49,7 +55,9 @@ abstract class Model implements Sanitize{
     
     public function destroy() {
         $query = $this->query();
-        $query->delete()->where(["id" => $this->id])->execute();
+        
+        return $query->delete()->where(["id" => $this->id])->execute();
+        
     }
 
     public function getTable(){
@@ -111,6 +119,23 @@ abstract class Model implements Sanitize{
     public function getId() {
         return $this->id;
     }
+
+    public function getCreatedAt() {
+        return $this->created_at;
+    }
+
+    public function getUpdatedAt() {
+        return $this->updated_at;
+    }
+
+    public function setCreatedAt($created_at) {
+        $this->created_at = $created_at;
+    }
+
+    public function setUpdatedAt($updated_at) {
+        $this->updated_at = $updated_at;
+    }
+
 }
 
 
