@@ -15,7 +15,7 @@ export default class DomRenderer {
     DomRenderer.root = component;
 
     let structure = DomRenderer.getStrucutre(component);
-    console.log("Builded Struture", structure);
+    // console.log("Builded Struture", structure);
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.last_dom_rendered = dom;
     domParent.appendChild(DomRenderer.last_dom_rendered);
@@ -26,11 +26,11 @@ export default class DomRenderer {
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.compareAndModifyDOM(DomRenderer.last_dom_rendered, dom);
     DomRenderer.root.propagate("Rerender");
-    console.log(
-      "Updated Struture",
-      DomRenderer.last_dom_rendered,
-      DomRenderer.root
-    );
+    // console.log(
+    //   "Updated Struture",
+    //   DomRenderer.last_dom_rendered,
+    //   DomRenderer.root
+    // );
   }
 
   static getStrucutre(component) {

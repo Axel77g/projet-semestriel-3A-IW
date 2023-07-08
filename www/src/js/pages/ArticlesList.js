@@ -24,8 +24,6 @@ export class ArticlesList extends Component {
   }
 
   render() {
-    console.log(this.state.articles);
-
     if (this.state.articles.length === 0)
       return createElement("div", { class: ["container-fluid", "mt-4"] }, [
         createElement("p", {}, "Loading"),

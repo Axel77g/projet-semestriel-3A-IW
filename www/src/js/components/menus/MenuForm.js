@@ -24,7 +24,6 @@ export default class MenuFormCreate extends Component {
     let api = new Api();
     let menu = await api.get("api/menu/" + router.route.params.id);
     this.setState({ ...menu });
-    console.log(menu);
   }
 
   async handleSubmit(e) {

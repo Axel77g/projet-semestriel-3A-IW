@@ -24,7 +24,6 @@ export default class HomeHeader extends Component {
   }
 
   render() {
-    console.log(this.state.menus);
     return createElement(
       "nav",
       { class: ["navbar", "navbar-expand-lg", "navbar-light", "bg-light"] },

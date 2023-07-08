@@ -22,7 +22,6 @@ export default class ArticlesCard extends Component {
           createElement(Button, {
             class: ["btn", "btn-primary"],
             onClick: () => {
-              console.log("ici clicked");
               router.push("/article/" + article.slug);
             },
             children: "Lire l'article",

@@ -14,7 +14,6 @@ export class Article extends Component {
   fetchArticle() {
     let api = new Api();
     api.get("api/article/" + router.route.params.slug).then((response) => {
-      console.log("Slug", router.route.params.slug);
       this.setState({
         article: response,
       });
