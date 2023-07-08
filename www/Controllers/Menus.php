@@ -34,10 +34,6 @@ class Menus extends Controller{
             "visible" => "required"
         ]);
 
-        if($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
-
         $menu = new Menu();
 
         $menu->setTitle($payload['title']); 
