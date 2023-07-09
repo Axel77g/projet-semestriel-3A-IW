@@ -185,7 +185,7 @@ Route::delete('/api/article/{id}', [
     "action" => "delete",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
+        "Permission:admin"
     ]
 ]);
 
