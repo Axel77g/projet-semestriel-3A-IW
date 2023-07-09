@@ -18,9 +18,18 @@ Route::get("/contact", [
     "action" => "contact"
 ]);
 
-Route::get("/admin", [
+// Route::get("/admin", [
+//     "controller" => "Users",
+//     "action" => "index",
+//     "middlewares" => [
+//         "Auth",
+//         "Permission:admin"
+//     ]
+// ]);
+
+Route::get("/api/isAdmin", [
     "controller" => "Users",
-    "action" => "index",
+    "action" => "isAdmin",
     "middlewares" => [
         "Auth",
         "Permission:admin"

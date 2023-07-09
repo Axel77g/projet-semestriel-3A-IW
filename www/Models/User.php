@@ -85,6 +85,10 @@ class User extends Model{
         $this->role = $role;
     }
 
+    public function getRole(){
+        return $this->role;
+    }
+
     public function hasRole(string $role) {    
         return $this->role == $role;
     }

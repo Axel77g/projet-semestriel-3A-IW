@@ -27,6 +27,7 @@ class Auth extends Controller
 
         $token = AuthServices::generateToken($user);
         echo json_encode([
+            "role"=> $user->getRole(),
             "success"=> true,
             "token"=> $token
         ]);
