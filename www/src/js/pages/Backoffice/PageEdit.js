@@ -38,14 +38,11 @@ export default class PageEdit extends Component {
   }
 
   handleChange(e) {
-    console.log(e);
     this.setState({
       [e.name]: e.value,
     });
   }
-  handleSubmit(e) {
-    console.log("submit");
-  }
+  handleSubmit(e) {}
   render() {
     return createElement(
       "div",

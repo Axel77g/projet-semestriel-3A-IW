@@ -72,11 +72,11 @@ class User extends Model{
         return $this->password;
     }
 
-    public function getName(){
+    public function getFirstname(){
         return $this->firstname;
     }
 
-    public function getSurname(){
+    public function getLastname(){
         return $this->lastname;
     }
 

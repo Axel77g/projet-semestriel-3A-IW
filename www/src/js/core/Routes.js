@@ -12,6 +12,7 @@ import AboutUs from "../components/AboutUs/AboutUs.js";
 import PageEdit from "../pages/Backoffice/PageEdit.js";
 import MenuList from "../pages/menus/MenuList.js";
 import MenuForm from "../components/menus/MenuForm.js";
+import Page_404 from "../pages/Page_404/Page_404.js";
 
 export default [
   {
@@ -69,5 +70,9 @@ export default [
   {
     path: "/menu/edit/:id",
     component: MenuForm,
+  },
+  {
+    path: "/404",
+    component: Page_404,
   },
 ];
