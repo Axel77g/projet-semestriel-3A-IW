@@ -22,9 +22,9 @@ export default class ArticleForm extends Component {
   }
 
   async handleSubmit(e) {
-    /* let api = new Api();
+    let api = new Api();
     let response = await api.put("articles/" + this.state.article.id, payload);
-    this.setState(rpayloades); */
+    this.setState(payloades);
   }
 
   render() {
