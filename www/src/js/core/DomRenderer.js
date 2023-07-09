@@ -127,7 +127,13 @@ export default class DomRenderer {
       const textNode = document.createTextNode(obj.children);
       element.appendChild(textNode);
     }
+
+    if (obj.attributes?.html) {
+      element.innerHTML = obj.attributes.html;
+    }
+
     obj.domElement = element;
+
     return element;
   }
 

@@ -1,6 +1,9 @@
 import DomRenderer from "./DomRenderer.js";
 import Routes from "./Routes.js";
 
+import Api from "./Api.js";
+import { PageView } from "../pages/PageView.js";
+
 export default class Router {
   constructor() {
     this.routes = [];
@@ -19,14 +22,13 @@ export default class Router {
     window.dispatchEvent(new Event("routeChange"));
   }
 
-  refresh() {
+  async refresh() {
     document.body.innerHTML = "";
     if (this.lastRendered != null) {
       this.lastRendered.destroy();
     }
 
-    const pathname = window.location.pathname;
-    let route = Routes.find((r) => r.path == pathname);
+    const pathname = window.location.pathname.replace(/\/$/, "");
     let params = {};
     let pass = false;
     let target = null;
@@ -57,7 +59,20 @@ export default class Router {
       }
     }
     if (target == null) {
-      target = Routes.find((r) => r.path == "/404");
+      const api = new Api();
+
+      const page = await api.post("api/pages/resolve", {
+        path: pathname,
+      });
+
+      if (page === null) {
+        target = Routes.find((r) => r.path == "/404");
+      } else {
+        target = {
+          page: page,
+          component: PageView,
+        };
+      }
     }
 
     this.route = {

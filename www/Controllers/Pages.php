@@ -130,4 +130,35 @@ class Pages extends Controller
 
         return $page;
     }
+
+    public function resolvePath()
+    {
+
+        $payload = request()->json();
+
+        $validator = new Validator([
+            "path" => "required"
+        ]);
+
+        if ($validator->hasErrors()) {
+            throw new ValidatorError($validator->getErrors());
+        }
+
+        $pages = Page::all()->toArray();
+
+        $page = null;
+
+        foreach ($pages as $p) {
+            if ($p->getPath() == $payload['path']) {
+                $page = $p;
+                break;
+            }
+        }
+
+        if (!$page) {
+            throw new NotFoundError();
+        }
+
+        return $page;
+    }
 }

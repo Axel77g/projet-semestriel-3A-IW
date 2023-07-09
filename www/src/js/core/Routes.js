@@ -16,7 +16,7 @@ import Page_404 from "../pages/Page_404/Page_404.js";
 
 export default [
   {
-    path: "/",
+    path: "",
     component: Home,
   },
   {

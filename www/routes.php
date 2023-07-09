@@ -274,7 +274,7 @@ Route::post('/api/pages', [
     "action" => "create",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
+        "Permission:admin"
     ]
 ]);
 
@@ -283,7 +283,7 @@ Route::put('/api/pages/{id}', [
     "action" => "update",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
+        "Permission:admin"
     ]
 ]);
 
@@ -321,4 +321,11 @@ Route::delete('/api/upload/{id}', [
     "middlewares" => [
         "Auth"
     ]
+]);
+
+// Template Routes ---------------------------------------------------------------
+
+Route::post('/api/pages/resolve', [
+    "controller" => "Pages",
+    "action" => "resolvePath"
 ]);

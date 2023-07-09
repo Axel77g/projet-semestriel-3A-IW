@@ -10,7 +10,7 @@ class Page extends Model
 {
 
     public int $author_id;
-    protected string $parent_slug = "";
+    protected ?string $parent_slug = "";
     public string $slug = "";
     protected string $title = "";
     protected string $template = "";
@@ -46,12 +46,12 @@ class Page extends Model
 
     public function setTemplate($str)
     {
-        $this->template = $str;
+        $this->template = strtolower($str);
     }
 
-    public function setContent($str)
+    public function setContent(array $array)
     {
-        $this->content = $str;
+        $this->content = json_encode($array);
     }
 
     /*
@@ -88,8 +88,27 @@ class Page extends Model
         return $this->template;
     }
 
-    public function getContent()
+    public function getContent(): array
     {
-        return $this->content;
+        return json_decode($this->content);
+    }
+
+    public function getParent()
+    {
+        return Page::fetch([
+            "slug" => $this->parent_slug
+        ]);
+    }
+
+    public function getPath()
+    {
+
+        $parent = $this->getParent();
+
+        if ($parent) {
+            return $parent->getPath() . "/" . $this->slug;
+        } else {
+            return "/" . $this->slug;
+        }
     }
 }
