@@ -92,7 +92,6 @@ Route::post("/api/update-password", [
     "action" => "updatePassword",
 ]);
 
-
 // Users Routes ---------------------------------------------------------------
 Route::get("/users/me", [
     "controller" => "Users",
@@ -233,14 +232,6 @@ Route::get('/api/menus', [
     // ]
 ]);
 
-// Route::get('/api/nav', [
-//     "controller" => "Menus",
-//     "action " => "getNav",
-//     "middlewares" => [
-//         "Auth",
-//         "Permission:admin"
-//     ]
-// ]);
 
 
 Route::get('/api/menu/{id}', [
@@ -273,6 +264,51 @@ Route::delete('/api/menu/{id}', [
     "action" => "delete",
     "middlewares" => [
         "Auth"
+    ]
+]);
+
+// Route::get('/api/nav', [
+//     "controller" => "Menus",
+//     "action " => "getNav",
+//     "middlewares" => [
+//         "Auth",
+//         "Permission:admin"
+//     ]
+// ]);
+// Pages Routes ---------------------------------------------------------------
+Route::get('/api/pages', [
+    "controller" => "Pages",
+    "action" => "index",
+    "middlewares" => [
+        "Auth",
+        // "Permission:admin"
+    ]
+]);
+
+Route::post('/api/pages', [
+    "controller" => "Pages",
+    "action" => "create",
+    "middlewares" => [
+        "Auth",
+        // "Permission:admin"
+    ]
+]);
+
+Route::put('/api/pages/{id}', [
+    "controller" => "Pages",
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+        // "Permission:admin"
+    ]
+]);
+
+Route::delete('/api/pages/{id}', [
+    "controller" => "Pages",
+    "action" => "delete",
+    "middlewares" => [
+        "Auth",
+        // "Permission:admin"
     ]
 ]);
 

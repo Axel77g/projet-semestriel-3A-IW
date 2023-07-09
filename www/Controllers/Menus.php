@@ -2,13 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Models\Menu;
+// Core
+use App\Core\Validator;
 use App\Core\Controller;
-use App\Errors\HTTPError;
-use App\Errors\NotFoundError;
+
+// Models
+use App\Models\Menu;
 
 // Validators
-use App\Core\Validator;
+use App\Errors\HTTPError;
+use App\Errors\NotFoundError;
 use App\Errors\ValidatorError;
 
 class Menus extends Controller
@@ -32,7 +35,6 @@ class Menus extends Controller
             "title" => "required",
             "url" => "required",
             "position" => "numeric",
-            "visible" => "required"
         ]);
 
         if ($validator->hasErrors()) {
@@ -45,6 +47,10 @@ class Menus extends Controller
         $menu->setUrl($payload['url']);
         $menu->setPosition($payload['position']);
         $menu->setVisible($payload['visible']);
+
+        // if (!Menu::fetch(["title" => $payload['title']])) {
+        //     throw new HTTPError(409, "Menu already exists");
+        // }
 
         $menu->save();
 

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use App\Core\Model;
 
-class Menu extends Model {
+class Menu extends Model
+{
 
     protected ?int $parent_id = null;
     public string $title = "";
@@ -15,48 +16,56 @@ class Menu extends Model {
     /*
     * Getters
     */
-    public function getParentId(): int {
+    public function getParentId(): int
+    {
         return $this->parent_id;
     }
 
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
 
-    public function getUrl(): string {
+    public function getUrl(): string
+    {
         return $this->url;
     }
 
-    public function getPosition(): int {
+    public function getPosition(): int
+    {
         return $this->position;
     }
 
-    public function getVisible(): int {
+    public function getVisible(): int
+    {
         return $this->visible;
     }
 
     /*
     * Setters
     */
-    public function setParentId(?int $parent_id = null): void {
+    public function setParentId(?int $parent_id = null): void
+    {
         $this->parent_id = $parent_id;
-    }   
+    }
 
-    public function setTitle(string $title): void {
+    public function setTitle(string $title): void
+    {
         $this->title = $title;
     }
 
-    public function setUrl(string $url): void {
-        $this->url = $url;
+    public function setUrl(string $url): void
+    {
+        $this->url = "/$url";
     }
 
-    public function setVisible(int $visible): void {
+    public function setVisible(int $visible): void
+    {
         $this->visible = $visible;
     }
 
-    public function setPosition(int $position): void {
+    public function setPosition(int $position): void
+    {
         $this->position = $position;
     }
-    
-
 }
