@@ -51,7 +51,7 @@ class Page extends Model
 
     public function setContent($str)
     {
-        $this->content = $str;
+        $this->content = json_encode($str);
     }
 
     /*
@@ -90,6 +90,6 @@ class Page extends Model
 
     public function getContent()
     {
-        return $this->content;
+        return json_decode($this->content);
     }
 }

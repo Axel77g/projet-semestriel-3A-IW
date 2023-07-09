@@ -4,7 +4,8 @@ import Component from "../../core/Component.js";
 export default class FilePicker extends Component {
   init() {
     this.state = {
-      value: null,
+      file: null,
+      value: this?.props?.value || null,
     };
   }
 
@@ -21,14 +22,16 @@ export default class FilePicker extends Component {
     bodyContent.append("test", file);
 
     let response = await api.post("api/upload", bodyContent);
-    console.log(response);
+
+    if (response) {
+      this.setState({ value: response });
+    }
     //api.post("api/upload", formData);
   }
 
   handleChange(e) {
-    console.log("change in file picker", e);
     this.uploadFile(e.target.files[0]);
-    this.setState({ value: e.target.files[0] });
+    this.setState({ file: e.target.files[0] });
   }
 
   render() {
@@ -47,7 +50,7 @@ export default class FilePicker extends Component {
           "label",
           { class: ["custom-file-label"], for: this.props.id },
           this.state.value
-            ? this.state.value.name
+            ? this.state.file.name
             : this.props.placeholder || "Choisir un fichier"
         ),
       ]),

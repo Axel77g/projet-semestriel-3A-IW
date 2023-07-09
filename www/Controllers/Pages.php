@@ -44,9 +44,7 @@ class Pages extends Controller
         $validator = new Validator();
 
         $validator->validate($payload, [
-            "author_id" => "required",
             "parent_slug" => "required",
-            "slug" => "required",
             "title" => "required",
             "template" => "required",
             "content" => "required"
@@ -56,12 +54,12 @@ class Pages extends Controller
             throw new ValidatorError($validator->getErrors());
         }
 
-
+        $authUser = request()->auth()->user();
         $page = new Page();
 
-        $page->setAuthorId($payload['author_id']);
+        $page->setAuthorId($authUser->id);
         $page->setParentSlug($payload['parent_slug']);
-        $page->setSlug($payload['slug']);
+        $page->setSlug($payload['title']);
         $page->setTitle($payload['title']);
         $page->setTemplate($payload['template']);
         $page->setContent($payload['content']);
@@ -84,7 +82,7 @@ class Pages extends Controller
         $payload = request()->json();
 
         $page = Page::fetch([
-            "id" => $params['id']
+            "slug" => $params['slug']
         ]);
 
         if (!$page) {
@@ -94,9 +92,7 @@ class Pages extends Controller
         $validator = new Validator();
 
         $validator->validate($payload, [
-            "author_id" => "required",
             "parent_slug" => "required",
-            "slug" => "required",
             "title" => "required",
             "template" => "required",
             "content" => "required"
