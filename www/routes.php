@@ -251,22 +251,12 @@ Route::delete('/api/menu/{id}', [
     ]
 ]);
 
-// Route::get('/api/nav', [
-//     "controller" => "Menus",
-//     "action " => "getNav",
-//     "middlewares" => [
-//         "Auth",
-//         "Permission:admin"
-//     ]
-// ]);
 // Pages Routes ---------------------------------------------------------------
 Route::get('/api/pages', [
     "controller" => "Pages",
     "action" => "index",
     "middlewares" => [
-        "Auth",
-        // "Permission:admin"
-    ]
+        "Auth",    ]
 ]);
 
 Route::post('/api/pages', [
@@ -274,16 +264,23 @@ Route::post('/api/pages', [
     "action" => "create",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
     ]
 ]);
 
-Route::put('/api/pages/{id}', [
+Route::get('/api/pages/{slug}', [
+    "controller" => "Pages",
+    "action" => "show",
+    "middlewares" => [
+        "Auth",
+    ]
+]);
+
+
+Route::put('/api/pages/{slug}', [
     "controller" => "Pages",
     "action" => "update",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
     ]
 ]);
 
@@ -292,7 +289,6 @@ Route::delete('/api/pages/{id}', [
     "action" => "delete",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
     ]
 ]);
 
@@ -312,7 +308,7 @@ Route::post('/api/upload', [
     "middlewares" => [
         "Auth",
         "Permission:admin"
-    ]
+    ] 
 ]);
 
 Route::delete('/api/upload/{id}', [
@@ -321,4 +317,13 @@ Route::delete('/api/upload/{id}', [
     "middlewares" => [
         "Auth"
     ]
+]);
+
+
+// Installer Routes ---------------------------------------------------------------
+
+
+Route::post('/api/install', [
+    "controller" => "Installer",
+    "action" => "create",
 ]);
