@@ -15,6 +15,7 @@ class Page extends Model
     protected string $title = "";
     protected string $template = "";
     protected string $content = "";
+    protected int $is_commentable = 0;
 
     /*
     *   Setters
@@ -54,6 +55,11 @@ class Page extends Model
         $this->content = json_encode($array);
     }
 
+    public function setIsCommentable(bool $bool)
+    {
+        $this->is_commentable = (int) $bool;
+    }
+
     /*
     *   Getters
     */
@@ -90,6 +96,11 @@ class Page extends Model
 
     public function getContent() : array
     {
-        return json_decode($this->content);
+        return json_decode($this->content,true);
+    }
+
+    public function getIsCommentable() : bool
+    {
+        return (bool) $this->is_commentable;
     }
 }
