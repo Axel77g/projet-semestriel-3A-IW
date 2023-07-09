@@ -64,8 +64,8 @@ export default class WYSIWYG extends Component {
   }
 
   onRerender() {
-    const container = document.querySelector("#editor-container");
-    this.quill = new Quill(container.querySelector("#editor"), {
+    const container = document.querySelector("#editor-container-" + this.key);
+    this.quill = new Quill(container.querySelector("#editor-" + this.key), {
       modules: {
         toolbar: [
           ["bold", "italic"],
@@ -75,6 +75,11 @@ export default class WYSIWYG extends Component {
       placeholder: this.props.placeholder || "Écrivez ici...",
       theme: "snow",
     });
+
+    let toolbars = container.querySelectorAll(".ql-toolbar");
+    if (toolbars.length > 1) {
+      toolbars[0].remove();
+    }
 
     this.quill.root.innerHTML = this.state.value;
 
@@ -89,15 +94,11 @@ export default class WYSIWYG extends Component {
   }
 
   render() {
-    return createElement("div", { id: "editor-container" }, [
-      createElement("label", {}, this.props.placeholder),
-      createElement(
-        "div",
-        {
-          id: "editor",
-        },
-        [createElement("div", { id: "toolbar" }, [])]
-      ),
+    return createElement("div", { id: "editor-container-" + this.key }, [
+      createElement("label", { class: ["form-label"] }, this.props.placeholder),
+      createElement("div", {
+        id: "editor-" + this.key,
+      }),
     ]);
   }
 }

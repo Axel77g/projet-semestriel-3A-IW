@@ -25,6 +25,12 @@ class Upload extends Controller
         $results = [];
 
         foreach($_FILES as $file){
+            if(!isset($file["tmp_name"])){
+                throw new BadRequest("The file cannot be uploaded, check the file size");
+            }
+        }
+       
+        foreach($_FILES as $file){
             $results[] = UploadService::saveFile($file, $authUser);
         }
         return new Collection($results);

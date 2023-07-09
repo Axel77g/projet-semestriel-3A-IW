@@ -13,13 +13,15 @@
     
     <title>Front Template</title>
 
+    <script src="/src/assets/jquery.js"></script>
+    <script src="/src/assets/bootstrap/js/bootstrap.min.js" ></script>
+
+
 </head>
 
 <body>
     <?php include $this->view; ?>
 </body>
 
-<script src="/src/assets/jquery.js"></script>
-<script src="/src/assets/bootstrap/js/bootstrap.min.js" ></script>
 
 </html>

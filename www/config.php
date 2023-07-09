@@ -11,12 +11,12 @@ define("DB_HOST", "database");
 define("DB_NAME", "esgi");
 define("DB_USERNAME","esgi");
 define("DB_PASSWORD","Test1234");
-define("DB_PREFIX","frw");
+define("DB_PREFIX","frw_");
 
 define("APP_KEY", "SALT");
 
 
-define("SMTP_HOST", "zeofoejf");
-define("SMTP_PORT", 2132435);
-define("SMTP_USERNAME", "eezfpojefok");
-define("SMTP_PASSWORD", "zokpkzef");
+define("SMTP_HOST", "axel");
+define("SMTP_PORT", 1234);
+define("SMTP_USERNAME", "axel");
+define("SMTP_PASSWORD", "axle");

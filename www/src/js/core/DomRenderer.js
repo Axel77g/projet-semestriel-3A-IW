@@ -15,7 +15,6 @@ export default class DomRenderer {
     DomRenderer.root = component;
 
     let structure = DomRenderer.getStrucutre(component);
-    // console.log("Builded Struture", structure);
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.last_dom_rendered = dom;
     domParent.appendChild(DomRenderer.last_dom_rendered);
@@ -171,7 +170,6 @@ export default class DomRenderer {
     for (let i = oldChildren.length - 1; i >= 0; i--) {
       const oldChild = oldChildren[i];
       const newChild = newChildren[i];
-
       if (newChild) {
         if (
           oldChild.nodeType === Node.TEXT_NODE &&
@@ -191,12 +189,10 @@ export default class DomRenderer {
     for (let i = 0; i < newChildren.length; i++) {
       if (oldChildren[i]?.tagName != newChildren[i].tagName) {
         const newChild = newChildren[i];
-
+        const newChildClone = newChild.cloneNode(true);
+        newChild.parentNode.replaceChild(newChildClone, newChild);
         oldElement.appendChild(newChild);
       }
     }
-
-    // Compare le texte des éléments
-    /*   */
   }
 }

@@ -267,7 +267,7 @@ Route::post('/api/pages', [
     ]
 ]);
 
-Route::put('/api/pages/{slug}', [
+Route::get('/api/pages/{slug}', [
     "controller" => "Pages",
     "action" => "show",
     "middlewares" => [
@@ -317,4 +317,13 @@ Route::delete('/api/upload/{id}', [
     "middlewares" => [
         "Auth"
     ]
+]);
+
+
+// Installer Routes ---------------------------------------------------------------
+
+
+Route::post('/api/install', [
+    "controller" => "Installer",
+    "action" => "create",
 ]);

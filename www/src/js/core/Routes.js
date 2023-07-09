@@ -1,5 +1,4 @@
-import { ArticlesList } from "../pages/ArticlesList.js";
-import { Article } from "../pages/Article.js";
+import { Article } from "../legacy/Article.js";
 import { Installer } from "../components/Installer/Installer.js";
 
 import Home from "../components/Home.js";
@@ -7,34 +6,21 @@ import Login from "../pages/Login/Login.js";
 import Register from "../pages/Register/Register.js";
 import ForgotPassword from "../pages/ResetPassword/ForgotPassword.js";
 import ChangePassword from "../pages/ResetPassword/ChangePassword.js";
-import ArticleForm from "../components/articles/ArticleForm.js";
+
 import AboutUs from "../components/AboutUs/AboutUs.js";
 import PageEdit from "../pages/Backoffice/PageEdit.js";
-import MenuList from "../pages/menus/MenuList.js";
-import MenuForm from "../components/menus/MenuForm.js";
+import MenuList from "../pages/Backoffice/MenuList.js";
+import MenuEdit from "../pages/Backoffice/MenuEdit.js";
 import Page_404 from "../pages/Page_404/Page_404.js";
+import PageList from "../pages/Backoffice/PageList.js";
 
 export default [
   {
     path: "/",
     component: Home,
   },
-  {
-    path: "/article/edit/:slug",
-    component: ArticleForm,
-  },
-  {
-    path: "/article/:slug",
-    component: Article,
-  },
-  {
-    path: "/pages/edit/:slug",
-    component: PageEdit,
-  },
-  {
-    path: "/articles",
-    component: ArticlesList,
-  },
+
+  // Auth --------------
   {
     path: "/login",
     component: Login,
@@ -51,7 +37,53 @@ export default [
     path: "/change-password",
     component: ChangePassword,
   },
+
+  // BACKOFFICE -----------------------------------
   {
+    path: "/admin/pages",
+    component: PageList,
+  },
+  {
+    path: "/admin/pages/create",
+    component: PageEdit,
+  },
+  {
+    path: "/admin/pages/edit/:slug",
+    component: PageEdit,
+  },
+  {
+    path: "/admin/menus",
+    component: MenuList,
+  },
+  {
+    path: "/admin/menu/create",
+    component: MenuEdit,
+  },
+  {
+    path: "/admin/menu/edit/:id",
+    component: MenuEdit,
+  },
+
+  // Other --------------------------------------
+  {
+    path: "/404",
+    component: Page_404,
+  },
+
+  /* OLD */
+  /* {
+    path: "/article/edit/:slug",
+    component: ArticleForm,
+  }, 
+  {
+    path: "/article/:slug",
+    component: Article,
+  },
+     {
+    path: "/articles",
+    component: ArticlesList,
+  }, 
+    {
     path: "/installer",
     component: Installer,
   },
@@ -59,20 +91,5 @@ export default [
     path: "/about-us",
     component: AboutUs,
   },
-  {
-    path: "/menus",
-    component: MenuList,
-  },
-  {
-    path: "/menu/create",
-    component: MenuForm,
-  },
-  {
-    path: "/menu/edit/:id",
-    component: MenuForm,
-  },
-  {
-    path: "/404",
-    component: Page_404,
-  },
+  */
 ];

@@ -155,8 +155,8 @@ function writeInitialDatabase($prefix){
         is_verified BOOLEAN DEFAULT FALSE,
         verification_code VARCHAR(255),
         reset_code INTEGER,
-        created_at TIMESTAMP NOT NULL,
-        updated_at TIMESTAMP NOT NULL
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
     );
 
     -- ARTICLES
@@ -222,6 +222,24 @@ function writeInitialDatabase($prefix){
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         FOREIGN KEY (user_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
+    );
+
+    -- Pages
+
+    DROP TABLE IF EXISTS ". $prefix ."page;
+
+    CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
+
+    CREATE TABLE ". $prefix ."page(
+        id SERIAL PRIMARY KEY NOT NULL,
+        author_id INTEGER NOT NULL,
+        parent_slug VARCHAR(255),
+        slug VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        template TEMPLATE_PAGE NOT NULL,
+        content TEXT NOT NULL,
+
+        FOREIGN KEY (author_id) REFERENCES ". $prefix ."user(id) ON DELETE CASCADE
     );
 
     -- Menu

@@ -33,7 +33,10 @@ class Pages extends Controller
             throw new NotFoundError();
         }
 
-        return $page;
+        echo json_encode([
+            ...$page->toArray(),
+            "content"=> $page->getContent()
+        ]);
     }
 
     public function create()
@@ -44,7 +47,6 @@ class Pages extends Controller
         $validator = new Validator();
 
         $validator->validate($payload, [
-            "parent_slug" => "required",
             "title" => "required",
             "template" => "required",
             "content" => "required"
@@ -90,9 +92,7 @@ class Pages extends Controller
         }
 
         $validator = new Validator();
-
         $validator->validate($payload, [
-            "parent_slug" => "required",
             "title" => "required",
             "template" => "required",
             "content" => "required"
