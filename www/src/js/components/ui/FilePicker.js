@@ -7,19 +7,19 @@ export default class FilePicker extends Component {
   init() {
     this.state = {
       file: null,
-      value: this?.props?.value || null,
     };
   }
 
   async deleteFile() {
-    if (!this.state.value?.id) throw new Error("No file to delete");
+    if (!this.props.value?.id) throw new Error("No file to delete");
 
     const api = new Api();
 
-    const response = await api.delete("api/upload/" + this.state.value.id);
+    const response = await api.delete("api/upload/" + this.props.value.id);
     if (response) {
+      this.state = { file: null };
       if (this.props.onDelete) this.props.onDelete();
-      this.setState({ value: null, file: null });
+      if (this.props.onChange) this.props.onChange(null);
     } else {
       alert("Une erreur est survenue lors de la suppression du fichier");
     }
@@ -36,7 +36,6 @@ export default class FilePicker extends Component {
     let response = await api.post("api/upload", bodyContent);
 
     if (response) {
-      this.setState({ value: response[0] });
       if (this.props.onChange) this.props.onChange(response[0]);
     }
     //api.post("api/upload", formData);
@@ -56,7 +55,7 @@ export default class FilePicker extends Component {
 
           this.props.placeholder || "Choisir un fichier"
         ),
-        createElement("div", { class: ["justify-content-center", "d-flex"] }, [
+        !this.props.value?.id &&
           createElement("input", {
             type: "file",
             class: ["form-control"],
@@ -64,13 +63,21 @@ export default class FilePicker extends Component {
             id: this.props.id,
             onchange: this.handleChange.bind(this),
           }),
-          this.state.value &&
+        this.props.value?.id &&
+          createElement("div", { class: ["input-group"] }, [
+            createElement("input", {
+              type: "text",
+              class: ["form-control"],
+              value: this.props.value?.name || "",
+              disabled: true,
+            }),
+
             createElement(Button, {
-              class: ["btn-danger", "btn-sm", "mx-2"],
+              class: ["btn-danger"],
               onClick: this.deleteFile.bind(this),
               children: [createElement("i", { class: ["bi", "bi-trash"] })],
             }),
-        ]),
+          ]),
       ]),
     ]);
   }

@@ -28,12 +28,6 @@ export default class MenuList extends Component {
   }
 
   render() {
-    /* if (this.state.menus.length === 0) {
-      return createElement("div", { class: ["container-fluid", "mt-4"] }, [
-        createElement("p", {}, "Loading"),
-      ]);
-    } */
-    console.log("rendering menu list", this.state.menus);
     let child = createElement("div", {}, [
       createElement("div", { class: ["d-flex", "justify-content-between"] }, [
         createElement("h1", {}, "Liste des menus"),

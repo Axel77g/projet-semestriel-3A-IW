@@ -1,23 +1,16 @@
 import Component from "../../core/Component.js";
 
 export default class Switch extends Component {
-  init() {
-    this.state = {
-      checked: this.props.checked,
-    };
-  }
-
   handleChange(e) {
     if (this.props.onChange) {
       this.props.onChange({
         event: e,
-        checked: e.target.checked,
+        checked: Boolean(e.target.checked),
         name: this?.props?.name,
         type: this?.props?.type,
         id: this?.props?.id,
       });
     }
-    this.setState({ checked: e.target.checked });
   }
 
   render() {
@@ -27,7 +20,7 @@ export default class Switch extends Component {
         type: "checkbox",
         role: "switch",
         id: this.props.name,
-        checked: this.props.checked,
+        ...(this.props.checked ? { checked: true } : {}),
         onclick: (e) => {
           this.handleChange(e);
         },

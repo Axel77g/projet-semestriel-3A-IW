@@ -29,7 +29,7 @@ export default class Select extends Component {
             for: this.props.name,
             class: ["form-label"],
           },
-          this.props.placeholder
+          this.props?.label || this.props.placeholder
         ),
         createElement(
           "select",
