@@ -107,23 +107,30 @@ export class Installer extends Component {
         createElement("form", {}, [
           createElement(Step0, {
             currentStep: this.state.currentStep,
+            messages: this.state.messages,
           }),
           createElement(Step1, {
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
+            messages: this.state.messages,
           }),
           createElement(Step2, {
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
+            messages: this.state.messages,
           }),
           createElement(Step3, {
             currentStep: this.state.currentStep,
             form: this.state.form,
             setForm: this.setForm.bind(this),
+            messages: this.state.messages,
           }),
-          createElement(Step4, { currentStep: this.state.currentStep }),
+          createElement(Step4, {
+            currentStep: this.state.currentStep,
+            messages: this.state.messages,
+          }),
 
           createElement("div", { class: ["d-flex", "justify-content-end"] }, [
             createElement(Button, {

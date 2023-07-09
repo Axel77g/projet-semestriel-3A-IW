@@ -1,15 +1,14 @@
 import Component from "../core/Component.js";
-import HomeHeader from "./HomeHeader.js";
+import { createElement } from "../core/Element.js";
+import Header from "./global/Header.js";
 
 export default class Home extends Component {
   render() {
     return createElement("div", { class: ["home"] }, [
-      createElement(HomeHeader, {}),
-      createElement(
-        "button",
-        { onclick: () => router.push("/articles") },
-        "Articles"
-      ),
+      createElement(Header, {}),
+      createElement("div", { class: ["container-fluid", "mt-4"] }, [
+        createElement("h1", {}, "Bienvenue sur Faraway - Blog"),
+      ]),
     ]);
   }
 }

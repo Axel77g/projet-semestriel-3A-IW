@@ -9,8 +9,8 @@ CREATE TABLE frw_article (
     description TEXT NOT NULL,
     slug VARCHAR(255) NOT NULL,
     image VARCHAR(255),
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (author_id) REFERENCES frw_user(id) ON DELETE CASCADE, 
     FOREIGN KEY (comment_id) REFERENCES frw_comment(id) ON DELETE CASCADE
 );

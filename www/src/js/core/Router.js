@@ -6,6 +6,9 @@ export default class Router {
     this.routes = [];
     this.lastRendered = null;
     window.addEventListener("routeChange", this.refresh.bind(this));
+    window.addEventListener("popstate", () => {
+      this.refresh();
+    });
     this.route = null;
   }
 
@@ -25,14 +28,14 @@ export default class Router {
       this.lastRendered.destroy();
     }
 
-    const pathname = window.location.pathname;
-    let route = Routes.find((r) => r.path == pathname);
+    const pathname = window.location.pathname.replace(/\/$/, "");
     let params = {};
     let pass = false;
     let target = null;
     for (let route of Routes) {
       pass = false;
       params = {};
+      route.path = route.path.replace(/\/$/, "");
       let routePathnameSplited = route.path.split("/");
       let pathnameSplited = pathname.split("/");
       if (pathnameSplited.length != routePathnameSplited.length) continue;
@@ -57,7 +60,10 @@ export default class Router {
       }
     }
     if (target == null) {
-      target = Routes.find((r) => r.path == "/");
+      //demande api la page
+
+      //charge la route page view
+      target = Routes.find((r) => r.path == "/404");
     }
 
     this.route = {

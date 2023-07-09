@@ -15,7 +15,6 @@ export default class DomRenderer {
     DomRenderer.root = component;
 
     let structure = DomRenderer.getStrucutre(component);
-    console.log("Builded Struture", structure);
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.last_dom_rendered = dom;
     domParent.appendChild(DomRenderer.last_dom_rendered);
@@ -26,11 +25,11 @@ export default class DomRenderer {
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.compareAndModifyDOM(DomRenderer.last_dom_rendered, dom);
     DomRenderer.root.propagate("Rerender");
-    console.log(
-      "Updated Struture",
-      DomRenderer.last_dom_rendered,
-      DomRenderer.root
-    );
+    // console.log(
+    //   "Updated Struture",
+    //   DomRenderer.last_dom_rendered,
+    //   DomRenderer.root
+    // );
   }
 
   static getStrucutre(component) {
@@ -89,6 +88,7 @@ export default class DomRenderer {
 
   static getDOM(obj) {
     const element = document.createElement(obj.tag);
+
     if (obj.attributes) {
       for (const attr in obj.attributes) {
         if (attr.startsWith("on")) {
@@ -138,7 +138,6 @@ export default class DomRenderer {
     }
 
     // Compare les attributs des éléments
-
     const oldAttrs = oldElement.attributes || {};
     const newAttrs = newElement.attributes || {};
 
@@ -171,7 +170,6 @@ export default class DomRenderer {
     for (let i = oldChildren.length - 1; i >= 0; i--) {
       const oldChild = oldChildren[i];
       const newChild = newChildren[i];
-
       if (newChild) {
         if (
           oldChild.nodeType === Node.TEXT_NODE &&
@@ -189,14 +187,12 @@ export default class DomRenderer {
     }
 
     for (let i = 0; i < newChildren.length; i++) {
-      if (oldChildren[i].tagName != newChildren[i].tagName) {
+      if (oldChildren[i]?.tagName != newChildren[i].tagName) {
         const newChild = newChildren[i];
-
+        const newChildClone = newChild.cloneNode(true);
+        newChild.parentNode.replaceChild(newChildClone, newChild);
         oldElement.appendChild(newChild);
       }
     }
-
-    // Compare le texte des éléments
-    /*   */
   }
 }

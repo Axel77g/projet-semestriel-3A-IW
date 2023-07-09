@@ -14,7 +14,6 @@ export class Article extends Component {
   fetchArticle() {
     let api = new Api();
     api.get("api/article/" + router.route.params.slug).then((response) => {
-      console.log("Slug", router.route.params.slug);
       this.setState({
         article: response,
       });
@@ -22,7 +21,7 @@ export class Article extends Component {
   }
 
   render() {
-    if(!this.state.article) return createElement("div", {}, "Chargement...");
+    if (!this.state.article) return createElement("div", {}, "Chargement...");
     return createElement("div", { class: ["container-fluid", "mt-4"] }, [
       createElement("h1", {}, this.state.article.title),
       createElement("p", {}, this.state.article.content),

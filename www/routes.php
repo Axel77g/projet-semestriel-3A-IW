@@ -8,17 +8,17 @@ Route::get('/api/articles', [
 ]);
 
 
-Route::get("/",[
+Route::get("/", [
     "controller" => "Main",
     "action" => "index",
 ]);
 
-Route::get("/contact",[
+Route::get("/contact", [
     "controller" => "Main",
     "action" => "contact"
 ]);
 
-Route::get("/admin",[
+Route::get("/admin", [
     "controller" => "Users",
     "action" => "index",
     "middlewares" => [
@@ -28,57 +28,57 @@ Route::get("/admin",[
 ]);
 
 // Comments Routes ---------------------------------------------------------------
-Route::get("/api/comments",[
+Route::get("/api/comments", [
     "controller" => "Comments",
     "action" => "index"
 ]);
 
-Route::get("/api/comments/{id}",[
+Route::get("/api/comments/{id}", [
     "controller" => "Comments",
     "action" => "show"
 ]);
 
-Route::post("/api/comments",[
+Route::post("/api/comments", [
     "controller" => "Comments",
     "action" => "create"
 ]);
 
-Route::put("/api/comments/{id}",[
+Route::put("/api/comments/{id}", [
     "controller" => "Comments",
     "action" => "update"
 ]);
 
-Route::delete("/api/comments/{id}",[
+Route::delete("/api/comments/{id}", [
     "controller" => "Comments",
     "action" => "delete"
 ]);
 
-Route::post("/api/login",[
+Route::post("/api/login", [
     "controller" => "Auth",
     "action" => "login"
 ]);
 
-Route::post("/api/register",[
+Route::post("/api/register", [
     "controller" => "Auth",
     "action" => "register"
 ]);
 
-Route::get("/verify",[
+Route::get("/verify", [
     "controller" => "Auth",
     "action" => "verify"
 ]);
 
-Route::post("/api/forgot-password",[
-    "controller" => "Auth", 
+Route::post("/api/forgot-password", [
+    "controller" => "Auth",
     "action" => "forgotPassword"
 ]);
 
-Route::post("/api/update-password",[
+Route::post("/api/update-password", [
     "controller" => "Auth",
     "action" => "updatePassword",
 ]);
 
-Route::get("/users/me",[
+Route::get("/users/me", [
     "controller" => "Users",
     "action" => "me",
     "middlewares" => [
@@ -86,7 +86,7 @@ Route::get("/users/me",[
     ]
 ]);
 
-Route::get("/api/users/{id}",[
+Route::get("/api/users/{id}", [
     "controller" => "Users",
     "action" => "show",
     "middlewares" => [
@@ -94,7 +94,7 @@ Route::get("/api/users/{id}",[
     ]
 ]);
 
-Route::put("/users/{id}",[
+Route::put("/users/{id}", [
     "controller" => "Users",
     "action" => "update",
     "middlewares" => [
@@ -103,12 +103,12 @@ Route::put("/users/{id}",[
 ]);
 
 
-Route::post("/api/users",[
+Route::post("/api/users", [
     "controller" => "Users",
     "action" => "register"
 ]);
 
-Route::delete('/api/users/{id}',[
+Route::delete('/api/users/{id}', [
     "controller" => "Users",
     "action" => "destroy",
     "middlewares" => [
@@ -143,7 +143,6 @@ Route::delete('/api/roles/{id}', [
 ]);
 
 // Articles Routes ----------------------------------------------
-
 Route::get('/api/article/{slug}', [
     "controller" => "Articles",
     "action" => "show",
@@ -157,7 +156,7 @@ Route::post('/api/articles', [
     ]
 ]);
 
-Route::put('/api/articles/{id}', [
+Route::put('/api/article/{id}', [
     "controller" => "Articles",
     "action" => "update",
     "middlewares" => [
@@ -165,7 +164,7 @@ Route::put('/api/articles/{id}', [
     ]
 ]);
 
-Route::delete('/api/articles/{id}', [
+Route::delete('/api/article/{id}', [
     "controller" => "Articles",
     "action" => "delete",
     "middlewares" => [
@@ -208,11 +207,89 @@ Route::delete('/api/article-comments/{id}', [
     ]
 ]);
 
-// Installer Routes ---------------------------------------------------------------
+// Menus Routes ---------------------------------------------------------------
+Route::get('/api/menus', [
+    "controller" => "Menus",
+    "action" => "index",
+    // "middlewares" => [
+    //     "Auth",
+    // ]
+]);
 
-Route::post('/api/install', [
-    "controller" => "Installer",
+
+
+Route::get('/api/menu/{id}', [
+    "controller" => "Menus",
+    "action" => "show",
+    // "middlewares" => [
+    //     "Auth",
+    //     "Permission:admin"
+    // ]
+]);
+
+Route::post('/api/menu', [
+    "controller" => "Menus",
     "action" => "create",
+    "middlewares" => [
+        "Auth"
+    ]
+]);
+
+Route::put('/api/menu/{id}', [
+    "controller" => "Menus",
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+    ]
+]);
+
+Route::delete('/api/menu/{id}', [
+    "controller" => "Menus",
+    "action" => "delete",
+    "middlewares" => [
+        "Auth"
+    ]
+]);
+
+// Pages Routes ---------------------------------------------------------------
+Route::get('/api/pages', [
+    "controller" => "Pages",
+    "action" => "index",
+    "middlewares" => [
+        "Auth",    ]
+]);
+
+Route::post('/api/pages', [
+    "controller" => "Pages",
+    "action" => "create",
+    "middlewares" => [
+        "Auth",
+    ]
+]);
+
+Route::get('/api/pages/{slug}', [
+    "controller" => "Pages",
+    "action" => "show",
+    "middlewares" => [
+        "Auth",
+    ]
+]);
+
+
+Route::put('/api/pages/{slug}', [
+    "controller" => "Pages",
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+    ]
+]);
+
+Route::delete('/api/pages/{id}', [
+    "controller" => "Pages",
+    "action" => "delete",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
 // Sitemap Routes ---------------------------------------------------------------
@@ -231,7 +308,7 @@ Route::post('/api/upload', [
     "middlewares" => [
         "Auth",
         "Permission:admin"
-    ]
+    ] 
 ]);
 
 Route::delete('/api/upload/{id}', [
@@ -240,4 +317,13 @@ Route::delete('/api/upload/{id}', [
     "middlewares" => [
         "Auth"
     ]
+]);
+
+
+// Installer Routes ---------------------------------------------------------------
+
+
+Route::post('/api/install', [
+    "controller" => "Installer",
+    "action" => "create",
 ]);
