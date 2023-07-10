@@ -9,6 +9,9 @@ export default class Router {
     this.routes = [];
     this.lastRendered = null;
     window.addEventListener("routeChange", this.refresh.bind(this));
+    window.addEventListener("popstate", () => {
+      this.refresh();
+    });
     this.route = null;
   }
 
@@ -35,6 +38,7 @@ export default class Router {
     for (let route of Routes) {
       pass = false;
       params = {};
+      route.path = route.path.replace(/\/$/, "");
       let routePathnameSplited = route.path.split("/");
       let pathnameSplited = pathname.split("/");
       if (pathnameSplited.length != routePathnameSplited.length) continue;

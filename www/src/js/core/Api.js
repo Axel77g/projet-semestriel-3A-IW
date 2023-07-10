@@ -26,10 +26,16 @@ export default class Api {
   }
 
   post(url, data, options = {}) {
+    if (data instanceof FormData) {
+      this.header = new Headers({
+        Accept: "*/*",
+        Authorization: localStorage.getItem("authorization"),
+      });
+    }
     return fetch(this.baseUrl + url, {
       method: "POST",
       headers: this.header,
-      body: JSON.stringify(data),
+      body: data instanceof FormData ? data : JSON.stringify(data),
       ...options,
     })
       .then((res) => {

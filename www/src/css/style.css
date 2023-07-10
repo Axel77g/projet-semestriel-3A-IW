@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 * {
   box-sizing: border-box;
 }
@@ -7,6 +7,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Inter", sans-serif;
+}
+
+.form-group + .form-group {
+  margin-top: 1rem;
 }
 
 .container-login {
@@ -126,6 +130,58 @@ body {
 }
 .error a:hover {
   transform: scale(1.05);
+}
+
+.backoffice {
+  display: flex;
+  height: 100vh;
+}
+.backoffice * {
+  box-sizing: border-box;
+}
+.backoffice aside {
+  padding: 30px;
+  flex: 0 0 250px;
+  background: rgb(37, 37, 37);
+  color: white;
+}
+.backoffice aside h3 {
+  font-size: 14px;
+  opacity: 0.5;
+  margin: 5px 0;
+  margin-top: 10px;
+}
+.backoffice aside nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.backoffice aside nav ul a {
+  display: block;
+  padding: 10px;
+  color: currentColor;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.backoffice aside nav ul a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.backoffice aside nav ul a:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+.backoffice aside nav ul a i {
+  padding-right: 10px;
+}
+.backoffice main {
+  padding: 20px;
+  background: rgb(249, 249, 249);
+  flex: 1;
+  overflow-y: auto;
+}
+.backoffice main > * {
+  background: white;
+  border: solid 1px rgb(237, 237, 237);
+  padding: 20px;
 }
 
 /*# sourceMappingURL=style.css.map */
