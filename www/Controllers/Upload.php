@@ -6,6 +6,7 @@ use App\Core\Controller;
 use App\Errors\BadRequest;
 use App\Errors\NotFoundError;
 use App\Models\File;
+use App\Models\User;
 use App\Policies\UploadPolicy;
 use App\Services\UploadService;
 use App\Utils\Collection;
@@ -22,6 +23,13 @@ class Upload extends Controller
         $authUser = request()->auth()->user();
         UploadPolicy::store($authUser);
         $results = [];
+
+        foreach($_FILES as $file){
+            if(!isset($file["tmp_name"])){
+                throw new BadRequest("The file cannot be uploaded, check the file size");
+            }
+        }
+       
         foreach($_FILES as $file){
             $results[] = UploadService::saveFile($file, $authUser);
         }

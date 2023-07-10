@@ -2,87 +2,92 @@
 
 namespace App\Controllers;
 
-use App\Models\Menu;
+// Core
+use App\Core\Validator;
 use App\Core\Controller;
-use App\Errors\HTTPError;
-use App\Errors\NotFoundError;
+
+// Models
+use App\Models\Menu;
 
 // Validators
-use App\Core\Validator;
+use App\Errors\HTTPError;
+use App\Errors\NotFoundError;
 use App\Errors\ValidatorError;
 
-class Menus extends Controller{
+class Menus extends Controller
+{
 
-    function index() {
+    function index()
+    {
 
         $menus = Menu::all();
 
         return $menus;
-
     }
 
-    public function create() {
+    public function create()
+    {
 
         $payload = request()->json();
 
-        $validator = new Validator();
 
-        $validator->validate($payload, [
+        $validator = new Validator($payload, [
             "title" => "required",
             "url" => "required",
             "position" => "numeric",
-            "visible" => "required"
         ]);
 
         $menu = new Menu();
 
-        $menu->setTitle($payload['title']); 
+        $menu->setTitle($payload['title']);
         $menu->setUrl($payload['url']);
         $menu->setPosition($payload['position']);
         $menu->setVisible($payload['visible']);
 
+        // if (!Menu::fetch(["title" => $payload['title']])) {
+        //     throw new HTTPError(409, "Menu already exists");
+        // }
+
         $menu->save();
 
         return $menu;
-
     }
 
-    public function show($params) {
+    public function show($params)
+    {
 
         $menu = Menu::fetch($params['id']);
 
-        if(!$menu) throw new NotFoundError();
+        if (!$menu) throw new NotFoundError();
 
         return $menu;
-
     }
 
-    public function update($params) {
+    public function update($params)
+    {
 
         $payload = request()->json();
 
         $menu = Menu::fetch($params['id']);
-        
-        if(!$menu) throw new NotFoundError();
-        
+
+        if (!$menu) throw new NotFoundError();
+
         $menu->set($payload);
-        
+
         $menu->save();
 
         return $menu;
-
     }
 
-    public function delete($params) {
+    public function delete($params)
+    {
 
         $menu = Menu::fetch($params['id']);
 
-        if(!$menu) throw new NotFoundError();
+        if (!$menu) throw new NotFoundError();
 
         $menu->destroy();
 
         return $menu;
-
     }
-
 }

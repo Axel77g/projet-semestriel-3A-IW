@@ -16,7 +16,7 @@ export default class Login extends Component {
     api.post("api/login", this.state).then((response) => {
       if (response.success === true) {
         localStorage.setItem("authorization", response.token);
-        router.push("/");
+        router.push(response.role === "admin" ? "/admin" : "/");
       } else {
         this.setState({ messages: response.message });
       }

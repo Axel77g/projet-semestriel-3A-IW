@@ -25,6 +25,6 @@ export class Article extends Component {
     return createElement("div", { class: ["container-fluid", "mt-4"] }, [
       createElement("h1", {}, this.state.article.title),
       createElement("p", {}, this.state.article.content),
-    ]);
+    ]);   
   }
 }

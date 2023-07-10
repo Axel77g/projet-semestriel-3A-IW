@@ -1,12 +1,14 @@
 import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
-import Button from "../ui/Button.js";
+import Button from "../../components/ui/Button.js";
 
-import Input from "../ui/Input.js";
-import Select from "../ui/Select.js";
-import Switch from "../ui/Switch.js";
+import Input from "../../components/ui/Input.js";
+import Select from "../../components/ui/Select.js";
+import Switch from "../../components/ui/Switch.js";
+import { createElement } from "../../core/Element.js";
+import BackofficeContainer from "./Index.js";
 
-export default class MenuFormCreate extends Component {
+export default class MenuEdit extends Component {
   init() {
     this.state = {
       isEdit: Boolean(router.route.params.id),
@@ -44,18 +46,15 @@ export default class MenuFormCreate extends Component {
       response = await api.post("api/menu", payload);
     }
 
-    if (response.code != 200) {
-      this.setState({
-        messages: response.message,
-      });
-      return;
+    if (response.status === 200) {
+      router.push("menus");
+    } else {
+      this.setState({ messages: response.data });
     }
-
-    router.push("/menus");
   }
 
   render() {
-    return createElement("div", { class: ["container-fluid", "mt-4"] }, [
+    let child = createElement("div", { class: ["container-fluid", "mt-4"] }, [
       createElement(
         "h1",
         {},
@@ -111,6 +110,12 @@ export default class MenuFormCreate extends Component {
           }),
         ]),
       ]),
+    ]);
+
+    return createElement("div", {}, [
+      createElement(BackofficeContainer, {
+        child,
+      }),
     ]);
   }
 }
