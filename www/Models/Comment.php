@@ -10,20 +10,22 @@ class Comment extends Model
 
     protected string $article_id;
     protected string $author_id;
-    protected ?string $comment_id = null;
+    protected ?string $comment = null;
     protected string $content;
+
+    protected string $status = "pending";
 
     /*
     * Getters
     */
-    public function getfunctionArticleId()
+    public function getArticleId()
     {
         return $this->article_id;
     }
 
     public function getAuthorId()
     {
-        return $this->content;
+        return $this->author_id;
     }
 
     // public function getAuthorName()
@@ -33,9 +35,9 @@ class Comment extends Model
     //     return $author->getLastname();
     // }
 
-    public function getCommentId()
+    public function getComment()
     {
-        return $this->author_id;
+        return $this->comment;
     }
 
     public function getContent()
@@ -56,13 +58,28 @@ class Comment extends Model
         $this->author_id = $author_id;
     }
 
-    public function setCommentId($comment_id)
+    public function setComment($comment)
     {
-        $this->comment_id = $comment_id;
+        $this->comment = $comment;
     }
 
     public function setContent($content)
     {
         $this->content = $content;
+    }
+
+    public function setStatus($status)
+    {
+        if($status == "pending" || $status == "validated" || $status == "refused"){
+            $this->status = $status;
+        }
+        else{
+            $this->status = "pending";
+        }
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

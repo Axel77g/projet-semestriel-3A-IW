@@ -139,15 +139,18 @@ function writeInitialDatabase($prefix){
     -- Version: 1.0.0
 
 
-    DROP TYPE IF EXISTS TYPEROLE CASCADE;
-    CREATE TYPE TYPEROLE AS ENUM ('admin', 'user');
+    DROP TYPE IF EXISTS TYPE_ROLE CASCADE;
+    CREATE TYPE TYPE_ROLE AS ENUM ('admin', 'user');
+
+    DROP TYPE IF EXISTS STATUS_COMMENT CASCADE;
+    CREATE TYPE STATUS_COMMENT AS ENUM ('pending', 'validated', 'refused');
 
 
     -- USERS
     DROP TABLE IF EXISTS " . $prefix . "user CASCADE;
     CREATE TABLE " . $prefix . "user (
         id SERIAL PRIMARY KEY,
-        role TYPEROLE DEFAULT 'user',
+        role TYPE_ROLE DEFAULT 'user',
         firstname VARCHAR(100) NOT NULL,
         lastname VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
@@ -187,6 +190,7 @@ function writeInitialDatabase($prefix){
         author int NOT NULL,
         article int NOT NULL,
         comment int,
+        status STATUS_COMMENT DEFAULT 'pending',
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
@@ -228,6 +232,7 @@ function writeInitialDatabase($prefix){
 
     DROP TABLE IF EXISTS ". $prefix ."page;
 
+    DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
     CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
 
     CREATE TABLE ". $prefix ."page(

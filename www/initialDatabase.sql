@@ -5,15 +5,18 @@
     -- Version: 1.0.0
 
 
-    DROP TYPE IF EXISTS TYPEROLE CASCADE;
-    CREATE TYPE TYPEROLE AS ENUM ('admin', 'user');
+    DROP TYPE IF EXISTS TYPE_ROLE CASCADE;
+    CREATE TYPE TYPE_ROLE AS ENUM ('admin', 'user');
+
+    DROP TYPE IF EXISTS STATUT_COMMENT CASCADE;
+    CREATE TYPE STATUT_COMMENT AS ENUM ('pending', 'validated', 'refused');
 
 
     -- USERS
-    DROP TABLE IF EXISTS frw_user CASCADE;
-    CREATE TABLE frw_user (
+    DROP TABLE IF EXISTS demo_user CASCADE;
+    CREATE TABLE demo_user (
         id SERIAL PRIMARY KEY,
-        role TYPEROLE DEFAULT 'user',
+        role TYPE_ROLE DEFAULT 'user',
         firstname VARCHAR(100) NOT NULL,
         lastname VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
@@ -27,8 +30,8 @@
 
     -- ARTICLES
 
-    DROP TABLE IF EXISTS frw_article CASCADE;
-    CREATE TABLE frw_article (
+    DROP TABLE IF EXISTS demo_article CASCADE;
+    CREATE TABLE demo_article (
         id SERIAL,
         slug varchar(255) NOT NULL,
         title varchar(255) NOT NULL,
@@ -41,41 +44,42 @@
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         PRIMARY KEY (id),
-        FOREIGN KEY (author) REFERENCES frw_user(id) ON DELETE CASCADE
+        FOREIGN KEY (author) REFERENCES demo_user(id) ON DELETE CASCADE
     );
 
     -- COMMENTS
 
-    DROP TABLE IF EXISTS frw_comment CASCADE;
-    CREATE TABLE frw_comment (
+    DROP TABLE IF EXISTS demo_comment CASCADE;
+    CREATE TABLE demo_comment (
         id SERIAL,
         content text NOT NULL,
         author int NOT NULL,
         article int NOT NULL,
         comment int,
+        statut STATUT_COMMENT DEFAULT 'pending',
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (author) REFERENCES frw_user(id) ON DELETE CASCADE,
-        FOREIGN KEY (article) REFERENCES frw_article(id) ON DELETE CASCADE,
-        FOREIGN KEY (comment) REFERENCES frw_comment(id) ON DELETE CASCADE,
+        FOREIGN KEY (author) REFERENCES demo_user(id) ON DELETE CASCADE,
+        FOREIGN KEY (article) REFERENCES demo_article(id) ON DELETE CASCADE,
+        FOREIGN KEY (comment) REFERENCES demo_comment(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
 
     -- Auth
-    DROP TABLE IF EXISTS frw_auth CASCADE;
-    CREATE TABLE frw_auth (
+    DROP TABLE IF EXISTS demo_auth CASCADE;
+    CREATE TABLE demo_auth (
         id SERIAL,
         token varchar NULL,
         expire_on TIMESTAMP NULL,
         user_id int4 NULL,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (user_id) REFERENCES frw_user(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES demo_user(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
     -- Upload
-    DROP TABLE IF EXISTS frw_file CASCADE;
-    CREATE TABLE frw_file (
+    DROP TABLE IF EXISTS demo_file CASCADE;
+    CREATE TABLE demo_file (
         id SERIAL,
         name varchar NULL,
         path varchar NULL,
@@ -86,17 +90,18 @@
         user_id int4 NULL,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (user_id) REFERENCES frw_user(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES demo_user(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
 
     -- Pages
 
-    DROP TABLE IF EXISTS frw_page;
+    DROP TABLE IF EXISTS demo_page;
 
+    DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
     CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
 
-    CREATE TABLE frw_page(
+    CREATE TABLE demo_page(
         id SERIAL PRIMARY KEY NOT NULL,
         author_id INTEGER NOT NULL,
         parent_slug VARCHAR(255),
@@ -105,14 +110,14 @@
         template TEMPLATE_PAGE NOT NULL,
         content TEXT NOT NULL,
 
-        FOREIGN KEY (author_id) REFERENCES frw_user(id) ON DELETE CASCADE
+        FOREIGN KEY (author_id) REFERENCES demo_user(id) ON DELETE CASCADE
     );
 
     -- Menu
 
-    DROP TABLE IF EXISTS frw_menu;
+    DROP TABLE IF EXISTS demo_menu;
 
-    CREATE TABLE frw_menu (
+    CREATE TABLE demo_menu (
         id SERIAL PRIMARY KEY,
         parent_id INT NULL DEFAULT 0,
         title VARCHAR(255) NOT NULL,
@@ -121,6 +126,6 @@
         position INT NOT NULL DEFAULT 0,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        CONSTRAINT fk_frw_menu_parent_id FOREIGN KEY (parent_id) REFERENCES frw_menu(id) ON DELETE CASCADE
+        CONSTRAINT fk_demo_menu_parent_id FOREIGN KEY (parent_id) REFERENCES demo_menu(id) ON DELETE CASCADE
     );
     

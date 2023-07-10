@@ -16,7 +16,7 @@ import Dashboard from "../pages/Backoffice/Dashboard.js";
 import Page_404 from "../pages/Page_404/Page_404.js";
 import PageList from "../pages/Backoffice/PageList.js";
 import CommentCard from "../components/comments/CommentCard.js";
-import CommentsList from "../components/comments/CommentsList.js";
+import CommentList from "../pages/Backoffice/CommentList.js";
 
 export default [
   {
@@ -78,42 +78,47 @@ export default [
     component: MenuEdit,
   },
 
-  // Article --------------
-  {
-    path: "/articles",
-    component: ArticlesList,
-  },
-  {
-    path: "/article/edit/:slug",
-    component: ArticleForm,
-  },
-  {
-    path: "/article/:slug",
-    component: Article,
-  },
-  {
-    path: "/pages/edit/:slug",
-    component: PageEdit,
-  },
+  // // Article --------------
+  // {
+  //   path: "/articles",
+  //   component: ArticlesList,
+  // },
+  // {
+  //   path: "/article/edit/:slug",
+  //   component: ArticleForm,
+  // },
+  // {
+  //   path: "/article/:slug",
+  //   component: Article,
+  // },
+  // {
+  //   path: "/pages/edit/:slug",
+  //   component: PageEdit,
+  // },
 
-  // Menu --------------
-  {
-    path: "/menus",
-    component: MenuList,
-  },
-  {
-    path: "/menu/create",
-    component: MenuForm,
-  },
-  {
-    path: "/menu/edit/:id",
-    component: MenuForm,
-  },
+  // // Menu --------------
+  // {
+  //   path: "/menus",
+  //   component: MenuList,
+  // },
+  // {
+  //   path: "/menu/create",
+  //   component: MenuForm,
+  // },
+  // {
+  //   path: "/menu/edit/:id",
+  //   component: MenuForm,
+  // },
 
   // Comment --------------
+  // {
+  //   path: "/comments",
+  //   component: CommentsList,
+  // },
+
   {
-    path: "/comments",
-    component: CommentsList,
+    path: "/admin/comments",
+    component: CommentList,
   },
 
   // Other --------------------------------------
