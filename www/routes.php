@@ -18,9 +18,18 @@ Route::get("/contact", [
     "action" => "contact"
 ]);
 
-Route::get("/admin", [
+// Route::get("/admin", [
+//     "controller" => "Users",
+//     "action" => "index",
+//     "middlewares" => [
+//         "Auth",
+//         "Permission:admin"
+//     ]
+// ]);
+
+Route::get("/api/isAdmin", [
     "controller" => "Users",
-    "action" => "index",
+    "action" => "isAdmin",
     "middlewares" => [
         "Auth",
         "Permission:admin"
@@ -30,22 +39,35 @@ Route::get("/admin", [
 // Comments Routes ---------------------------------------------------------------
 Route::get("/api/comments", [
     "controller" => "Comments",
-    "action" => "index"
+    "action" => "index",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
 Route::get("/api/comments/{id}", [
     "controller" => "Comments",
-    "action" => "show"
+    "action" => "show",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
 Route::post("/api/comments", [
     "controller" => "Comments",
-    "action" => "create"
+    "action" => "create",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
 Route::put("/api/comments/{id}", [
     "controller" => "Comments",
-    "action" => "update"
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+        // "Permission:admin"
+    ]
 ]);
 
 Route::delete("/api/comments/{id}", [
@@ -53,6 +75,7 @@ Route::delete("/api/comments/{id}", [
     "action" => "delete"
 ]);
 
+// Auth Routes ---------------------------------------------------------------
 Route::post("/api/login", [
     "controller" => "Auth",
     "action" => "login"
@@ -78,6 +101,7 @@ Route::post("/api/update-password", [
     "action" => "updatePassword",
 ]);
 
+// Users Routes ---------------------------------------------------------------
 Route::get("/users/me", [
     "controller" => "Users",
     "action" => "me",
@@ -168,7 +192,8 @@ Route::delete('/api/article/{id}', [
     "controller" => "Articles",
     "action" => "delete",
     "middlewares" => [
-        "Auth"
+        "Auth",
+        "Permission:admin"
     ]
 ]);
 

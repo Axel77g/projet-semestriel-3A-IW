@@ -44,6 +44,11 @@ export default class BackofficeContainer extends Component {
               url: "/admin/users",
               icon: "people",
             },
+            {
+              title: "Logout",
+              url: "/logout",
+              icon: "arrow-return-left",
+            },
           ],
         },
       ],

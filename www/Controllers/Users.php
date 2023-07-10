@@ -26,6 +26,9 @@ class Users extends Controller{
         return $auth->user();
     }
 
+    public function isAdmin(){
+        return true;
+    }
 
     function show($params) {
 
