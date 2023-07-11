@@ -52,6 +52,8 @@ export default class Component {
       if (childsMatch.length == 1) {
         let child = childsMatch[0];
         return child;
+      } else if (childsMatch.length == 0) {
+        return null;
       }
     }
 

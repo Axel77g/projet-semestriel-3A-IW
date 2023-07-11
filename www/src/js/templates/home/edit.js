@@ -6,14 +6,14 @@ import { createElement } from "../../core/Element.js";
 export class HomeEdit extends Component {
   init() {
     this.state = {
-      banner: this.props?.initialContent?.banner || null,
+      banner: this.props?.initialContent?.file_banner || null,
       about_content: this.props?.initialContent?.about_content || "",
     };
   }
 
   get content() {
     return {
-      banner_id: this.state.banner?.id || null,
+      file_banner: this.state.banner?.id || null,
       about_content: this.state.about_content,
     };
   }
@@ -28,7 +28,6 @@ export class HomeEdit extends Component {
         id: "banner_input",
         placeholder: "Image de banière",
         onChange: (file) => {
-          console.log(file);
           this.setState({ banner: file });
         },
         value: this.state.banner,

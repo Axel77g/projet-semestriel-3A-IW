@@ -24,6 +24,7 @@ export default class Input extends Component {
           placeholder: this.props.placeholder,
           value: this.props.value ?? "",
           onchange: this.handleChange.bind(this),
+          ...(this.props?.attributes ?? {}),
         },
         this.state.value ?? ""
       );
@@ -36,6 +37,7 @@ export default class Input extends Component {
         placeholder: this.props.placeholder,
         value: this.props.value ?? "",
         onchange: this.handleChange.bind(this),
+        ...(this.props?.attributes ?? {}),
       });
     }
   }

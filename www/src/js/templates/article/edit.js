@@ -9,13 +9,8 @@ export class ArticleEdit extends Component {
     this.state = {
       blocs: this.props?.initialContent?.blocs || [
         {
-          image: null,
-          image_postion: Math.random > 0.5 ? "left" : "right",
-          content: "",
-        },
-        {
-          image: null,
-          image_postion: Math.random > 0.5 ? "left" : "right",
+          file_image: null,
+          image_postion: "left",
           content: "",
         },
       ],
@@ -24,7 +19,7 @@ export class ArticleEdit extends Component {
 
   get content() {
     return {
-      article_content: this.state.article_content,
+      blocs: this.state.blocs,
     };
   }
 
@@ -32,30 +27,82 @@ export class ArticleEdit extends Component {
     callable(this.content);
   }
 
+  forceUpdate() {
+    this.$components.forEach((c) => {
+      if (c instanceof ArticleBlock) {
+        c.forceUpdate();
+      }
+    });
+  }
+
+  handleDeleteBloc(index) {
+    this.setState({
+      blocs: this.state.blocs.filter((e, i) => i !== index),
+    });
+    this.forceUpdate();
+  }
+
+  handleMoveBloc(index, direction) {
+    const newIndex =
+      direction === "up"
+        ? Math.max(index - 1, 0)
+        : Math.min(index + 1, this.state.blocs.length - 1);
+
+    let blocs = [...this.state.blocs];
+    let bloc = { ...blocs[index] };
+    blocs[index] = { ...blocs[newIndex] };
+    blocs[newIndex] = bloc;
+    this.setState({
+      blocs: blocs,
+    });
+    this.forceUpdate();
+  }
+
+  handleChange(index, obj) {
+    if (obj?.content) {
+      this.state.blocs[index] = { ...this.state.blocs[index], ...obj };
+    } else {
+      let blocs = [...this.state.blocs];
+      blocs[index] = { ...blocs[index], ...obj };
+      console.log(blocs);
+      this.setState({
+        blocs: blocs,
+      });
+    }
+  }
+
   render() {
-    console.log(this.state.blocs);
+    console.log(this.state.blocs, this.$components);
     return createElement("div", { class: "mt-4" }, [
       createElement(
         "div",
-        { class: ["paragraphs"] },
-        this.state.blocs.map((bloc, index) =>
-          createElement("div", { id: index }, [
-            createElement(ArticleBlock, {
-              ...bloc,
-              ke: "ArticleBlock" + index,
-            }),
-          ])
-        )
+        { class: ["article-edit-paragraphs"] },
+        this.state.blocs.map((bloc, index) => {
+          return createElement(ArticleBlock, {
+            ...bloc,
+            key: "ArticleBlock" + index,
+            onChange: (obj) => {
+              this.handleChange(index, obj);
+            },
+            onDelete: () => {
+              this.handleDeleteBloc(index);
+            },
+            onMove: (direction) => {
+              this.handleMoveBloc(index, direction);
+            },
+          });
+        })
       ),
 
       createElement("div", {}, [
         createElement(Button, {
+          class: ["mt-4"],
           onClick: () => {
             this.setState({
               blocs: [
                 ...this.state.blocs,
                 {
-                  image: null,
+                  file_image: null,
                   image_postion: Math.random > 0.5 ? "left" : "right",
                   content: "",
                 },

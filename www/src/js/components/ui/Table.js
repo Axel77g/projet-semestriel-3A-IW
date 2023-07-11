@@ -21,7 +21,6 @@ export class Table extends Component {
   }
 
   getTDElement(header, item) {
-    console.log(header, item);
     let template = this.props.templates[header.toLowerCase()];
     let element =
       typeof template == "function"
