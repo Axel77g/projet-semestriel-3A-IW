@@ -33,8 +33,6 @@ export default class CommentDetail extends Component {
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
-
-    console.log(this.state);
   }
 
   updateStatus(id, status) {
@@ -53,12 +51,6 @@ export default class CommentDetail extends Component {
   }
 
   render() {
-    /* if (this.state.menus.length === 0) {
-      return createElement("div", { class: ["container-fluid", "mt-4"] }, [
-        createElement("p", {}, "Loading"),
-      ]);
-    } */
-
     let child = createElement("div", {}, [
       createElement("div", { class: ["d-flex", "justify-content-between"] }, [
         createElement("h1", {}, "Commentaire"),
