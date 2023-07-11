@@ -85,7 +85,12 @@ export class Installer extends Component {
         this.setState({ messages: response.message });
         this.redirectFromError();
       } else {
-        window.location.href = "/admin";
+        api.post("api/login", {email: this.state.form.input_email_site, password: this.state.form.input_password_site}).then((response) => {
+          if (response.success === true) {
+            localStorage.setItem("authorization", response.token);
+            window.location = (response.role === "admin" ? "/admin" : "/");
+          }
+        });
       }
     });
   }

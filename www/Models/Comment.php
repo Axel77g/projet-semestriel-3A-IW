@@ -9,7 +9,7 @@ use App\Models\User;
 class Comment extends Model
 {
 
-    protected string $article_id;
+    protected string $page_id;
     protected string $author;
     protected ?string $comment = null;
     protected string $content;
@@ -18,9 +18,9 @@ class Comment extends Model
     /*
     * Getters
     */
-    public function getArticleId()
+    public function getPageId()
     {
-        return $this->article_id;
+        return $this->page_id;
     }
 
     public function getAuthor()
@@ -48,9 +48,9 @@ class Comment extends Model
     /*
     * Setters
     */
-    public function setArticleId($article_id)
+    public function setPageId($page_id)
     {
-        $this->article_id = $article_id;
+        $this->page_id = $page_id;
     }
 
     public function setAuthor($author)
