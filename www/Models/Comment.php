@@ -4,26 +4,28 @@ namespace App\Models;
 
 use App\Core\Model;
 use App\Utils\Protection;
+use App\Models\User;
 
 class Comment extends Model
 {
 
-    protected string $article_id;
-    protected string $author_id;
-    protected ?string $comment_id = null;
+    protected string $page_id;
+    protected string $author;
+    protected ?string $comment = null;
     protected string $content;
+    protected string $status = "pending";
 
     /*
     * Getters
     */
-    public function getfunctionArticleId()
+    public function getPageId()
     {
-        return $this->article_id;
+        return $this->page_id;
     }
 
-    public function getAuthorId()
+    public function getAuthor()
     {
-        return $this->content;
+        return $this->author;
     }
 
     // public function getAuthorName()
@@ -33,9 +35,9 @@ class Comment extends Model
     //     return $author->getLastname();
     // }
 
-    public function getCommentId()
+    public function getComment()
     {
-        return $this->author_id;
+        return $this->comment;
     }
 
     public function getContent()
@@ -46,23 +48,41 @@ class Comment extends Model
     /*
     * Setters
     */
-    public function setArticleId($article_id)
+    public function setPageId($page_id)
     {
-        $this->article_id = $article_id;
+        $this->page_id = $page_id;
     }
 
-    public function setAuthorId($author_id)
+    public function setAuthor($author)
     {
-        $this->author_id = $author_id;
+        $this->author = $author;
     }
 
-    public function setCommentId($comment_id)
+    public function setComment($comment)
     {
-        $this->comment_id = $comment_id;
+        $this->comment = $comment;
     }
 
     public function setContent($content)
     {
         $this->content = $content;
     }
+
+    public function setStatus($status)
+    {
+        if($status == "pending" || $status == "validated" || $status == "refused"){
+            $this->status = $status;
+        }
+        else{
+            $this->status = "pending";
+        }
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    
+
 }
