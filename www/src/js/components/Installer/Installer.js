@@ -85,7 +85,7 @@ export class Installer extends Component {
         this.setState({ messages: response.message });
         this.redirectFromError();
       } else {
-        window.location.href = "/";
+        window.location.href = "/admin";
       }
     });
   }

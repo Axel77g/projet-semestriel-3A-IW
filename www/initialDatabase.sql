@@ -8,8 +8,8 @@
     DROP TYPE IF EXISTS TYPE_ROLE CASCADE;
     CREATE TYPE TYPE_ROLE AS ENUM ('admin', 'user');
 
-    DROP TYPE IF EXISTS STATUT_COMMENT CASCADE;
-    CREATE TYPE STATUT_COMMENT AS ENUM ('pending', 'validated', 'refused');
+    DROP TYPE IF EXISTS STATUS_COMMENT CASCADE;
+    CREATE TYPE STATUS_COMMENT AS ENUM ('pending', 'validated', 'refused');
 
 
     -- USERS
@@ -56,7 +56,7 @@
         author int NOT NULL,
         article int NOT NULL,
         comment int,
-        statut STATUT_COMMENT DEFAULT 'pending',
+        status STATUS_COMMENT DEFAULT 'pending',
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         FOREIGN KEY (author) REFERENCES demo_user(id) ON DELETE CASCADE,
