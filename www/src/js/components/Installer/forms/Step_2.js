@@ -59,6 +59,20 @@ export class Step2 extends Component {
             },
           }),
         ]),
+
+        createElement("div", { class: ["mb-3"] }, [
+          createElement(Input, {
+            key: "input_email_site",
+            name: "input_email_site",
+            placeholder: "Email",
+            value: this.props.form.input_email_site,
+            message: this.props.messages.input_email_site,
+            onChange: (e) => {
+              this.props.setForm({ input_email_site: e.value });
+            },
+          }),
+        ]),
+
         createElement("div", { class: ["mb-3"] }, [
           createElement(Input, {
             key: "input_password_site",
@@ -72,18 +86,7 @@ export class Step2 extends Component {
             },
           }),
         ]),
-        createElement("div", { class: ["mb-3"] }, [
-          createElement(Input, {
-            key: "input_email_site",
-            name: "input_email_site",
-            placeholder: "Email",
-            value: this.props.form.input_email_site,
-            message: this.props.messages.input_email_site,
-            onChange: (e) => {
-              this.props.setForm({ input_email_site: e.value });
-            },
-          }),
-        ]),
+        
       ]
     );
   }

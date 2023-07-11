@@ -26,6 +26,19 @@ export class Step1 extends Component {
 
         createElement("div", { class: ["mb-3"] }, [
           createElement(Input, {
+            key: "input_host_database",
+            name: "input_host_database",
+            placeholder: "Host",
+            value: this.props.form.input_host_database,
+            message: this.props.messages?.input_host_database,
+            onChange: (e) => {
+              this.props.setForm({ input_host_database: e.value });
+            },
+          }),
+        ]),
+
+        createElement("div", { class: ["mb-3"] }, [
+          createElement(Input, {
             key: "input_name_database",
             name: "input_name_database",
             placeholder: "Database name",
@@ -63,18 +76,7 @@ export class Step1 extends Component {
           }),
         ]),
 
-        createElement("div", { class: ["mb-3"] }, [
-          createElement(Input, {
-            key: "input_host_database",
-            name: "input_host_database",
-            placeholder: "Host",
-            value: this.props.form.input_host_database,
-            message: this.props.messages?.input_host_database,
-            onChange: (e) => {
-              this.props.setForm({ input_host_database: e.value });
-            },
-          }),
-        ]),
+        
         createElement("div", { class: ["mb-3"] }, [
           createElement(Input, {
             key: "input_port_database",

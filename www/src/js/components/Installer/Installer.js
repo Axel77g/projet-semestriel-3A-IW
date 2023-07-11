@@ -21,7 +21,7 @@ export class Installer extends Component {
         input_password_site: "",
         input_email_site: "",
         input_name_database: "",
-        input_port_database: "",
+        input_port_database: 5432,
         input_username_database: "",
         input_password_database: "",
         input_host_database: "",
@@ -30,6 +30,7 @@ export class Installer extends Component {
         input_port_smtp: "",
         input_username_smtp: "",
         input_password_smtp: "",
+        
       },
       messages: {},
       currentStep: 0,
