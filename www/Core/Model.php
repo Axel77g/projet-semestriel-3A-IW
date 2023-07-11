@@ -44,7 +44,8 @@ abstract class Model implements Sanitize{
         return (boolean) self::fetch($params);
     }
 
-    public static function all(){
+    public static function all() : Collection
+    {
         $class = get_called_class();
         $model = new $class();
         $query = $model->query();

@@ -18,11 +18,11 @@ export default class WYSIWYG extends Component {
     });
   }
 
-  async addLibraries() {
-    await Promise.all([this.addScript(), this.addStyle()]);
+  static async addLibraries() {
+    await Promise.all([WYSIWYG.addScript(), WYSIWYG.addStyle()]);
   }
 
-  addScript() {
+  static addScript() {
     return new Promise((resolve, reject) => {
       let exist = document.head.querySelector(
         "script[src='https://cdn.quilljs.com/1.1.9/quill.js']"
@@ -33,6 +33,7 @@ export default class WYSIWYG extends Component {
         script.src = "https://cdn.quilljs.com/1.1.9/quill.js";
         document.head.appendChild(script);
         script.onload = () => {
+          console.log("[WYSIWYG] Quill loaded JS");
           resolve();
         };
       } else {
@@ -41,7 +42,7 @@ export default class WYSIWYG extends Component {
     });
   }
 
-  addStyle() {
+  static addStyle() {
     return new Promise((resolve, reject) => {
       let exist = document.head.querySelector(
         "link[href='https://cdn.quilljs.com/1.1.9/quill.snow.css']"
@@ -52,6 +53,7 @@ export default class WYSIWYG extends Component {
         link.rel = "stylesheet";
         document.head.appendChild(link);
         link.onload = () => {
+          console.log("[WYSIWYG] Quill loaded Style");
           resolve();
         };
       } else resolve();
@@ -59,12 +61,13 @@ export default class WYSIWYG extends Component {
   }
 
   async onUpdate() {
-    await this.addLibraries();
+    await WYSIWYG.addLibraries();
     this.onRerender();
   }
 
   onRerender() {
     const container = document.querySelector("#editor-container-" + this.key);
+    if (!container || typeof Quill == "undefined") return; //wait for the container to be created
     this.quill = new Quill(container.querySelector("#editor-" + this.key), {
       modules: {
         toolbar: [
@@ -86,6 +89,8 @@ export default class WYSIWYG extends Component {
     this.quill.on("text-change", () => {
       if (this.state.value !== this.quill.root.innerHTML) {
         this.state.value = this.quill.root.innerHTML;
+        if (this.props.onChange)
+          this.props.onChange({ value: this.state.value });
         if (this.props.name) {
           this.$parent.state[this.props.name] = this.state.value;
         }

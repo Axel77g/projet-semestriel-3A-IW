@@ -1,3 +1,5 @@
+import Button from "../components/ui/Button.js";
+import { ArticleEdit } from "../templates/index.js";
 import Component from "./Component.js";
 import Element from "./Element.js";
 
@@ -25,11 +27,6 @@ export default class DomRenderer {
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.compareAndModifyDOM(DomRenderer.last_dom_rendered, dom);
     DomRenderer.root.propagate("Rerender");
-    // console.log(
-    //   "Updated Struture",
-    //   DomRenderer.last_dom_rendered,
-    //   DomRenderer.root
-    // );
   }
 
   static getStrucutre(component) {
@@ -52,10 +49,11 @@ export default class DomRenderer {
         (childElement) => {
           if (typeof childElement.tag == "function") {
             const old = component.findChildren(
-              childElement?.key || childElement.tag.name,
+              childElement.attributes?.key || childElement.tag.name,
               oldComponents,
               component.componentIndex
             );
+
             const oldConstructor = old ? old.protoConstructor : null;
             let childComponent;
 
@@ -126,7 +124,13 @@ export default class DomRenderer {
       const textNode = document.createTextNode(obj.children);
       element.appendChild(textNode);
     }
+
+    if (obj.attributes?.html) {
+      element.innerHTML = obj.attributes.html;
+    }
+
     obj.domElement = element;
+
     return element;
   }
 

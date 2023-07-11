@@ -70,7 +70,12 @@ export default class PageList extends Component {
                 class: ["btn-danger"],
               },
               onClick: (item) => {
-                router.push("/admin/pages/edit/" + item.slug);
+                if (confirm("Are you sure you want to delete this page?")) {
+                  const api = new Api();
+                  api.delete("api/pages/" + item.id).then(() => {
+                    this.fetchPages();
+                  });
+                }
               },
             },
           ],

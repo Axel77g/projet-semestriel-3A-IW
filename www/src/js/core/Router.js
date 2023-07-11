@@ -1,6 +1,9 @@
 import DomRenderer from "./DomRenderer.js";
 import Routes from "./Routes.js";
 
+import Api from "./Api.js";
+import { PageView } from "../pages/PageView.js";
+
 export default class Router {
   constructor() {
     this.routes = [];
@@ -22,7 +25,7 @@ export default class Router {
     window.dispatchEvent(new Event("routeChange"));
   }
 
-  refresh() {
+  async refresh() {
     document.body.innerHTML = "";
     if (this.lastRendered != null) {
       this.lastRendered.destroy();
@@ -60,10 +63,20 @@ export default class Router {
       }
     }
     if (target == null) {
-      //demande api la page
+      const api = new Api();
 
-      //charge la route page view
-      target = Routes.find((r) => r.path == "/404");
+      const page = await api.post("api/pages/resolve", {
+        path: pathname,
+      });
+
+      if (page === null) {
+        target = Routes.find((r) => r.path == "/404");
+      } else {
+        target = {
+          page: page,
+          component: PageView,
+        };
+      }
     }
 
     this.route = {

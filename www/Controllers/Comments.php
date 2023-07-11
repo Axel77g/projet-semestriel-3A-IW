@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Validator;
 use App\Models\Comment;
+use App\Models\User;
 use App\Core\Controller;
 use App\Errors\NotFoundError;
 use App\Errors\ValidatorError;
@@ -21,6 +22,12 @@ class Comments extends Controller
     {
         $comment = Comment::fetch($params['id']);
         if (!$comment) throw new NotFoundError();
+
+        // $comment->getAuthorData();
+        // var_dump($comment);
+        // $author = $comment->getAuthorId();
+        
+
         return $comment;
     }
 
