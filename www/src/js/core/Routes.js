@@ -20,7 +20,7 @@ import CommentsList from "../components/comments/CommentsList.js";
 
 export default [
   {
-    path: "/",
+    path: "",
     component: Home,
   },
 

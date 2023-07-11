@@ -88,8 +88,27 @@ class Page extends Model
         return $this->template;
     }
 
-    public function getContent() : array
+    public function getContent(): array
     {
         return json_decode($this->content);
+    }
+
+    public function getParent()
+    {
+        return Page::fetch([
+            "slug" => $this->parent_slug
+        ]);
+    }
+
+    public function getPath()
+    {
+
+        $parent = $this->getParent();
+
+        if ($parent) {
+            return $parent->getPath() . "/" . $this->slug;
+        } else {
+            return "/" . $this->slug;
+        }
     }
 }
