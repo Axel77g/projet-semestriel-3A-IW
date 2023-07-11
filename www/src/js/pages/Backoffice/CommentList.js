@@ -132,7 +132,7 @@ export default class CommentList extends Component {
             },
             label: "Voir plus",
             onClick: (item) => {
-              console.log("Delete", item.id);
+              router.push("/admin/comment/more/" + item.id);
             },
           },
         ],

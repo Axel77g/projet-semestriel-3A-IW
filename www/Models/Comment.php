@@ -4,15 +4,15 @@ namespace App\Models;
 
 use App\Core\Model;
 use App\Utils\Protection;
+use App\Models\User;
 
 class Comment extends Model
 {
 
     protected string $article_id;
-    protected string $author_id;
+    protected string $author;
     protected ?string $comment = null;
     protected string $content;
-
     protected string $status = "pending";
 
     /*
@@ -23,9 +23,9 @@ class Comment extends Model
         return $this->article_id;
     }
 
-    public function getAuthorId()
+    public function getAuthor()
     {
-        return $this->author_id;
+        return $this->author;
     }
 
     // public function getAuthorName()
@@ -53,9 +53,9 @@ class Comment extends Model
         $this->article_id = $article_id;
     }
 
-    public function setAuthorId($author_id)
+    public function setAuthor($author)
     {
-        $this->author_id = $author_id;
+        $this->author = $author;
     }
 
     public function setComment($comment)
@@ -82,4 +82,7 @@ class Comment extends Model
     {
         return $this->status;
     }
+
+    
+
 }

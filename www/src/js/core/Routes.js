@@ -16,7 +16,9 @@ import Dashboard from "../pages/Backoffice/Dashboard.js";
 import Page_404 from "../pages/Page_404/Page_404.js";
 import PageList from "../pages/Backoffice/PageList.js";
 import CommentCard from "../components/comments/CommentCard.js";
+
 import CommentList from "../pages/Backoffice/CommentList.js";
+import CommentDetail from "../pages/Backoffice/CommentDetail.js";
 
 export default [
   {
@@ -119,6 +121,11 @@ export default [
   {
     path: "/admin/comments",
     component: CommentList,
+  },
+
+  {
+    path: "/admin/comment/more/:id",
+    component: CommentDetail,
   },
 
   // Other --------------------------------------
