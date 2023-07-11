@@ -9,15 +9,25 @@ use App\Core\Controller;
 use App\Errors\HTTPError;
 use App\Errors\NotFoundError;
 use App\Errors\ValidatorError;
+use App\Services\PageServices;
 
 class Pages extends Controller
 {
-
-
     public function index()
     {
-
+        $query = request()->getQuery();
         $pages = Page::all();
+
+        if($query->has('withContent')){
+            $pages = $pages->map(function($page){
+                return [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+            });
+            echo json_encode($pages->toArray());
+            return;
+        }
 
         return $pages;
     }
@@ -35,7 +45,7 @@ class Pages extends Controller
 
         echo json_encode([
             ...$page->toArray(),
-            "content"=> $page->getContent()
+            "content"=> PageServices::populateContentFileRelation($page->getContent())
         ]);
     }
 
@@ -103,6 +113,7 @@ class Pages extends Controller
         }
 
         $page->set($payload);
+        $page->setSlug($page->getTitle());
 
         $page->save();
 
@@ -123,6 +134,37 @@ class Pages extends Controller
         }
 
         $page->destroy();
+
+        return $page;
+    }
+
+    public function resolvePath()
+    {
+
+        $payload = request()->json();
+
+        $validator = new Validator([
+            "path" => "required"
+        ]);
+
+        if ($validator->hasErrors()) {
+            throw new ValidatorError($validator->getErrors());
+        }
+
+        $pages = Page::all()->toArray();
+
+        $page = null;
+
+        foreach ($pages as $p) {
+            if ($p->getPath() == $payload['path']) {
+                $page = $p;
+                break;
+            }
+        }
+
+        if (!$page) {
+            throw new NotFoundError();
+        }
 
         return $page;
     }

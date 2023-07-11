@@ -15,6 +15,7 @@ class Page extends Model
     protected string $title = "";
     protected string $template = "";
     protected string $content = "";
+    protected int $is_commentable = 0;
 
     /*
     *   Setters
@@ -54,6 +55,11 @@ class Page extends Model
         $this->content = json_encode($array);
     }
 
+    public function setIsCommentable(bool $bool)
+    {
+        $this->is_commentable = (int) $bool;
+    }
+
     /*
     *   Getters
     */
@@ -88,8 +94,32 @@ class Page extends Model
         return $this->template;
     }
 
-    public function getContent() : array
+    public function getContent(): array
     {
-        return json_decode($this->content);
+        return json_decode($this->content,true);
+    }
+
+    public function getIsCommentable() : bool
+    {
+        return (bool) $this->is_commentable;
+    }
+
+    public function getParent()
+    {
+        return Page::fetch([
+            "slug" => $this->parent_slug
+        ]);
+    }
+
+    public function getPath()
+    {
+
+        $parent = $this->getParent();
+
+        if ($parent) {
+            return $parent->getPath() . "/" . $this->slug;
+        } else {
+            return "/" . $this->slug;
+        }
     }
 }

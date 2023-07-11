@@ -7,7 +7,8 @@ use App\Models\User;
 
 class UploadService{
 
-    static function saveFile($file,User $user){
+    static function saveFile($file,User $user)
+    {
         $fileModel = new File();
 
         $fileModel->setName($file["name"]);
@@ -33,6 +34,8 @@ class UploadService{
         }
 
         $file->destroy();
+
+        return true;
     }
 
 }

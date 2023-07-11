@@ -22,7 +22,7 @@ import CommentDetail from "../pages/Backoffice/CommentDetail.js";
 
 export default [
   {
-    path: "/",
+    path: "",
     component: Home,
   },
 
