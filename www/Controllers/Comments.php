@@ -35,10 +35,6 @@ class Comments extends Controller
             'comment_id' => 'required',
         ]);
 
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
-
         $comment = new Comment();
 
         $comment->setContent($payload['content']);

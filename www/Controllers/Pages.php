@@ -52,10 +52,6 @@ class Pages extends Controller
             "content" => "required"
         ]);
 
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
-
         $authUser = request()->auth()->user();
         $page = new Page();
 
@@ -97,10 +93,6 @@ class Pages extends Controller
             "template" => "required",
             "content" => "required"
         ]);
-
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
 
         $page->set($payload);
 
