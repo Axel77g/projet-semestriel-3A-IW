@@ -20,9 +20,6 @@ class Auth extends Controller
             "email"=>"required|email|emailNotExists",
             "password"=>"required|CheckPassword:". $payload['email'],
         ]);
-        if($validator->hasErrors()){
-            throw new ValidatorError($validator->getErrors());
-        }
         $user = User::fetch(["email"=>$payload['email']]);
 
         $token = AuthServices::generateToken($user);
@@ -49,9 +46,6 @@ class Auth extends Controller
             "email"=>"required|email|emailAlreadyExists",
             "password"=>"required",
         ]);
-        if($validator->hasErrors()){
-            throw new ValidatorError($validator->getErrors());
-        }
        
         $user = new User();
         $user->setFirstname($payload['firstname']);
@@ -108,9 +102,6 @@ class Auth extends Controller
         $payload,[
             "email"=>"required|email|emailNotExists"
         ]);
-        if($validator->hasErrors()){
-            throw new ValidatorError($validator->getErrors());
-        }
         $user = User::fetch(["email"=>$payload['email']]);
         $user->setResetCode();
         $user->save();
@@ -143,9 +134,6 @@ class Auth extends Controller
             "password"=>"required",
             "confirmPassword"=>"required|ConfirmPassword:". $pwd,
         ]);
-        if($validator->hasErrors()){
-            throw new ValidatorError($validator->getErrors());
-        }
    
         if(isset($email) && isset($code)){
             $user = User::fetch(["email"=>$email]);

@@ -34,26 +34,22 @@ class Comments extends Controller
     public function create()
     {
         $payload = request()->json();
-
-        $validator = new Validator($payload, [
+        $validator = new Validator();
+        $validator->validate($payload, [
             'content' => 'required',
             'author_id' => 'required',
             'article_id' => 'required',
             'comment_id' => 'required',
         ]);
 
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
-
         $comment = new Comment();
 
         $comment->setContent($payload['content']);
-        $comment->setAuthorId($payload['author_id']);
-        $comment->setArticleId($payload['article_id']);
+        $comment->setAuthor($payload['author_id']);
+        $comment->setPageId($payload['article_id']);
 
         if (isset($payload['comment_id']))
-            $comment->setCommentId($payload['comment_id']);
+            $comment->setComment($payload['comment_id']);
 
         $comment->save();
 

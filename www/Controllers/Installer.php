@@ -42,12 +42,6 @@ class Installer {
             "input_password_site" => "required|minLength:8|maxLength:50",
         ]);
 
-        // if validation fails, throw error
-        if($validator->hasErrors()){
-            throw new ValidatorError($validator->getErrors());
-
-        }
-
 
 
         
