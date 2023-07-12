@@ -1,5 +1,5 @@
 import Component from "../core/Component.js";
-import HomeHeader from "../components/HomeHeader.js";
+import Header from "../components/global/Header.js";
 
 import {
   HomeView as home,
@@ -7,7 +7,7 @@ import {
   ArticleListView as article_list,
 } from "../templates/index.js";
 
-export class PageView extends Component {
+export default class PageView extends Component {
   init() {}
 
   get view() {
@@ -22,7 +22,7 @@ export class PageView extends Component {
 
   render() {
     return createElement("div", {}, [
-      createElement(HomeHeader, {}, []),
+      createElement(Header, {}, []),
       createElement(this.view, { page: this.page }, []),
     ]);
   }

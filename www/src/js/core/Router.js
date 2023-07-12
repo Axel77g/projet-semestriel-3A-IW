@@ -2,7 +2,7 @@ import DomRenderer from "./DomRenderer.js";
 import Routes from "./Routes.js";
 
 import Api from "./Api.js";
-import { PageView } from "../pages/PageView.js";
+import PV from "../pages/_PageView.js";
 
 export default class Router {
   constructor() {
@@ -62,6 +62,8 @@ export default class Router {
         break;
       }
     }
+    console.log(target);
+
     if (target == null) {
       const api = new Api();
 
@@ -74,7 +76,7 @@ export default class Router {
       } else {
         target = {
           page: page,
-          component: PageView,
+          component: PV,
         };
       }
     }
