@@ -217,4 +217,24 @@ body {
   margin: 1rem 0;
 }
 
+.article-container {
+  margin: 2em auto;
+  max-width: 1000px;
+  padding: 0 2em;
+}
+.article-container .article-bloc {
+  margin: 2em auto;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: stretch;
+}
+.article-container .article-bloc > div {
+  flex: 1 1 50%;
+}
+.article-container .article-bloc .article-bloc-image img {
+  width: 100%;
+  height: auto;
+}
+
 /*# sourceMappingURL=style.css.map */

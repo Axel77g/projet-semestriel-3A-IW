@@ -13,8 +13,8 @@
 
 
     -- USERS
-    DROP TABLE IF EXISTS demo_user CASCADE;
-    CREATE TABLE demo_user (
+    DROP TABLE IF EXISTS esgi_user CASCADE;
+    CREATE TABLE esgi_user (
         id SERIAL PRIMARY KEY,
         role TYPE_ROLE DEFAULT 'user',
         firstname VARCHAR(100) NOT NULL,
@@ -29,13 +29,10 @@
     );
 
     -- Pages
-
-    DROP TABLE IF EXISTS demo_page CASCADE;
-
+    DROP TABLE IF EXISTS esgi_page;
     DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
     CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
-
-    CREATE TABLE demo_page(
+    CREATE TABLE esgi_page(
         id SERIAL PRIMARY KEY NOT NULL,
         author_id INTEGER NOT NULL,
         parent_slug VARCHAR(255),
@@ -43,14 +40,14 @@
         title VARCHAR(255) NOT NULL,
         template TEMPLATE_PAGE NOT NULL,
         content TEXT NOT NULL,
-
-        FOREIGN KEY (author_id) REFERENCES demo_user(id) ON DELETE CASCADE
+        is_commentable SMALLINT NOT NULL DEFAULT 1,
+        FOREIGN KEY (author_id) REFERENCES esgi_user(id) ON DELETE CASCADE
     );
 
     -- COMMENTS
 
-    DROP TABLE IF EXISTS demo_comment CASCADE;
-    CREATE TABLE demo_comment (
+    DROP TABLE IF EXISTS esgi_comment CASCADE;
+    CREATE TABLE esgi_comment (
         id SERIAL,
         content text NOT NULL,
         author int NOT NULL,
@@ -59,27 +56,27 @@
         status STATUS_COMMENT DEFAULT 'pending',
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (author) REFERENCES demo_user(id) ON DELETE CASCADE,
-        FOREIGN KEY (page) REFERENCES demo_page(id) ON DELETE CASCADE,
-        FOREIGN KEY (comment) REFERENCES demo_comment(id) ON DELETE CASCADE,
+        FOREIGN KEY (author) REFERENCES esgi_user(id) ON DELETE CASCADE,
+        FOREIGN KEY (page) REFERENCES esgi_page(id) ON DELETE CASCADE,
+        FOREIGN KEY (comment) REFERENCES esgi_comment(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
 
     -- Auth
-    DROP TABLE IF EXISTS demo_auth CASCADE;
-    CREATE TABLE demo_auth (
+    DROP TABLE IF EXISTS esgi_auth CASCADE;
+    CREATE TABLE esgi_auth (
         id SERIAL,
         token varchar NULL,
         expire_on TIMESTAMP NULL,
         user_id int4 NULL,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (user_id) REFERENCES demo_user(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES esgi_user(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
     -- Upload
-    DROP TABLE IF EXISTS demo_file CASCADE;
-    CREATE TABLE demo_file (
+    DROP TABLE IF EXISTS esgi_file CASCADE;
+    CREATE TABLE esgi_file (
         id SERIAL,
         name varchar NULL,
         path varchar NULL,
@@ -90,15 +87,15 @@
         user_id int4 NULL,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (user_id) REFERENCES demo_user(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES esgi_user(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
 
     -- Menu
 
-    DROP TABLE IF EXISTS demo_menu CASCADE;
+    DROP TABLE IF EXISTS esgi_menu CASCADE;
 
-    CREATE TABLE demo_menu (
+    CREATE TABLE esgi_menu (
         id SERIAL PRIMARY KEY,
         parent_id INT NULL DEFAULT 0,
         title VARCHAR(255) NOT NULL,
@@ -107,6 +104,6 @@
         position INT NOT NULL DEFAULT 0,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        CONSTRAINT fk_demo_menu_parent_id FOREIGN KEY (parent_id) REFERENCES demo_menu(id) ON DELETE CASCADE
+        CONSTRAINT fk_esgi_menu_parent_id FOREIGN KEY (parent_id) REFERENCES esgi_menu(id) ON DELETE CASCADE
     );
     
