@@ -166,7 +166,7 @@ function writeInitialDatabase($prefix){
     );
 
     -- Pages
-    DROP TABLE IF EXISTS ". $prefix ."page;
+    DROP TABLE IF EXISTS ". $prefix ."page CASCADE;
     DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
     CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
     CREATE TABLE ". $prefix ."page(
