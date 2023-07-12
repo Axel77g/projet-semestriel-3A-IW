@@ -12,6 +12,8 @@ export default class CommentList extends Component {
       comments: [],
     };
     this.fetchComment();
+
+    document.title = "Liste des Commentaires";
   }
 
   // Fetch the /api/comments

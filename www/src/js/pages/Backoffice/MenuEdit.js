@@ -19,6 +19,9 @@ export default class MenuEdit extends Component {
       position: "",
       messages: {},
     };
+
+    document.title = this.state.isEdit ? "Modifier un menu" : "Créer un menu";
+
     if (this.state.isEdit) this.fetchMenu();
   }
 
