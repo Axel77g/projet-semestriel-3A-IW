@@ -5,6 +5,8 @@ define("ENV", "dev");
 
 define("DEFAULT_ROLE","user");
 
+// define("TITLE","faraway");
+
 define("DB_DRIVER", "pgsql");
 define("DB_PORT", 5432);
 define("DB_HOST", "database");

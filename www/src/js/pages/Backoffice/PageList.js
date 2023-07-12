@@ -11,7 +11,10 @@ export default class PageList extends Component {
     this.state = {
       pages: [],
     };
+    document.title = "Liste des pages";
+    
     this.fetchPages();
+
   }
 
   async fetchPages() {

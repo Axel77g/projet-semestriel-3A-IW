@@ -9,6 +9,8 @@ export default class ChangePassword extends Component {
       confirmPassword: "",
       messages: {},
     };
+
+    document.title = "Change Password";
   }
   handleSumbit(e) {
     e.preventDefault();

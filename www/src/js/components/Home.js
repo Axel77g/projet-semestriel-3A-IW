@@ -3,6 +3,9 @@ import { createElement } from "../core/Element.js";
 import Header from "./global/Header.js";
 
 export default class Home extends Component {
+  init() {
+    document.title = "Blog";
+  }
   render() {
     return createElement("div", { class: ["home"] }, [
       createElement(Header, {}),

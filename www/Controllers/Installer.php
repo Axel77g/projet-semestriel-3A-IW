@@ -96,6 +96,9 @@ function writeConfig($payload){
     fwrite($myfile, 'define("DEFAULT_ROLE","user");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
+    fwrite($myfile, 'define("TITLE",' . $payload["input_name_site"] . ');');
+    fwrite($myfile, "\n");
+    fwrite($myfile, "\n");
 
     fwrite($myfile, 'define("DB_DRIVER", "pgsql");');
     fwrite($myfile, "\n");
