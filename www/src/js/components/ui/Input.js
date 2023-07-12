@@ -26,7 +26,7 @@ export default class Input extends Component {
           onchange: this.handleChange.bind(this),
           ...(this.props?.attributes ?? {}),
         },
-        this.state.value ?? ""
+        this.props.value ?? ""
       );
     } else {
       return createElement("input", {

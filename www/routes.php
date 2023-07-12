@@ -102,7 +102,7 @@ Route::post("/api/update-password", [
 ]);
 
 // Users Routes ---------------------------------------------------------------
-Route::get("/users/me", [
+Route::get("/api/users/me", [
     "controller" => "Users",
     "action" => "me",
     "middlewares" => [
