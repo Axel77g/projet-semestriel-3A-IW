@@ -85,6 +85,7 @@ export class Installer extends Component {
       if (response.code === 500 && response.message== "Database connection error") {
         this.setState({ messages: { 
           input_host_database: ["Erreur de Connexion à la base de données"], 
+          input_name_database: ["Erreur de Connexion à la base de données"], 
           input_port_database: ["Erreur de Connexion à la base de données"],
           input_password_database: ["Erreur de Connexion à la base de données"],
           input_username_database: ["Erreur de Connexion à la base de données"],
