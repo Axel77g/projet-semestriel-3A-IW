@@ -76,6 +76,11 @@ class Installer {
         // Create the first user (Admin)
         createUser($payload);
 
+        // seader 
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "menu (parent_id, title, url, visible, position) VALUES (null, 'Home', '/', 1, 0);");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "page (author_id, slug, title, template, content) VALUES (1, '/', 'Home', 'home', 'Home page');");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "comment (content, author, page, comment) VALUES ('Commentaire 1', 1, 1, NULL);");
+
         echo json_encode(["success" => true]);
     }
 
@@ -96,7 +101,7 @@ function writeConfig($payload){
     fwrite($myfile, 'define("DEFAULT_ROLE","user");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("TITLE",' . $payload["input_name_site"] . ');');
+    fwrite($myfile, 'define("TITLE","' . $payload["input_name_site"] . '");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
 
@@ -166,7 +171,7 @@ function writeInitialDatabase($prefix){
     );
 
     -- Pages
-    DROP TABLE IF EXISTS ". $prefix ."page;
+    DROP TABLE IF EXISTS ". $prefix ."page CASCADE;
     DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
     CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
     CREATE TABLE ". $prefix ."page(
@@ -234,7 +239,7 @@ function writeInitialDatabase($prefix){
 
     CREATE TABLE " . $prefix . "menu (
         id SERIAL PRIMARY KEY,
-        parent_id INT NULL DEFAULT 0,
+        parent_id INT NULL DEFAULT NULL,
         title VARCHAR(255) NOT NULL,
         url VARCHAR(255) NOT NULL,
         visible SMALLINT NOT NULL DEFAULT 1,
@@ -243,6 +248,7 @@ function writeInitialDatabase($prefix){
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         CONSTRAINT fk_" . $prefix . "menu_parent_id FOREIGN KEY (parent_id) REFERENCES " . $prefix . "menu(id) ON DELETE CASCADE
     );
+    
     ");
     fclose($myfile);
 }

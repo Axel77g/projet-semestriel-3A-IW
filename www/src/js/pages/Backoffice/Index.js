@@ -12,6 +12,11 @@ export default class BackofficeContainer extends Component {
           icon: "speedometer2",
         },
         {
+          title: "Aller sur le site",
+          url: "/",
+          icon: "box-arrow-up-right",
+        },
+        {
           title: "Content",
           items: [
             {
