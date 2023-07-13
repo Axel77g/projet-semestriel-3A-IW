@@ -29,12 +29,9 @@
     );
 
     -- Pages
-
     DROP TABLE IF EXISTS demo_page CASCADE;
-
     DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
     CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
-
     CREATE TABLE demo_page(
         id SERIAL PRIMARY KEY NOT NULL,
         author_id INTEGER NOT NULL,
@@ -43,7 +40,7 @@
         title VARCHAR(255) NOT NULL,
         template TEMPLATE_PAGE NOT NULL,
         content TEXT NOT NULL,
-
+        is_commentable SMALLINT NOT NULL DEFAULT 1,
         FOREIGN KEY (author_id) REFERENCES demo_user(id) ON DELETE CASCADE
     );
 
@@ -100,7 +97,7 @@
 
     CREATE TABLE demo_menu (
         id SERIAL PRIMARY KEY,
-        parent_id INT NULL DEFAULT 0,
+        parent_id INT NULL DEFAULT NULL,
         title VARCHAR(255) NOT NULL,
         url VARCHAR(255) NOT NULL,
         visible SMALLINT NOT NULL DEFAULT 1,
@@ -109,4 +106,5 @@
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         CONSTRAINT fk_demo_menu_parent_id FOREIGN KEY (parent_id) REFERENCES demo_menu(id) ON DELETE CASCADE
     );
+    
     
