@@ -82,7 +82,7 @@ export class Installer extends Component {
   submitForm() {
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
-      if (response.code === 500 && response.message== "Database connection error") {
+      if (response.code && response.code === 500 && response.message== "Database connection error") {
         this.setState({ messages: { 
           input_host_database: ["Erreur de Connexion à la base de données"], 
           input_name_database: ["Erreur de Connexion à la base de données"], 

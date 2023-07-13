@@ -29,12 +29,9 @@
     );
 
     -- Pages
-
     DROP TABLE IF EXISTS demo_page CASCADE;
-
     DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
     CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
-
     CREATE TABLE demo_page(
         id SERIAL PRIMARY KEY NOT NULL,
         author_id INTEGER NOT NULL,
@@ -43,7 +40,7 @@
         title VARCHAR(255) NOT NULL,
         template TEMPLATE_PAGE NOT NULL,
         content TEXT NOT NULL,
-
+        is_commentable SMALLINT NOT NULL DEFAULT 1,
         FOREIGN KEY (author_id) REFERENCES demo_user(id) ON DELETE CASCADE
     );
 
