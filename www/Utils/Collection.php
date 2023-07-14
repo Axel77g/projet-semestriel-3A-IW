@@ -49,9 +49,18 @@ class Collection implements Sanitize{
                 return $a->$key < $b->$key;
             }
         });
+
     }
     public function sort($callback){
         usort($this->items, $callback);
+    }
+
+    public function limit($limit){
+        $this->items = array_slice($this->items, 0, $limit);
+    }
+
+    public function filter($callback){
+        $this->items = array_filter($this->items, $callback);
     }
     
 }

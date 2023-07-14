@@ -178,6 +178,7 @@ function writeInitialDatabase($prefix){
         template TEMPLATE_PAGE NOT NULL,
         content TEXT NOT NULL,
         is_commentable SMALLINT NOT NULL DEFAULT 1,
+        views INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY (author_id) REFERENCES ". $prefix ."user(id) ON DELETE CASCADE
     );
 

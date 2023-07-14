@@ -145,6 +145,7 @@ class QueryBuilder {
         $stmt = $pdo->prepare($this->query);
         $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
         $this->parseExecPayload();
+        // var_dump($this->execPayload);
         $stmt->execute($this->execPayload);
         if($lastId)
             return $pdo->lastInsertId();
