@@ -145,27 +145,21 @@ class QueryBuilder {
     }
 
     public function execute($lastId = false){
-        
-        try {
-            //code...
-            if(str_contains($this->query, "DELETE") && !str_contains( $this->query,"WHERE")) {
-                
-                throw new InternalError("DELETE without WHERE");
-            }
     
-            
-            $pdo = $this->db->getConnection();
-            $stmt = $pdo->prepare($this->query);
-            $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
-            $this->parseExecPayload();
-            $stmt->execute($this->execPayload);
-            if($lastId)
-                return $pdo->lastInsertId();
-            return $stmt;
-        } catch (\Throwable $th) {
-            //throw $th;
-            dd($th, $this->query, $this->execPayload);
+        if(str_contains($this->query, "DELETE") && !str_contains($this->query,"WHERE")) {  
+            throw new InternalError("DELETE without WHERE");
         }
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($this->query);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
+        $this->parseExecPayload();
+        $stmt->execute($this->execPayload);
+
+        if($lastId)
+            return $pdo->lastInsertId();
+            
+        return $stmt;
     }
 
     public function debug(){
