@@ -6,7 +6,6 @@ import {
   ArticleView as article,
   ArticleListView as article_list,
 } from "../templates/index.js";
-import { createElement } from "../core/Element.js";
 import CommentConversation from "../components/comments/CommentConversation.js";
 
 export default class PageView extends Component {
