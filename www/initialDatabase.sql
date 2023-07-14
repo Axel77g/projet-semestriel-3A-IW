@@ -97,7 +97,7 @@
 
     CREATE TABLE demo_menu (
         id SERIAL PRIMARY KEY,
-        parent_id INT NULL DEFAULT 0,
+        parent_id INT NULL DEFAULT NULL,
         title VARCHAR(255) NOT NULL,
         url VARCHAR(255) NOT NULL,
         visible SMALLINT NOT NULL DEFAULT 1,
@@ -106,4 +106,5 @@
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         CONSTRAINT fk_demo_menu_parent_id FOREIGN KEY (parent_id) REFERENCES demo_menu(id) ON DELETE CASCADE
     );
+    
     
