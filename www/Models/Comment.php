@@ -9,10 +9,10 @@ use App\Models\User;
 class Comment extends Model
 {
 
-    protected string $page_id;
-    protected string $author;
-    protected ?string $comment = null;
-    protected string $content;
+    protected int $page_id = 0;
+    protected int $author_id = 0;
+    protected ?int $comment_id = null;
+    protected string $content = "";
     protected string $status = "pending";
 
     /*
@@ -23,21 +23,30 @@ class Comment extends Model
         return $this->page_id;
     }
 
-    public function getAuthor()
+    public function getAuthorId()
     {
-        return $this->author;
+        return $this->author_id;
     }
 
-    // public function getAuthorName()
-    // {
-    //     $author = User::fetch(["id" => $this->author_id]);
+    public function getAuthor(){
+        return User::fetch($this->author_id);
+    }
 
-    //     return $author->getLastname();
-    // }
 
-    public function getComment()
+    public function getCommentId()
     {
-        return $this->comment;
+        return $this->comment_id;
+    }
+
+    public function getComment(){
+        return Comment::fetch($this->comment_id);
+    }
+
+    public function getComments(){
+        return Comment::findMany([
+            "comment_id" => $this->id,
+            'status'=> 'validated', 
+        ]);
     }
 
     public function getContent()
@@ -53,14 +62,14 @@ class Comment extends Model
         $this->page_id = $page_id;
     }
 
-    public function setAuthor($author)
+    public function setAuthorId($author)
     {
-        $this->author = $author;
+        $this->author_id = $author;
     }
 
-    public function setComment($comment)
+    public function setCommentId($comment)
     {
-        $this->comment = $comment;
+        $this->comment_id = $comment;
     }
 
     public function setContent($content)
