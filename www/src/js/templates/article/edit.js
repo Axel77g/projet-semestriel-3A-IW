@@ -64,7 +64,6 @@ export class ArticleEdit extends Component {
     } else {
       let blocs = [...this.state.blocs];
       blocs[index] = { ...blocs[index], ...obj };
-      console.log(blocs);
       this.setState({
         blocs: blocs,
       });
@@ -72,7 +71,6 @@ export class ArticleEdit extends Component {
   }
 
   render() {
-    console.log(this.state.blocs, this.$components);
     return createElement("div", { class: "mt-4" }, [
       createElement(
         "div",

@@ -105,7 +105,6 @@ export default class CommentList extends Component {
             },
             label: "Approuver",
             onClick: (item) => {
-              console.log(item);
               this.updateStatus(item.id, "validated");
             },
           },
