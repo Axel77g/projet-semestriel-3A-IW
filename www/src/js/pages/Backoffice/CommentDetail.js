@@ -12,6 +12,8 @@ export default class CommentDetail extends Component {
       comment: {},
       id: router.route.params.id,
     };
+
+    document.title = "Commentaire";
     this.fetchComment();
   }
 

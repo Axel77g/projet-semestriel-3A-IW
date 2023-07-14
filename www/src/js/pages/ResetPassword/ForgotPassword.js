@@ -9,6 +9,8 @@ export default class ForgotPassword extends Component {
       email: "",
       messages: {},
     };
+
+    document.title = "Forgot Password";
   }
   handleSumbit(e) {
     e.preventDefault();

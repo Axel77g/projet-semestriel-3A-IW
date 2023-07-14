@@ -19,13 +19,13 @@ export default class PageEdit extends Component {
   init() {
     this.state = {
       isEdit: Boolean(this.slug),
-
+      
       slug: "",
       template: -1,
       parent_slug: null,
       content: {},
       is_commentable: false,
-
+      
       typesOptions: [
         {
           label: "Home",
@@ -40,9 +40,11 @@ export default class PageEdit extends Component {
           value: "article_list",
         },
       ],
-
+      
       parentOptions: [],
     };
+    document.title = this.state.isEdit ? "Modifier une page" : "Créer une page";
+
     this.fetchPages().then((pages) => {
       if (this.state.isEdit) this.fetchPage(pages);
     });
