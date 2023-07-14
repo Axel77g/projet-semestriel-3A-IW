@@ -5,7 +5,6 @@ export default class Graph extends Component {
   init() {
     
     this.state = {
-      data: this.props.data ?? null,
       id: this.props.id ?? "myChart",
     };
 
@@ -13,18 +12,17 @@ export default class Graph extends Component {
   }
 
 async onUpdate() {
-  console.log(this.props);
+  
     await Graph.addLibraries();
     this.onRerender();
   }
 
   onRerender() {
-    if(this.state.data) {
-      
+    console.log(this.props);
+      if(this.c) this.c.destroy()
       const container = document.getElementById(this.state.id);
       
-      new Chart(container, this.state.data);
-      }
+      this.c = new Chart(container, this.props.data);
   }
 
   static addScript() {
@@ -51,9 +49,6 @@ async onUpdate() {
   }
 
   render() {
-    if (this.state.data) {
-      return createElement("p", {}, "non vide");
-    }
-    return createElement("p", {}, "vide");
+    return createElement("hr", {}, "");
   }
 }

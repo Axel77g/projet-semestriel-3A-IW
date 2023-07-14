@@ -18,50 +18,54 @@ export default class Dashboard extends Component {
     const api = new Api();
     const response = await api.get("api/analytics/top-article");
     if (Array.isArray(response)) {
-      // this.setState({
-      //   topArticles: {
-      //     type: "bar",
-      //     data: {
-      //       labels: response.map((article) => article.title),
-      //       datasets: [
-      //         {
-      //           label: "Article les plus vus",
-      //           data: response.map((article) => article.views),
-      //           borderWidth: 1,
-      //         },
-      //       ],
-      //     },
-      //     options: {
-      //       scales: {
-      //         y: {
-      //           beginAtZero: true,
-      //         },
-      //       },
-      //     },
-      //   },
-      // });
-      this.setState( response );
+      this.setState({
+        topArticles: {
+          type: "bar",
+          data: {
+            labels: response.map((article) => article.title),
+            datasets: [
+              {
+                label: "Article les plus vus",
+                data: response.map((article) => article.views),
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        },
+      });
+
 
     }
   }
 
   render() {
     console.log(this.state);
-    let child;
-    if (!this.state.topArticles) {
-      child = createElement("div", { class: "container" }, [
+   
+      let child = createElement("div", { class: "container" }, [
         createElement("h1", {}, "Dashboard"),
         createElement("canvas", { id: "mychart-main" }, ""),
         createElement(Graph, {
           id: "mychart-main",
           data: this.state.topArticles,
+         
+        }),
+
+        createElement("canvas", { id: "mychart-second" }, ""),
+        createElement(Graph, {
+          id: "mychart-second",
+          data: this.state.topArticles,
+         
         }),
       ]);
-    } else {
-      child = createElement("div", { class: "container" }, [
-        createElement("h1", {}, "Dashboard"),
-      ]);
-    }
+
+
 
     return createElement("div", {}, [
       createElement(BackofficeContainer, {
