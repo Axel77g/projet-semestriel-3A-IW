@@ -1,6 +1,3 @@
-import { Article } from "../legacy/Article.js";
-import { Installer } from "../components/Installer/Installer.js";
-
 import Home from "../components/Home.js";
 import Login from "../pages/Login/Login.js";
 import Logout from "../pages/Logout/Logout.js";
@@ -8,15 +5,12 @@ import Register from "../pages/Register/Register.js";
 import ForgotPassword from "../pages/ResetPassword/ForgotPassword.js";
 import ChangePassword from "../pages/ResetPassword/ChangePassword.js";
 
-import AboutUs from "../components/AboutUs/AboutUs.js";
 import PageEdit from "../pages/Backoffice/PageEdit.js";
 import MenuList from "../pages/Backoffice/MenuList.js";
 import MenuEdit from "../pages/Backoffice/MenuEdit.js";
 import Dashboard from "../pages/Backoffice/Dashboard.js";
 import Page_404 from "../pages/Page_404/Page_404.js";
 import PageList from "../pages/Backoffice/PageList.js";
-import CommentCard from "../components/comments/CommentCard.js";
-
 import CommentList from "../pages/Backoffice/CommentList.js";
 import CommentDetail from "../pages/Backoffice/CommentDetail.js";
 

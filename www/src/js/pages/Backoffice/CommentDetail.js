@@ -25,13 +25,6 @@ export default class CommentDetail extends Component {
       this.setState({
         comment: response,
       });
-
-      if (this.state.comment.author !== null) {
-        api.get("api/users/" + this.state.comment.author).then((response) => {
-          this.setState({ author: response });
-          console.log(this.state);
-        });
-      }
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -48,8 +41,6 @@ export default class CommentDetail extends Component {
           comment: response,
         });
       });
-
-    console.log(this.state);
   }
 
   render() {
@@ -85,22 +76,24 @@ export default class CommentDetail extends Component {
             createElement(
               "summary",
               { class: "mb-2" },
-              this.state.author
-                ? this.state.author.firstname + " " + this.state.author.lastname
+              this.state.comment.author
+                ? this.state.comment.author.firstname +
+                    " " +
+                    this.state.comment.author.lastname
                 : "Aucun auteur"
             ),
             createElement(
               "p",
               { class: "mb-1" },
-              this.state.author
-                ? "Email : " + this.state.author.email
+              this.state.comment.author
+                ? "Email : " + this.state.comment.author.email
                 : "Email : Aucun auteur"
             ),
             createElement(
               "p",
               { class: "mb-1" },
-              this.state.author
-                ? "Role : " + this.state.author.role
+              this.state.comment.author
+                ? "Role : " + this.state.comment.author.role
                 : "Role : Aucun auteur"
             ),
             createElement(
@@ -117,20 +110,20 @@ export default class CommentDetail extends Component {
                   {
                     class: [
                       "badge",
-                      "" + this.state.author
-                        ? this.state.author?.is_verified
+                      "" + this.state.comment.author
+                        ? this.state.comment.author?.is_verified
                           ? "badge-success"
                           : "badge-warning"
                         : "badge-warning",
-                      "" + this.state.author
-                        ? this.state.author?.is_verified
+                      "" + this.state.comment.author
+                        ? this.state.comment.author?.is_verified
                           ? "text-bg-success"
                           : "text-bg-warning"
                         : "text-bg-warning",
                     ],
                   },
-                  this.state.author
-                    ? this.state.author.is_verified
+                  this.state.comment.author
+                    ? this.state.comment.author.is_verified
                       ? "Vérifié"
                       : "Non Vérifié"
                     : "Aucun auteur"

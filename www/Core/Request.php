@@ -55,7 +55,7 @@ class Request{
             $token = $headers['authorization'];
             return Auth::get($token);
         }
-        return null;
+        return new Auth();
     }
 }
 

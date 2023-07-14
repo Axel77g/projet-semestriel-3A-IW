@@ -4,12 +4,25 @@ use App\Utils\Collection;
 use App\Utils\StringHelpers;
 
 use App\Errors\BadRequest;
+use DateTime;
 
 abstract class Model implements Sanitize{
 
     public Int $id = 0;
-    private \DateTime $created_at;
-    private \DateTime $updated_at; 
+    protected string|\DateTime $created_at;
+    protected string|\DateTime $updated_at; 
+
+
+    public static function findMany($where = [], $limit = 0, $offset = 0, $orderBy = []){
+        $class = get_called_class();
+        $model = new $class();
+        $query = $model->query();
+        $result = $query->select()->where($where)->offset($offset)->execute();
+        if($limit > 0){
+            $result->limit($limit);
+        }
+        return new Collection($result->fetchAll());
+    }
 
     public function query(){
         return new QueryBuilder($this);
@@ -88,10 +101,13 @@ abstract class Model implements Sanitize{
 
         foreach($columns as $key => $value){
             if(is_a($value, Model::class)){
-                $columns[$key] = $value->toJson();
+                $columns[$key] = $value->toArray();
+            }
+            if(is_a($value, Collection::class)){
+                $columns[$key] = $value->toArray(true);
             }
         }
-        return json_encode($this->getColumns());
+        return json_encode($columns);
     }
     
     public function toArray(){
@@ -105,6 +121,9 @@ abstract class Model implements Sanitize{
         foreach($columns as $key => $value){
             if(is_a($value, Model::class)){
                 $columns[$key] = $value->toArray();
+            }
+            if(is_a($value, Collection::class)){
+                $columns[$key] = $value->toArray(true);
             }
         }
 
@@ -122,11 +141,11 @@ abstract class Model implements Sanitize{
     }
 
     public function getCreatedAt() {
-        return $this->created_at;
+        return new DateTime($this->created_at);
     }
 
     public function getUpdatedAt() {
-        return $this->updated_at;
+        return new DateTime($this->updated_at);
     }
 
     public function setCreatedAt($created_at) {

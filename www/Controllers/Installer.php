@@ -78,8 +78,8 @@ class Installer {
 
         // seader 
         $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "menu (parent_id, title, url, visible, position) VALUES (null, 'Home', '/', 1, 0);");
-        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "page (author_id, slug, title, template, content) VALUES (1, '/', 'Home', 'home', 'Home page');");
-        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "comment (content, author, page, comment) VALUES ('Commentaire 1', 1, 1, NULL);");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "page (author_id, slug, title, template, content) VALUES (1, '/', 'Home', 'home', '[]');");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "comment (content, author_id, page_id, comment_id) VALUES ('Commentaire 1', 1, 1, NULL);");
 
         echo json_encode(["success" => true]);
     }
@@ -192,15 +192,15 @@ function writeInitialDatabase($prefix){
     CREATE TABLE " . $prefix . "comment (
         id SERIAL,
         content text NOT NULL,
-        author int NOT NULL,
-        page int NOT NULL,
-        comment int,
+        author_id int NOT NULL,
+        page_id int NOT NULL,
+        comment_id int,
         status STATUS_COMMENT DEFAULT 'pending',
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
-        FOREIGN KEY (page) REFERENCES " . $prefix . "page(id) ON DELETE CASCADE,
-        FOREIGN KEY (comment) REFERENCES " . $prefix . "comment(id) ON DELETE CASCADE,
+        FOREIGN KEY (author_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
+        FOREIGN KEY (page_id) REFERENCES " . $prefix . "page(id) ON DELETE CASCADE,
+        FOREIGN KEY (comment_id) REFERENCES " . $prefix . "comment(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
 
