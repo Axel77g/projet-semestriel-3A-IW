@@ -3,7 +3,9 @@ import Component from "../../core/Component.js";
 import Router from "../../core/Router.js";
 
 export default class Page_404 extends Component {
-  init() {}
+  init() {
+    document.title = "404";
+  }
 
   render() {
     return createElement(

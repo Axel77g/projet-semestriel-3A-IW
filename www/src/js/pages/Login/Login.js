@@ -9,6 +9,7 @@ export default class Login extends Component {
       password: "",
       messages: {},
     };
+    document.title = "Login";
   }
   handleSumbit(e) {
     e.preventDefault();
