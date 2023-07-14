@@ -11,6 +11,7 @@ export default class Register extends Component {
       password: "",
       messages: {},
     };
+    document.title = "Register";
   }
   handleSumbit(e) {
     e.preventDefault();

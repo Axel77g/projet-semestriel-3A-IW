@@ -6,6 +6,8 @@ export default class Dashboard extends Component {
   init() {
     const api = new Api();
     api.get("api/isAdmin");
+
+    document.title = "Dashboard";
   }
   render() {
     return createElement("div", {}, [createElement(BackofficeContainer, {})]);

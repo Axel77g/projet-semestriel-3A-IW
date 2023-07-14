@@ -12,6 +12,7 @@ export default class MenuList extends Component {
       menus: [],
     };
     this.fetchMenus();
+    document.title = "Liste des menus";
   }
 
   // Fetch the /api/menusw
