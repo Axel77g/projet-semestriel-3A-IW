@@ -1,3 +1,4 @@
+import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
 import authMix, { AUTH_STATE } from "../../mixins/authMixin.js";
@@ -11,12 +12,40 @@ export class CommentForm extends Component {
   init() {
     this.state = {
       comment: "",
+      success: null,
+      errors: {},
     };
   }
 
+  get page() {
+    return router.route.page;
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    const payload = {
+      author_id: this.state.user.id,
+      content: this.state.comment,
+      page_id: this.page.id,
+      comment_id: this.props.comment?.id || undefined,
+    };
+    const api = new Api();
+    const response = await api.post("api/comments", payload);
+    if (response?.code == 422) {
+      this.setState({
+        errors: response.message,
+      });
+    } else {
+      this.setState({
+        success:
+          "Votre commentaire a bien été posté, il est en attente de validation par un modérateur",
+        comment: "",
+      });
+    }
+  }
+
   render() {
-    console.log(this.state);
-    return createElement("div", {}, [
+    return createElement("form", { class: "comment-form" }, [
       this.state.isAuth === AUTH_STATE.UNKOWN
         ? createElement("p", {}, "Chargement...")
         : this.state.isAuth === AUTH_STATE.NOT_AUTH
@@ -25,7 +54,7 @@ export class CommentForm extends Component {
             {},
             "Vous devez être connecté pour poster un commentaire"
           )
-        : createElement("form", {}, [
+        : createElement("div", {}, [
             createElement(Input, {
               type: "text",
               placeholder: "Votre nom",
@@ -41,12 +70,30 @@ export class CommentForm extends Component {
               placeholder: "Commentaire",
               name: "comment",
               value: this.state.comment,
-              onChange: (e) => {},
+              onChange: (e) => {
+                this.setState({
+                  comment: e.value,
+                });
+              },
+              message: this.state.errors?.content,
             }),
-            createElement(Button, {
-              type: "submit",
-              children: "Envoyer",
-            }),
+            this.state.success &&
+              createElement("p", { class: "form-success" }, this.state.success),
+            createElement("div", { class: ["form-action"] }, [
+              createElement(Button, {
+                type: "submit",
+                children: "Envoyer",
+                onClick: this.handleSubmit.bind(this),
+              }),
+              this.props.comment &&
+                createElement(Button, {
+                  onClick: () => {
+                    this.props.onCancel();
+                  },
+                  class: ["btn-secondary"],
+                  children: "Annuler",
+                }),
+            ]),
           ]),
     ]);
   }

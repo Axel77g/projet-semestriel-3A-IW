@@ -1,0 +1,65 @@
+.answers-list {
+  padding-left: 1em;
+}
+
+.comment {
+  &-container {
+    background: white;
+    border: 1px solid #ccc;
+    margin: 1em;
+    padding: 0.5em;
+  }
+  p {
+    margin-bottom: 0;
+  }
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    h4 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.5;
+      font-style: italic;
+      margin: 0.5em 0;
+    }
+    &-actions {
+      display: flex;
+      gap: 1em;
+      i {
+        padding-right: 0.5em;
+        position: relative;
+        top: -0.1em;
+      }
+      span {
+        opacity: 0.5;
+        cursor: pointer;
+      }
+      & *:hover {
+        text-decoration: underline;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.comment-form {
+  margin: 1em;
+  padding: 0.5em;
+  padding-left: 1em;
+  border-left: 1px solid #ccc;
+  .form-group {
+    margin-bottom: 0.5em;
+  }
+  .form-success {
+    color: green;
+  }
+  .form-action {
+    margin-top: 1em;
+    display: flex;
+    gap: 1em;
+  }
+}

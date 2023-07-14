@@ -217,4 +217,68 @@ body {
   margin: 1rem 0;
 }
 
+.answers-list {
+  padding-left: 1em;
+}
+
+.comment-container {
+  background: white;
+  border: 1px solid #ccc;
+  margin: 1em;
+  padding: 0.5em;
+}
+.comment p {
+  margin-bottom: 0;
+}
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+}
+.comment-header h4 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.comment-header p {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.5;
+  font-style: italic;
+  margin: 0.5em 0;
+}
+.comment-header-actions {
+  display: flex;
+  gap: 1em;
+}
+.comment-header-actions i {
+  padding-right: 0.5em;
+  position: relative;
+  top: -0.1em;
+}
+.comment-header-actions span {
+  opacity: 0.5;
+  cursor: pointer;
+}
+.comment-header-actions *:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.comment-form {
+  margin: 1em;
+  padding: 0.5em;
+  padding-left: 1em;
+  border-left: 1px solid #ccc;
+}
+.comment-form .form-group {
+  margin-bottom: 0.5em;
+}
+.comment-form .form-success {
+  color: green;
+}
+.comment-form .form-action {
+  margin-top: 1em;
+  display: flex;
+  gap: 1em;
+}
+
 /*# sourceMappingURL=style.css.map */

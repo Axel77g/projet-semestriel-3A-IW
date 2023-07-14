@@ -62,7 +62,6 @@ export default class Router {
         break;
       }
     }
-    console.log(target);
 
     if (target == null) {
       const api = new Api();
