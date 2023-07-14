@@ -6,6 +6,7 @@ import {
   ArticleView as article,
   ArticleListView as article_list,
 } from "../templates/index.js";
+import CommentConversation from "../components/comments/CommentConversation.js";
 
 export default class PageView extends Component {
   init() {}
@@ -24,6 +25,8 @@ export default class PageView extends Component {
     return createElement("div", {}, [
       createElement(Header, {}, []),
       createElement(this.view, { page: this.page }, []),
+      this.page.is_commentable &&
+        createElement(CommentConversation, { page: this.page }, []),
     ]);
   }
 }

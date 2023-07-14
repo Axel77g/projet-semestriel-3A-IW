@@ -93,12 +93,18 @@ class QueryBuilder {
         
         $base = !$this->hasWhere() ? " WHERE" : " AND";
         foreach($arrayWhere as $key => $value){
-            if(is_array($value)){
-                $base .= " $key $value[0] :$key AND";
-                $arrayWhere[$key] = $value[1];
+            if($value === null){
+                $base .= " $key IS NULL AND";
+                unset($arrayWhere[$key]);
+
             }
-            else 
-                $base .= " $key = :$key AND";
+            else
+                if(is_array($value)){
+                    $base .= " $key $value[0] :$key AND";
+                    $arrayWhere[$key] = $value[1];
+                }
+                else 
+                    $base .= " $key = :$key AND";
         }
         $base = rtrim($base,"AND");
         $this->query .= $base;
@@ -115,18 +121,22 @@ class QueryBuilder {
         return $this;
     }
 
-    public function orderBy($property, $direction = "ASC"){
-        $this->query .= " ORDER BY $property $direction";
+    public function orderBy($property = 'id', $direction = "ASC"){
+        $this->query .= " ORDER BY :property :direction";
+        $this->execPayload['property'] = $property;
+        $this->execPayload['direction'] = $direction;
         return $this;
     }
 
-    public function limit($limit){
-        $this->query .= " LIMIT $limit";
+    public function limit($limit = -1){
+        $this->query .= " LIMIT :limit";
+        $this->execPayload['limit'] = $limit;
         return $this;
     }
 
-    public function offset($offset){
-        $this->query .= " OFFSET $offset";
+    public function offset($offset = 0){
+        $this->query .= " OFFSET :offset";
+        $this->execPayload['offset'] = $offset;
         return $this;
     }
 
@@ -135,20 +145,21 @@ class QueryBuilder {
     }
 
     public function execute($lastId = false){
-        
-        if(str_contains($this->query, "DELETE" && !str_contains("WHERE", $this->query))) {
+    
+        if(str_contains($this->query, "DELETE") && !str_contains($this->query,"WHERE")) {  
             throw new InternalError("DELETE without WHERE");
         }
 
-        
         $pdo = $this->db->getConnection();
         $stmt = $pdo->prepare($this->query);
         $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
         $this->parseExecPayload();
         // var_dump($this->execPayload);
         $stmt->execute($this->execPayload);
+
         if($lastId)
             return $pdo->lastInsertId();
+            
         return $stmt;
     }
 

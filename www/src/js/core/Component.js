@@ -11,8 +11,26 @@ export default class Component {
     this.id = Number(Component.component_last_id);
     this.key = props?.key || this.__proto__.constructor.name;
     Component.component_last_id += 1;
+    this.applyMixins();
     this.init();
     this.onMounted();
+  }
+
+  applyMixins() {
+    this.mixins.forEach((mixin) => {
+      for (let prop in mixin) {
+        if (typeof this[prop] == "function") {
+          const originalFunction = this[prop].bind(this);
+          const combinedFunction = (...args) => {
+            originalFunction.apply(this, args);
+            mixin[prop].apply(this, args);
+          };
+          this[prop] = combinedFunction;
+        } else {
+          this[prop] = mixin[prop];
+        }
+      }
+    });
   }
 
   redefine(props = {}, state = {}, parent = null) {
@@ -71,6 +89,10 @@ export default class Component {
 
   get structure() {
     return this.render();
+  }
+
+  get mixins() {
+    return [];
   }
 
   propagate(event, data) {

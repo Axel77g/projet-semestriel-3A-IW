@@ -167,6 +167,9 @@ class Pages extends Controller
             throw new NotFoundError();
         }
 
-        return $page;
+        echo json_encode([
+            ...$page->toArray(),
+            "content"=> PageServices::populateContentFileRelation($page->getContent())
+        ]);
     }
 }

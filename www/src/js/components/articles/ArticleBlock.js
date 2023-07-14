@@ -51,7 +51,6 @@ export default class ArticleBlock extends Component {
         ],
         value: this.props.image_position,
         onChange: (e) => {
-          console.log("ici change select");
           this.handleChange({ image_position: e.value });
         },
       }),

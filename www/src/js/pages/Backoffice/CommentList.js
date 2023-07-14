@@ -1,9 +1,6 @@
 import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
-import Menu from "../menus/Menu.js";
-import Button from "../../components/ui/Button.js";
 import BackofficeContainer from "./Index.js";
-import { createElement } from "../../core/Element.js";
 import { Table } from "../../components/ui/Table.js";
 
 export default class CommentList extends Component {
@@ -109,7 +106,6 @@ export default class CommentList extends Component {
             },
             label: "Approuver",
             onClick: (item) => {
-              console.log(item);
               this.updateStatus(item.id, "validated");
             },
           },
