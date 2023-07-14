@@ -1,7 +1,6 @@
 import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
 import BackofficeContainer from "./Index.js";
-import { createElement } from "../../core/Element.js";
 import { Table } from "../../components/ui/Table.js";
 
 export default class CommentList extends Component {
