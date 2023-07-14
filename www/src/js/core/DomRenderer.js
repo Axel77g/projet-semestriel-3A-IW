@@ -87,6 +87,7 @@ export default class DomRenderer {
 
     if (obj.attributes) {
       for (const attr in obj.attributes) {
+        if (["key", "ref", "html"].includes(attr)) continue;
         if (attr.startsWith("on")) {
           element.addEventListener(attr.slice(2), obj.attributes[attr]);
           continue;
