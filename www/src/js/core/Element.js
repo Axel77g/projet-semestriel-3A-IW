@@ -1,5 +1,5 @@
 export default class Element {
-  constructor(tag = "div", attributes = {}, children = []) {
+  constructor(tag = "div", attributes = {}, children = "") {
     this.tag = tag;
     this.attributes = attributes;
     this.children = Array.isArray(children)
