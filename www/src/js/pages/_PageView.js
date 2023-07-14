@@ -26,7 +26,8 @@ export default class PageView extends Component {
     return createElement("div", {}, [
       createElement(Header, {}, []),
       createElement(this.view, { page: this.page }, []),
-      createElement(CommentConversation, { page: this.page }, []),
+      this.page.is_commentable &&
+        createElement(CommentConversation, { page: this.page }, []),
     ]);
   }
 }
