@@ -1,5 +1,4 @@
 import Component from "../../core/Component.js";
-import { createElement } from "../../core/Element.js";
 
 export class ArticleView extends Component {
   render() {
