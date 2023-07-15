@@ -6,6 +6,7 @@ import Button from "../ui/Button.js";
 
 import Menu from "../../pages/menus/Menu.js";
 import { createElement } from "../../core/Element.js";
+import { Link } from "../ui/Link.js";
 
 export default class HomeHeader extends Component {
   init() {
@@ -27,43 +28,49 @@ export default class HomeHeader extends Component {
   render() {
     return createElement(
       "nav",
-      { class: ["navbar", "navbar-expand-lg", "navbar-light", "bg-light"] },
+      { class: ["navbar", "navbar-expand-md", "navbar-light", "bg-light"] },
       [
-        createElement("a", { class: "navbar-brand" }, "Faraway"),
-        createElement(
-          "button",
-          {
-            class: "navbar-toggler",
-            type: "button",
-            "data-toggle": "collapse",
-            "data-target": "#navbarNav",
-            "aria-controls": "navbarNav",
-            "aria-expanded": "false",
-            "aria-label": "Toggle navigation",
-          },
-          [createElement("span", { class: "navbar-toggler-icon" })]
-        ),
-        createElement(
-          "div",
-          { class: ["collapse", "navbar-collapse"], id: "navbarNav" },
-          [
-            createElement(
-              "ul",
-              { class: ["navbar-nav"] },
-              this.state.menus
-                .filter((menu) => menu.parent_id == null)
-                .map((menu) => {
-                  return createElement(Menu, {
-                    menu: menu,
-                    key: menu.id,
-                    menuChildren: this.state.menus.filter(
-                      (menuChild) => menuChild.parent_id == menu.id
-                    ),
-                  });
-                })
-            ),
-          ]
-        ),
+        createElement("div", { class: "container-fluid" }, [
+          createElement(Link, {
+            class: "navbar-brand",
+            href: "/",
+            children: "Faraway",
+          }),
+          createElement(
+            "button",
+            {
+              class: "navbar-toggler",
+              type: "button",
+              "data-bs-toggle": "collapse",
+              "data-bs-target": "#navbarNav",
+              "aria-controls": "navbarNav",
+              "aria-expanded": "false",
+              "aria-label": "Toggle navigation",
+            },
+            [createElement("span", { class: "navbar-toggler-icon" })]
+          ),
+          createElement(
+            "div",
+            { class: ["collapse", "navbar-collapse"], id: "navbarNav" },
+            [
+              createElement(
+                "ul",
+                { class: ["navbar-nav"] },
+                this.state.menus
+                  .filter((menu) => menu.parent_id == null)
+                  .map((menu) => {
+                    return createElement(Menu, {
+                      menu: menu,
+                      key: menu.id,
+                      menuChildren: this.state.menus.filter(
+                        (menuChild) => menuChild.parent_id == menu.id
+                      ),
+                    });
+                  })
+              ),
+            ]
+          ),
+        ]),
       ]
     );
   }
