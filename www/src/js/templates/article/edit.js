@@ -1,5 +1,6 @@
 import ArticleBlock from "../../components/articles/ArticleBlock.js";
 import Button from "../../components/ui/Button.js";
+import FilePicker from "../../components/ui/FilePicker.js";
 import WYSIWYG from "../../components/ui/WYSIWYG.js";
 import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
@@ -7,6 +8,7 @@ import { createElement } from "../../core/Element.js";
 export class ArticleEdit extends Component {
   init() {
     this.state = {
+      thumbnail: this.props?.initialContent?.thumbnail || null,
       blocs: this.props?.initialContent?.blocs || [
         {
           file_image: null,
@@ -19,6 +21,7 @@ export class ArticleEdit extends Component {
 
   get content() {
     return {
+      thumbnail: this.state.thumbnail,
       blocs: this.state.blocs,
     };
   }
@@ -72,6 +75,15 @@ export class ArticleEdit extends Component {
 
   render() {
     return createElement("div", { class: "mt-4" }, [
+      createElement("div", { class: "form-group" }, [
+        createElement(FilePicker, {
+          label: "Image de couverture",
+          value: this.state.thumbnail,
+          onChange: (value) => {
+            this.setState({ thumbnail: value });
+          },
+        }),
+      ]),
       createElement(
         "div",
         { class: ["article-edit-paragraphs"] },

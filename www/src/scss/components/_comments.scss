@@ -1,7 +1,11 @@
 .answers-list {
   padding-left: 1em;
 }
-
+.comment-section {
+  margin: 2em auto;
+  max-width: 1000px;
+  padding: 0 2em;
+}
 .comment {
   &-container {
     background: white;

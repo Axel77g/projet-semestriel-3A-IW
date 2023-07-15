@@ -79,6 +79,41 @@ class Collection implements Sanitize{
         return count($this->items);
 
     }
+
+    public function except(array $keys) : Collection
+    {    
+        $result = [];
+        foreach($this->items as $key=>$value){
+            if(!in_array($key, $keys)){
+                $result[$key] = $value;
+            }
+        }
+        return new Collection($result);
+    }
+
+    public function only(array $keys) : Collection
+    {   
+        $result = [];
+        foreach($this->items as $key=>$value){
+            if(in_array($key, $keys)){
+                $result[$key] = $value;
+            }
+        }
+        return new Collection($result);
+    }
+
+
+    public function filter(callable $callback){
+
+        $result = [];
+        foreach($this->items as $key=>$value){
+            if($callback($value, $key)){
+                $result[$key] = $value;
+            }
+        }
+        return new Collection($result);
+
+    }
     
 }
 

@@ -1,22 +1,98 @@
 .article-container {
-  margin: 2em auto;
-  max-width: 1000px;
-  padding: 0 2em;
+  .article-header {
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: black;
+    color: white;
+    text-align: center;
+    margin-bottom: 4em;
+    img {
+      opacity: 0.6;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      position: absolute;
+      inset: 1;
+    }
+    > *:not(img) {
+      z-index: 1;
+    }
+    span,
+    time {
+      opacity: 0.8;
+    }
+    b {
+      text-transform: capitalize;
+    }
+  }
 
+  .article-content {
+    margin: 2em auto;
+    max-width: 1000px;
+    padding: 0 2em;
+    p {
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+  }
   .article-bloc {
     margin: 2em auto;
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1em 2rem;
     align-items: stretch;
     > div {
-      flex: 1 1 50%;
+      flex: 1 0 50%;
     }
     .article-bloc-image {
       img {
         width: 100%;
-        height: auto;
+        object-fit: cover;
+        height: 100%;
       }
+    }
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+      > div {
+        flex: 1 0 100%;
+      }
+    }
+  }
+}
+
+.articles-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+  gap: 2rem;
+  margin: 2em auto;
+  max-width: 1000px;
+  padding: 0 2em;
+
+  .article-card {
+    width: 300px;
+    border: 1px solid #ccc;
+    img {
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
+    }
+    &-content {
+      padding: 1em;
+      span {
+        font-size: 0.8em;
+        color: #999;
+      }
+    }
+    a {
+      text-decoration: none !important;
+      color: currentColor;
     }
   }
 }
