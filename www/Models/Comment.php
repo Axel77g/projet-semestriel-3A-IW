@@ -54,27 +54,33 @@ class Comment extends Model
         return $this->content;
     }
 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+
     /*
     * Setters
     */
     public function setPageId($page_id)
     {
-        $this->page_id = $page_id;
+        $this->page_id = Protection::int($page_id);
     }
 
     public function setAuthorId($author)
     {
-        $this->author_id = $author;
+        $this->author_id = Protection::int($author);
     }
 
     public function setCommentId($comment)
     {
-        $this->comment_id = $comment;
+        $this->comment_id = Protection::int($comment);
     }
 
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->content = Protection::protect($content);
     }
 
     public function setStatus($status)
@@ -86,12 +92,5 @@ class Comment extends Model
             $this->status = "pending";
         }
     }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    
 
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use App\Utils\Protection;
 
 class Menu extends Model
 {
@@ -60,7 +61,7 @@ class Menu extends Model
 
     public function setTitle(string $title): void
     {
-        $this->title = $title;
+        $this->title = Protection::protect($title);
     }
 
     public function setPageId(int $page_id): void
