@@ -371,3 +371,21 @@ Route::get('/api/analytics/top-article', [
         "Permission:admin"
     ]
 ]);
+
+Route::get('/api/analytics/stat-logs', [
+    "controller" => "Analytics",
+    "action" => "stat_logs",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::get('/api/analytics/stat-comments', [
+    "controller" => "Analytics",
+    "action" => "stat_comments",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);

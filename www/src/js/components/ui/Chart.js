@@ -3,7 +3,6 @@ import { createElement } from "../../core/Element.js";
 
 export default class Graph extends Component {
   init() {
-    
     this.state = {
       id: this.props.id ?? "myChart",
     };
@@ -11,18 +10,16 @@ export default class Graph extends Component {
     this.onUpdate();
   }
 
-async onUpdate() {
-  
+  async onUpdate() {
     await Graph.addLibraries();
     this.onRerender();
   }
 
   onRerender() {
-    console.log(this.props);
-      if(this.c) this.c.destroy()
-      const container = document.getElementById(this.state.id);
-      
-      this.c = new Chart(container, this.props.data);
+    if (this.c) this.c.destroy();
+    const container = document.getElementById(this.state.id);
+
+    this.c = new Chart(container, this.props.data);
   }
 
   static addScript() {

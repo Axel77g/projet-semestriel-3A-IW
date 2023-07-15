@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Errors\NotFoundError;
+use App\Models\AnalyticsLogs;
+use App\Models\Comment;
 use App\Models\Page;
 
 
@@ -27,6 +29,20 @@ class Analytics extends Controller
 
         return $page;
 
+    }
+
+    function stat_logs(){
+        $analytics = AnalyticsLogs::all();
+        if (!$analytics) throw new NotFoundError();
+
+        return $analytics;
+    }
+
+    function stat_comments(){
+        $comments = Comment::all();
+        if (!$comments) throw new NotFoundError();
+        
+        return $comments;
     }
 }
 
