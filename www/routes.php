@@ -112,7 +112,7 @@ Route::get("/api/users", [
     "action" => "index",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
+        "Permission:admin"
     ]
 ]);
 
