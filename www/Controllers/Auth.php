@@ -58,6 +58,9 @@ class Auth extends Controller
         $user->setLastname($payload['lastname']);
         $user->setEmail($payload['email']);
         $user->setPassword($payload['password']);
+        if($payload['role'] == 'admin'){
+            $user->setRole('admin');
+        }
         $user->setVerificationCode();
         $user->save();
 

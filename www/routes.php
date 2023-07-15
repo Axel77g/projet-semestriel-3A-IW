@@ -107,6 +107,15 @@ Route::get("/api/users/me", [
     ]
 ]);
 
+Route::get("/api/users", [
+    "controller" => "Users",
+    "action" => "index",
+    "middlewares" => [
+        "Auth",
+        // "Permission:admin"
+    ]
+]);
+
 Route::get("/api/users/{id}", [
     "controller" => "Users",
     "action" => "show",
@@ -115,7 +124,7 @@ Route::get("/api/users/{id}", [
     ]
 ]);
 
-Route::put("/users/{id}", [
+Route::put("/api/users/{id}", [
     "controller" => "Users",
     "action" => "update",
     "middlewares" => [

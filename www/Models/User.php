@@ -81,7 +81,6 @@ class User extends Model{
     }
 
     public function setRole(String $role){
-        
         $this->role = $role;
     }
 
