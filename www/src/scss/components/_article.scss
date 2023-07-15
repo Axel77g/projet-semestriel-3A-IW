@@ -66,3 +66,33 @@
     }
   }
 }
+
+.articles-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+  gap: 2rem;
+  margin: 2em auto;
+  max-width: 1000px;
+  padding: 0 2em;
+
+  .article-card {
+    width: 300px;
+    border: 1px solid #ccc;
+    img {
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
+    }
+    &-content {
+      padding: 1em;
+      span {
+        font-size: 0.8em;
+        color: #999;
+      }
+    }
+    a {
+      text-decoration: none !important;
+      color: currentColor;
+    }
+  }
+}

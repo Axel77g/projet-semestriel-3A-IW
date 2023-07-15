@@ -96,15 +96,27 @@ class QueryBuilder {
             if($value === null){
                 $base .= " $key IS NULL AND";
                 unset($arrayWhere[$key]);
-
             }
-            else
+            else{
                 if(is_array($value)){
+                    if($value[0] == "IN"){
+                        $keys = "";
+                        foreach($value[1] as $k => $v){
+                            $keys .= ":$key$k,";
+                            $arrayWhere["$key$k"] = $v;
+                        }
+                        $keys = rtrim($keys,",");
+                        $base .= " $key IN ($keys) AND";
+                        unset($arrayWhere[$key]);                      
+                        continue;
+                    }
+
                     $base .= " $key $value[0] :$key AND";
                     $arrayWhere[$key] = $value[1];
                 }
                 else 
-                    $base .= " $key = :$key AND";
+                $base .= " $key = :$key AND";
+            }
         }
         $base = rtrim($base,"AND");
         $this->query .= $base;
@@ -145,21 +157,25 @@ class QueryBuilder {
     }
 
     public function execute($lastId = false){
+        try {
+            if(str_contains($this->query, "DELETE") && !str_contains($this->query,"WHERE")) {  
+                throw new InternalError("DELETE without WHERE");
+            }
     
-        if(str_contains($this->query, "DELETE") && !str_contains($this->query,"WHERE")) {  
-            throw new InternalError("DELETE without WHERE");
+            $pdo = $this->db->getConnection();
+            $stmt = $pdo->prepare($this->query);
+            $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
+            $this->parseExecPayload();
+            $stmt->execute($this->execPayload);
+    
+            if($lastId)
+                return $pdo->lastInsertId();
+                
+            return $stmt;
+           
+        } catch (\Throwable $th) {
+            dd($this,$this->query,$this->execPayload, $th);
         }
-
-        $pdo = $this->db->getConnection();
-        $stmt = $pdo->prepare($this->query);
-        $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
-        $this->parseExecPayload();
-        $stmt->execute($this->execPayload);
-
-        if($lastId)
-            return $pdo->lastInsertId();
-            
-        return $stmt;
     }
 
     public function debug(){
