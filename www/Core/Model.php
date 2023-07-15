@@ -3,7 +3,6 @@ namespace App\Core;
 use App\Utils\Collection;
 use App\Utils\StringHelpers;
 
-use App\Errors\BadRequest;
 use DateTime;
 
 abstract class Model implements Sanitize{
@@ -11,6 +10,8 @@ abstract class Model implements Sanitize{
     public Int $id = 0;
     protected string|\DateTime $created_at;
     protected string|\DateTime $updated_at; 
+
+    private array $_except = [];
 
 
     public static function findMany($where = [], $limit = 0, $offset = 0, $orderBy = []){
@@ -84,19 +85,25 @@ abstract class Model implements Sanitize{
     }
 
     public function getColumns(){
-        return  get_object_vars($this);
+        $columns = get_object_vars($this);
+        $columns = array_filter($columns, function($key){
+            return strpos($key, "_") !== 0;
+        }, ARRAY_FILTER_USE_KEY);
+        return $columns ;
     }
     public function getColumnsNames(){
         return array_keys($this->getColumns());
     }
 
     public function toJson(){
+        
+        $baseExcept = new Collection($this->_except);
+        $except = $baseExcept->filter(function($item){
+            return strpos($item, ".") === false;
+        });
 
-        $columns = $this->getColumns();
-
-        if(isset($columns["password"])){
-            unset($columns["password"]);
-        }
+        $columns = new Collection($this->getColumns());
+        $columns = $columns->except($except->toArray())->toArray();
 
         foreach($columns as $key => $value){
             if(is_a($value, Model::class)){
@@ -106,16 +113,19 @@ abstract class Model implements Sanitize{
                 $columns[$key] = $value->toArray(true);
             }
         }
+
         return json_encode($columns);
     }
     
     public function toArray(){
-
-        $columns = $this->getColumns();
         
-        if(isset($columns["password"])){
-            unset($columns["password"]);
-        }
+        $baseExcept = new Collection($this->_except);
+        $except = $baseExcept->filter(function($item){
+            return strpos($item, ".") === false;
+        });
+
+        $columns = new Collection($this->getColumns());
+        $columns = $columns->except($except->toArray())->toArray();
 
         foreach($columns as $key => $value){
             if(is_a($value, Model::class)){
@@ -154,6 +164,14 @@ abstract class Model implements Sanitize{
 
     public function setUpdatedAt($updated_at) {
         $this->updated_at = $updated_at;
+    }
+
+    public function except(array $except) {
+        $this->_except = $except;
+        return $this;
+    }
+    protected function getExcept(){
+        return $this->_except;
     }
 
 }

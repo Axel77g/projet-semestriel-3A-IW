@@ -71,8 +71,14 @@ export default class WYSIWYG extends Component {
     this.quill = new Quill(container.querySelector("#editor-" + this.key), {
       modules: {
         toolbar: [
-          ["bold", "italic"],
-          ["link", "image"],
+          [{ header: [1, 2, 3, 4, false] }],
+          ["bold", "italic", "underline"], // toggled buttons
+          ["blockquote"],
+          [{ list: "ordered" }, { list: "bullet" }],
+
+          [{ direction: "rtl" }], // text direction
+
+          ["clean"],
         ],
       },
       placeholder: this.props.placeholder || "Écrivez ici...",
