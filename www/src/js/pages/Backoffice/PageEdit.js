@@ -19,13 +19,13 @@ export default class PageEdit extends Component {
   init() {
     this.state = {
       isEdit: Boolean(this.slug),
-      
+
       slug: "",
       template: -1,
       parent_slug: null,
       content: {},
       is_commentable: false,
-      
+
       typesOptions: [
         {
           label: "Home",
@@ -40,8 +40,10 @@ export default class PageEdit extends Component {
           value: "article_list",
         },
       ],
-      
+
       parentOptions: [],
+
+      errors: {},
     };
     document.title = this.state.isEdit ? "Modifier une page" : "Créer une page";
 
@@ -93,7 +95,9 @@ export default class PageEdit extends Component {
     if (response?.id) {
       router.push("/admin/pages");
     } else {
-      alert("Une erreur est survenue");
+      if (response.code == 422) {
+        this.setState({ errors: response.message });
+      }
     }
   }
 
@@ -145,6 +149,7 @@ export default class PageEdit extends Component {
             placeholder: "Titre de la page ",
             onChange: this.handleChange.bind(this),
             value: this.state.title,
+            message: this.state.errors.title,
           }),
           createElement(Input, {
             name: "slug",
@@ -163,6 +168,7 @@ export default class PageEdit extends Component {
             placeholder: "Template de page",
             onChange: this.handleChange.bind(this),
             value: this.state.template,
+            message: this.state.errors.template,
           }),
           createElement(Select, {
             options: this.state.parentOptions,
