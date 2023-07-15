@@ -2,7 +2,6 @@ import Switch from "../../components/ui/Switch.js";
 import { Table } from "../../components/ui/Table.js";
 import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
-import { createElement } from "../../core/Element.js";
 
 export class ArticleListEdit extends Component {
   init() {
