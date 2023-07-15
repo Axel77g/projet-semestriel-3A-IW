@@ -1,7 +1,6 @@
 import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
 import ArticleCard from "../../components/articles/ArticleCard.js";
-import { createElement } from "../../core/Element.js";
 
 export class ArticleListView extends Component {
   init() {
