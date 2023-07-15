@@ -40,9 +40,6 @@ Route::get("/api/isAdmin", [
 Route::get("/api/comments", [
     "controller" => "Comments",
     "action" => "index",
-    "middlewares" => [
-        "Auth",
-    ]
 ]);
 
 Route::get("/api/comments/{id}", [
