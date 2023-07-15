@@ -96,4 +96,11 @@ class User extends Model{
     public function isAdmin() {
         return $this->role == "admin";
     }
+
+
+    public function toArray()
+    {
+        $this->except(array_merge($this->getExcept(),["password","verification_code","reset_code"]));
+        return parent::toArray();
+    }
 }

@@ -55,6 +55,11 @@ export default class Select extends Component {
             ),
           ]
         ),
+        createElement(
+          "div",
+          { class: ["text-danger", "fs-6"] },
+          this.props.message ? this.props.message[0] : ""
+        ),
       ]
     );
   }

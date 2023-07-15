@@ -37,7 +37,7 @@ export default class CommentConversation extends Component {
   }
 
   render() {
-    return createElement("div", {}, [
+    return createElement("aside", { class: "comment-section" }, [
       createElement("h1", {}, this.commentSize + " commentaires"),
       createElement(CommentForm, {}),
       ...this.state.comments.map((comment) => {

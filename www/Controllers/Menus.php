@@ -2,38 +2,38 @@
 
 namespace App\Controllers;
 
-// Core
 use App\Core\Validator;
 use App\Core\Controller;
-
-// Models
+use App\Errors\BadRequest;
 use App\Models\Menu;
 
-// Validators
-use App\Errors\HTTPError;
 use App\Errors\NotFoundError;
 use App\Errors\ValidatorError;
+use App\Utils\Collection;
 
 class Menus extends Controller
 {
 
-    function index()
+    function index() : Collection
     {
-
         $menus = Menu::all();
+
+        $menus->each(function(&$menu){
+            $menu->url = $menu->getPath();
+        });
 
         return $menus;
     }
 
-    public function create()
+    public function create() : Menu
     {
-
         $payload = request()->json();
 
+        $validator = new Validator();
 
-        $validator = new Validator($payload, [
+        $validator->validate($payload, [
             "title" => "required",
-            "url" => "required",
+            "page_id" => "required",
             "position" => "numeric",
         ]);
 
@@ -43,23 +43,20 @@ class Menus extends Controller
 
         $menu = new Menu();
 
+        $menu->setPageId($payload['page_id']);
+        if(!$menu->getPage()) throw new BadRequest();
+        
         $menu->setTitle($payload['title']);
-        $menu->setUrl($payload['url']);
         $menu->setPosition($payload['position']);
         $menu->setVisible($payload['visible']);
-
-        // if (!Menu::fetch(["title" => $payload['title']])) {
-        //     throw new HTTPError(409, "Menu already exists");
-        // }
 
         $menu->save();
 
         return $menu;
     }
 
-    public function show($params)
+    public function show($params) : Menu
     {
-
         $menu = Menu::fetch($params['id']);
 
         if (!$menu) throw new NotFoundError();
@@ -67,10 +64,21 @@ class Menus extends Controller
         return $menu;
     }
 
-    public function update($params)
+    public function update($params) : Menu
     {
-
         $payload = request()->json();
+
+        $validator = new Validator();
+
+        $validator->validate($payload, [
+            "title" => "required",
+            "page_id" => "required",
+            "position" => "numeric",
+        ]);
+
+        if ($validator->hasErrors()) {
+            throw new ValidatorError($validator->getErrors());
+        }
 
         $menu = Menu::fetch($params['id']);
 
@@ -78,12 +86,14 @@ class Menus extends Controller
 
         $menu->set($payload);
 
+        if(!$menu->getPage()) throw new BadRequest();
+
         $menu->save();
 
         return $menu;
     }
 
-    public function delete($params)
+    public function delete($params) : Menu
     {
 
         $menu = Menu::fetch($params['id']);
