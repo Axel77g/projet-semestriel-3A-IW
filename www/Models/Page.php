@@ -74,6 +74,10 @@ class Page extends Model
         return $this->author_id;
     }
 
+    public function getAuthor(){
+        return User::fetch($this->author_id);
+    }
+
     public function getParentSlug()
     {
         return $this->parent_slug;
