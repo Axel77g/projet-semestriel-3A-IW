@@ -183,6 +183,8 @@ function writeInitialDatabase($prefix){
         template TEMPLATE_PAGE NOT NULL,
         content TEXT NOT NULL,
         is_commentable SMALLINT NOT NULL DEFAULT 1,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         FOREIGN KEY (author_id) REFERENCES ". $prefix ."user(id) ON DELETE CASCADE
     );
 
