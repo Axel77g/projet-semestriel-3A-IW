@@ -69,7 +69,6 @@ abstract class Model implements Sanitize{
     
     public function destroy() {
         $query = $this->query();
-        
         return $query->delete()->where(["id" => $this->id])->execute();
         
     }
@@ -133,7 +132,8 @@ abstract class Model implements Sanitize{
     public function set(array $params){
         foreach($params as $key => $value){
             $setter = StringHelpers::snakeCaseToCamelCase("set" . ucfirst($key));
-            $this->$setter($value);
+            if(method_exists($this, $setter))
+                $this->$setter($value);
         }
     }
     public function getId() {
