@@ -16,7 +16,20 @@ class Pages extends Controller
     public function index()
     {
         $query = request()->getQuery();
-        $pages = Page::all();
+        $where = [];
+
+        if($query->has('template')){
+            $where['template'] = $query->get('template');
+        }
+        if($query->has('ids')){
+            $where['id'] = ["IN", explode(",", $query->get('ids'))];
+        }
+        
+        $pages = count($where) ? Page::findMany($where) : Page::all();
+
+        $pages->each(function(&$page){
+            $page->path = $page->getPath();
+        });
 
         if($query->has('withContent')){
             $pages = $pages->map(function($page){

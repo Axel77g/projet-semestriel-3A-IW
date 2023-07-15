@@ -9,7 +9,7 @@ export class ArticleView extends Component {
           createElement("div", { html: bloc.content }),
           bloc.file_image &&
             createElement("div", { class: ["article-bloc-image"] }, [
-              createElement("img", { src: bloc.file_image.path }),
+              createElement("img", { src: "/" + bloc.file_image.path }),
             ]),
         ];
         if (bloc.image_position === "left") children.reverse();
