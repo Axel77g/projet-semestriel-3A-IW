@@ -1,6 +1,9 @@
 import Component from "../../core/Component.js";
 import Input from "../../components/ui/Input.js";
 import Api from "../../core/Api.js";
+import Button from "../../components/ui/Button.js";
+import { createElement } from "../../core/Element.js";
+import HomeHeader from "../../components/global/Header.js";
 
 export default class Register extends Component {
   init() {
@@ -28,10 +31,10 @@ export default class Register extends Component {
     this.state[e.name] = e.value;
   }
   render() {
-    return createElement("div", {}, [
+    let content = createElement("div", { class: "box-wrapper" }, [
       createElement("h1", {}, "Register"),
       createElement("form", { onsubmit: this.handleSumbit }, [
-        new Input({
+        createElement(Input, {
           name: "firstname",
           type: "text",
           id: "firstname",
@@ -40,7 +43,7 @@ export default class Register extends Component {
           value: this.state.firstname,
           message: this.state.messages.firstname,
         }),
-        new Input({
+        createElement(Input, {
           name: "lastname",
           type: "text",
           id: "lastname",
@@ -49,7 +52,7 @@ export default class Register extends Component {
           value: this.state.lastname,
           message: this.state.messages.lastname,
         }),
-        new Input({
+        createElement(Input, {
           name: "email",
           type: "email",
           id: "email",
@@ -58,7 +61,7 @@ export default class Register extends Component {
           value: this.state.email,
           message: this.state.messages.email,
         }),
-        new Input({
+        createElement(Input, {
           name: "password",
           type: "password",
           id: "password",
@@ -67,12 +70,10 @@ export default class Register extends Component {
           value: this.state.password,
           message: this.state.messages.password,
         }),
-        createElement(
-          "button",
-          { class: ["btn", "btn-primary", "login-button"] },
-          "Create Account"
-        ),
+        createElement(Button, { class: ["my-3"], children: "Create Account" }),
       ]),
     ]);
+
+    return createElement("div", {}, [createElement(HomeHeader, {}), content]);
   }
 }
