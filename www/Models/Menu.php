@@ -9,7 +9,7 @@ class Menu extends Model
 
     protected ?int $parent_id = null;
     public string $title = "";
-    protected string $url = "";
+    protected int $page_id = 0;
     protected int $visible;
     protected int $position = 0;
 
@@ -26,9 +26,18 @@ class Menu extends Model
         return $this->title;
     }
 
-    public function getUrl(): string
+    public function getPageId(): string
     {
-        return $this->url;
+        return $this->page_id;
+    }
+
+    public function getPage(){
+        return Page::fetch($this->page_id);
+    }
+
+    public function getPath(){
+        $page = $this->getPage();
+        return $page->getPath();
     }
 
     public function getPosition(): int
@@ -54,9 +63,9 @@ class Menu extends Model
         $this->title = $title;
     }
 
-    public function setUrl(string $url): void
+    public function setPageId(int $page_id): void
     {
-        $this->url = "/$url";
+        $this->page_id = $page_id;
     }
 
     public function setVisible(int $visible): void
