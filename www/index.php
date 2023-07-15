@@ -5,6 +5,8 @@ include 'autoload.php';
 
 use App\Core\Router;
 use App\Errors\HTTPError;
+use App\Errors\InternalError;
+use Exception;
 
 try{
     include("./routes.php");
@@ -20,6 +22,12 @@ try{
     $route = $router->findRoute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
     $route->dispatch();
    
-}catch(HTTPError $e){
-    http_response_code($e->getCode());
+}catch(Exception $e){
+    if(is_a($e,HTTPError::class)){
+        http_response_code($e->getCode());
+    }
+    else{
+        $e = new InternalError($e->getMessage());
+        http_response_code($e->getCode());
+    }
 }
