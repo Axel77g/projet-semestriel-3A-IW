@@ -1,5 +1,4 @@
 import Component from "../../core/Component.js";
-import { createElement } from "../../core/Element.js";
 import Button from "../ui/Button.js";
 import FilePicker from "../ui/FilePicker.js";
 import Input from "../ui/Input.js";
