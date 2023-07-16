@@ -16,7 +16,7 @@ export default class BannerAction extends Component {
     return createElement(
       "div",
       {
-        class: ["d-flex", "flex-row", "justify-content-start", "mt-3"],
+        class: ["d-flex", "flex-row", "justify-content-start", "mt-3",],
       },
       action
     );

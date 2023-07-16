@@ -1,5 +1,6 @@
 import Component from "../../core/Component.js";
 import Api from "../../core/Api.js";
+import ArticleCard from "../articles/ArticleCard.js";
 
 export default class ArticleList extends Component {
   init() {
@@ -23,14 +24,14 @@ export default class ArticleList extends Component {
 
   fetchLatestArticles() {
     const api = new Api();
-    api.get("api/pages/latest").then((response) => {
+    api.get("api/pages/latest?withContent").then((response) => {
       this.setState({ articles: response, title: "Les derniers articles" });
     });
   }
 
   fetchRandomArticles() {
     const api = new Api();
-    api.get("api/pages/random").then((response) => {
+    api.get("api/pages/random?withContent").then((response) => {
       this.setState({
         articles: response,
         title: "Quelques articles aléatoires",
@@ -40,7 +41,7 @@ export default class ArticleList extends Component {
 
   fetchPopularArticles() {
     const api = new Api();
-    api.get("api/pages/popular").then((response) => {
+    api.get("api/pages/popular?withContent").then((response) => {
       this.setState({
         articles: response,
         title: "Les articles les plus populaires",
@@ -49,16 +50,15 @@ export default class ArticleList extends Component {
   }
 
   render() {
+    console.log(this.state);
     if (this.state.articles) {
       let articles = this.state.articles.map((article) => {
-        return createElement("li", {}, [
-          createElement("a", { href: "#" }, article.title),
-        ]);
+        return createElement(ArticleCard, { article: article });
       });
 
-      let list = createElement("div", {}, [
+      let list = createElement("div", {class: "home-articles"}, [
         createElement("h3", {}, this.state.title),
-        createElement("ul", {}, articles),
+        createElement("div", { class: ["articles-list"] }, articles),
       ]);
 
       if (!this.props.article_section.enabled) {

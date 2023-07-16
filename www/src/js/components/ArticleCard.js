@@ -4,7 +4,7 @@ import Button from "./ui/Button.js";
 export default class ArticlesCard extends Component {
   render() {
     let article = this.props.article;
-    return createElement("div", { class: ["col-3", "mt-2", "mb-4"] }, [
+    return createElement("div", { class: ["col-3", "mt-2", "mb-4", "me-5"] }, [
       createElement("div", { class: ["card"] }, [
         createElement("img", {
           src: "https://placehold.co/600x400",
@@ -12,17 +12,21 @@ export default class ArticlesCard extends Component {
           alt: article.title,
         }),
         createElement("div", { class: ["card-body"] }, [
-          createElement("h5", { class: ["card-title"] }, article.title),
           createElement(
-            "h6",
-            { class: ["card-title"] },
-            "Auteur de l'article : " + article.author.name
+            "h5",
+            { class: ["card-title", "text-truncate"] },
+            article.title
           ),
-          createElement("p", { class: ["card-text"] }, article.description),
+          // createElement(
+          //   "h6",
+          //   { class: ["card-title"] },
+          //   "Auteur de l'article : " + article.author.name
+          // ),
+          // createElement("p", { class: ["card-text"] }, article.description),
           createElement(Button, {
             class: ["btn", "btn-primary"],
             onClick: () => {
-              router.push("/article/" + article.slug);
+              router.push(article.path);
             },
             children: "Lire l'article",
           }),

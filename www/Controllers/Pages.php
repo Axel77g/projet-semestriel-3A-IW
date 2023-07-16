@@ -193,50 +193,102 @@ class Pages extends Controller
     }
 
     public function latestArticle(){
-        $page = Page::all();
 
-        if (!$page) throw new NotFoundError();
-        $page->sort(
+        $query = request()->getQuery();
+
+        $pages = Page::all();
+
+        if (!$pages) throw new NotFoundError();
+        $pages->sort(
             function($a, $b){
                 return $a->getCreatedAt() < $b->getCreatedAt();
             }
         );
-        $page->filter(function($page){
+        $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
-        $page->limit(5);
+        $pages->limit(6);
 
-        return $page;
+        $pages->each(function(&$page){
+            $page->path = $page->getPath();
+        });
+
+        if($query->has('withContent')){
+            $pages = $pages->map(function($page){
+                return [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+            });
+            echo json_encode($pages->toArray());
+            return;
+        }
+
+        return $pages;
     }
 
     public function popularArticle(){
-        $page = Page::all();
-        if (!$page) throw new NotFoundError();
-        $page->sort(
+        $query = request()->getQuery();
+        $pages = Page::all();
+        if (!$pages) throw new NotFoundError();
+        $pages->sort(
             function($a, $b){
                 return $a->getViews() < $b->getViews();
             }
         );
-        $page->filter(function($page){
+        $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
-        $page->limit(5);
+        $pages->limit(6);
+
+        $pages->each(function(&$page){
+            $page->path = $page->getPath();
+        });
+
+        if($query->has('withContent')){
+            $pages = $pages->map(function($page){
+                return [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+            });
+            echo json_encode($pages->toArray());
+            return;
+        }
         
 
-        return $page;
+        return $pages;
     }
 
     public function randomArticle(){
-        $page = Page::all();
-        if (!$page) throw new NotFoundError();
-        $page->filter(function($page){
+
+        $query = request()->getQuery();
+        $pages = Page::all();
+        if (!$pages) throw new NotFoundError();
+        $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
 
-        $page->shuffle();
+        $pages->shuffle();
 
-        $page->limit(5);
+        $pages->limit(6);
 
-        return $page;
+        $pages->each(function(&$page){
+            $page->path = $page->getPath();
+        });
+
+        if($query->has('withContent')){
+            $pages = $pages->map(function($page){
+                return [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+            });
+            echo json_encode($pages->toArray());
+            return;
+        }
+
+
+        return $pages;
     }
 }
