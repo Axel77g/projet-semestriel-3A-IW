@@ -33,12 +33,7 @@ class Sitemap {
 
         foreach($pages as $page){
 
-            $slug = $page->getSlug();
-            if($page->getParentSlug() != null){
-                $slug = $page->getParentSlug()."/".$slug;
-            }
-
-            if($slug == "/") $slug = "";
+            $slug = $page->getPath();
             
             array_push($dynamicRoute, [$slug => $page->getUpdatedAt()]);
         }
@@ -59,7 +54,7 @@ class Sitemap {
         for($i = 0; $i < count($dynamicRoute); $i++){
             foreach($dynamicRoute[$i] as $key => $value){
                 fwrite($myfile, "\t<url>\n");
-                fwrite($myfile, "\t\t<loc>https://".$_SERVER['HTTP_HOST']."/".$key."</loc>\n");
+                fwrite($myfile, "\t\t<loc>https://".$_SERVER['HTTP_HOST'].$key."</loc>\n");
                 fwrite($myfile, "\t\t<lastmod>".$value->format("Y-m-d")."</lastmod>\n");
                 fwrite($myfile, "\t\t<changefreq>monthly</changefreq>\n");
                 fwrite($myfile, "\t\t<priority>0.5</priority>\n");
