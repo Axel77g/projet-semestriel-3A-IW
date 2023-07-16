@@ -12,7 +12,7 @@ export default class Login extends Component {
       password: "",
       messages: {},
     };
-    document.title = "Login";
+    document.title = "Connexion";
   }
   handleSumbit(e) {
     e.preventDefault();
@@ -34,7 +34,7 @@ export default class Login extends Component {
       createElement(HomeHeader, {}),
 
       createElement("main", { class: "box-wrapper" }, [
-        createElement("h1", {}, "Login"),
+        createElement("h1", {}, "Se connecter"),
         createElement("form", { onsubmit: this.handleSumbit.bind(this) }, [
           createElement(
             "div",
@@ -61,7 +61,7 @@ export default class Login extends Component {
             name: "password",
             type: "password",
             id: "password",
-            placeholder: "Password",
+            placeholder: "Mot de passe",
             onChange: (e) => {
               this.handleChange({ password: e.value });
             },
@@ -70,21 +70,22 @@ export default class Login extends Component {
           }),
           createElement(Button, {
             class: ["my-3"],
-            children: "Connexion",
+            children: "Se connecter",
+            type: "submit",
           }),
         ]),
         createElement("div", {}, [
           createElement(
             "a",
             { href: "/forgot-password", class: ["login-link"] },
-            "Forgot password?"
+            "Mot de passe oublié ?"
           ),
         ]),
         createElement("div", {}, [
           createElement(
             "a",
             { href: "/register", class: ["login-link"] },
-            "Don't have an account? Register here"
+            "Vous n'avez pas de compte ? Créez-en un ici !"
           ),
         ]),
       ]),
