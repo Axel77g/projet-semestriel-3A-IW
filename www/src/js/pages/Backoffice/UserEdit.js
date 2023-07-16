@@ -65,7 +65,8 @@ export default class UserEdit extends Component {
     }
 
     let response = await api[method](endpoint, payload);
-    if (response.success == true) {
+    console.log(response);
+    if (response.id) {
       router.push("/admin/users");
     } else {
       this.setState({ messages: response.data });

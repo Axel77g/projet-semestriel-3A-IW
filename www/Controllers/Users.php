@@ -41,12 +41,18 @@ class Users extends Controller{
     function update($params) {
         $payload = request()->json();
 
+        $authUser = request()->auth()->user();
         $validator = new Validator();
         $validation = [
             "firstname" => "required",
             "lastname" => "required",
-            "email" => "required|email",
         ];
+
+        if($authUser && !$authUser->isAdmin()){
+            $validation = array_merge($validation,[
+                "email" => "required|email",
+            ]);
+        }
 
         if(!empty($payload['password'])){
             $validation = array_merge($validation,[
@@ -56,6 +62,8 @@ class Users extends Controller{
         }else{
             unset($payload['password']);
         }
+
+
 
         if(!empty($payload['role'])){
             $authUser = request()->auth()->user();
@@ -70,8 +78,12 @@ class Users extends Controller{
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
 
-        $existing = User::fetch(["email"=>$payload['email']]);
-        if($existing && $existing->id != $user->id) throw new ValidatorError(["email"=>["Cet email existe déjà"]]);
+        UserPolicy::update($authUser, $user);
+
+        if($authUser && !$authUser->isAdmin()){
+            $existing = User::fetch(["email"=>$payload['email']]);
+            if($existing && $existing->id != $user->id) throw new ValidatorError(["email"=>["Cet email existe déjà"]]);
+        }
 
         $user->set($payload);
         $user->save();
@@ -82,6 +94,9 @@ class Users extends Controller{
     function destroy($params) {
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
+
+        UserPolicy::destroy(request()->auth()->user(), $user);
+
         $user->destroy();
     }
 

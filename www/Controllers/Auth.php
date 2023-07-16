@@ -9,6 +9,7 @@ use App\Services\AuthServices;
 use App\Core\Validator;
 use App\Errors\ValidatorError;
 use App\Models\AnalyticsLogs;
+use App\Errors\Unauthorized;
 
 class Auth extends Controller
 {
@@ -61,8 +62,15 @@ class Auth extends Controller
         $user->setLastname($payload['lastname']);
         $user->setEmail($payload['email']);
         $user->setPassword($payload['password']);
-        if($payload['role'] == 'admin'){
-            $user->setRole('admin');
+
+        if(!empty($payload['role'])){
+            $authUser = request()->auth()->user();
+            if(!$authUser->isAdmin()) {
+                throw new Unauthorized();
+            }
+            else{
+                $user->setRole($payload['role']);
+            }
         }
         $user->setVerificationCode();
         $user->save();
