@@ -56,8 +56,6 @@ class Pages extends Controller
             throw new NotFoundError();
         }
 
-        $page->setViews($page->getViews() + 1);
-        $page->save();
 
         echo json_encode([
             ...$page->toArray(),
@@ -183,6 +181,9 @@ class Pages extends Controller
         if (!$page) {
             throw new NotFoundError();
         }
+
+        $page->setViews($page->getViews() + 1);
+        $page->save();
 
         $page->author = $page->getAuthor();
         $page->author->except(['email']);
