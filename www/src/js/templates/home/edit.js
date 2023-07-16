@@ -85,7 +85,6 @@ export class HomeEdit extends Component {
   }
 
   render() {
-    console.log(this);
     return createElement("div", { class: "mt-4" }, [
       createElement("div", { class: "home-edit-section" }, [
         createElement("h4", {}, "Banière"),
