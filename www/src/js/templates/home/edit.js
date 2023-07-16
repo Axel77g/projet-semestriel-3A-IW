@@ -3,7 +3,6 @@ import FilePicker from "../../components/ui/FilePicker.js";
 import Input from "../../components/ui/Input.js";
 import WYSIWYG from "../../components/ui/WYSIWYG.js";
 import Button from "../../components/ui/Button.js";
-import { createElement } from "../../core/Element.js";
 import HomeAction from "../../components/home/BannerAction.js";
 import Switch from "../../components/ui/Switch.js";
 import Select from "../../components/ui/Select.js";
