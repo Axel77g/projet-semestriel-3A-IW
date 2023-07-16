@@ -46,9 +46,7 @@ class Users extends Controller{
         if(!$user) throw new NotFoundError();
         $user->set($payload);
         $user->save();
-        echo json_encode([
-            "success"=> true,
-        ]);
+        return $user;
     }
 
     function destroy($params) {
