@@ -154,7 +154,6 @@ class Pages extends Controller
 
     public function resolvePath()
     {
-
         $payload = request()->json();
 
         $validator = new Validator();
@@ -191,5 +190,53 @@ class Pages extends Controller
             ...$page->toArray(),
             "content"=> PageServices::populateContentFileRelation($page->getContent())
         ]);
+    }
+
+    public function latestArticle(){
+        $page = Page::all();
+
+        if (!$page) throw new NotFoundError();
+        $page->sort(
+            function($a, $b){
+                return $a->getCreatedAt() < $b->getCreatedAt();
+            }
+        );
+        $page->filter(function($page){
+            return $page->getTemplate() == "article";
+        });
+        $page->limit(5);
+
+        return $page;
+    }
+
+    public function popularArticle(){
+        $page = Page::all();
+        if (!$page) throw new NotFoundError();
+        $page->sort(
+            function($a, $b){
+                return $a->getViews() < $b->getViews();
+            }
+        );
+        $page->filter(function($page){
+            return $page->getTemplate() == "article";
+        });
+        $page->limit(5);
+        
+
+        return $page;
+    }
+
+    public function randomArticle(){
+        $page = Page::all();
+        if (!$page) throw new NotFoundError();
+        $page->filter(function($page){
+            return $page->getTemplate() == "article";
+        });
+
+        $page->shuffle();
+
+        $page->limit(5);
+
+        return $page;
     }
 }
