@@ -25,12 +25,24 @@ class Sitemap {
 
 
     private function generateSitemap(){
-        $staticRoute = ["home", "articles"];
+        $staticRoute = ["login", "register"];
 
-        $dynamicRoute = [
-            ["route" => "article", "model" => "Article",  "attr" => "slug"],
-            ["route" => "article/edit", "model" => "Article", "attr" => "slug"]
-        ];
+        $dynamicRoute = [];
+
+        $pages = \App\Models\Page::all()->toArray();
+
+        foreach($pages as $page){
+
+            $slug = $page->getSlug();
+            if($page->getParentSlug() != null){
+                $slug = $page->getParentSlug()."/".$slug;
+            }
+
+            if($slug == "/") $slug = "";
+            
+            array_push($dynamicRoute, [$slug => $page->getUpdatedAt()]);
+        }
+
 
         $myfile = fopen("./sitemap/sitemap.xml","w");
         fwrite($myfile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -45,21 +57,17 @@ class Sitemap {
         }
 
         for($i = 0; $i < count($dynamicRoute); $i++){
-
-            $model = "App\\Models\\".$dynamicRoute[$i]["model"];
-            $model = new $model();
-            $data = $model->all();
-            foreach($data->toArray() as $row){
-                $attr = $dynamicRoute[$i]["attr"];
-
+            foreach($dynamicRoute[$i] as $key => $value){
                 fwrite($myfile, "\t<url>\n");
-                fwrite($myfile, "\t\t<loc>https://".$_SERVER['HTTP_HOST']."/".$dynamicRoute[$i]["route"]."/".$row->$attr."</loc>\n");
-                fwrite($myfile, "\t\t<lastmod>".date("Y-m-d")."</lastmod>\n");
+                fwrite($myfile, "\t\t<loc>https://".$_SERVER['HTTP_HOST']."/".$key."</loc>\n");
+                fwrite($myfile, "\t\t<lastmod>".$value->format("Y-m-d")."</lastmod>\n");
                 fwrite($myfile, "\t\t<changefreq>monthly</changefreq>\n");
-                fwrite($myfile, "\t\t<priority>0.8</priority>\n");
+                fwrite($myfile, "\t\t<priority>0.5</priority>\n");
                 fwrite($myfile, "\t</url>\n");
             }
         }
+
+        
         fwrite($myfile, "</urlset>");
         fclose($myfile);
 
