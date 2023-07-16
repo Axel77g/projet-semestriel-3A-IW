@@ -56,6 +56,7 @@ class Pages extends Controller
             throw new NotFoundError();
         }
 
+
         echo json_encode([
             ...$page->toArray(),
             "content"=> PageServices::populateContentFileRelation($page->getContent())
@@ -156,7 +157,9 @@ class Pages extends Controller
 
         $payload = request()->json();
 
-        $validator = new Validator([
+        $validator = new Validator();
+
+        $validator->validate($payload,[
             "path" => "required"
         ]);
 
@@ -178,6 +181,9 @@ class Pages extends Controller
         if (!$page) {
             throw new NotFoundError();
         }
+
+        $page->setViews($page->getViews() + 1);
+        $page->save();
 
         $page->author = $page->getAuthor();
         $page->author->except(['email']);

@@ -3,6 +3,7 @@ import Routes from "./Routes.js";
 
 import Api from "./Api.js";
 import PV from "../pages/_PageView.js";
+import { AUTH_STATE, AuthUtils } from "../utils/auth.js";
 
 export default class Router {
   constructor() {
@@ -13,6 +14,10 @@ export default class Router {
       this.refresh();
     });
     this.route = null;
+    this.auth = {
+      user: null,
+      isAuth: AUTH_STATE.UNKOWN,
+    };
   }
 
   push(route, state = {}, unused = "") {
@@ -26,6 +31,19 @@ export default class Router {
   }
 
   async refresh() {
+    if (this.auth.isAuth === AUTH_STATE.UNKOWN) {
+      const auth = await AuthUtils.getAuth();
+      this.auth = auth;
+    } else {
+      //load async the auth state if it is known
+      AuthUtils.getAuth().then((auth) => {
+        if (auth.isAuth !== this.auth.isAuth) {
+          this.auth = auth;
+          this.refresh();
+        }
+      });
+    }
+
     document.body.innerHTML = "";
     if (this.lastRendered != null) {
       this.lastRendered.destroy();
@@ -70,7 +88,7 @@ export default class Router {
         path: pathname,
       });
 
-      if (page === null) {
+      if (page === null || page.code == 404) {
         target = Routes.find((r) => r.path == "/404");
       } else {
         target = {

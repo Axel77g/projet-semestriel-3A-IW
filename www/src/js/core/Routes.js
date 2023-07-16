@@ -16,6 +16,7 @@ import CommentDetail from "../pages/Backoffice/CommentDetail.js";
 import CommentsList from "../components/comments/CommentsList.js";
 import UserList from "../pages/Backoffice/UserList.js";
 import UserEdit from "../pages/Backoffice/UserEdit.js";
+import Profil from "../pages/Profil/index.js";
 
 export default [
   {
@@ -44,6 +45,10 @@ export default [
   {
     path: "/change-password",
     component: ChangePassword,
+  },
+  {
+    path: "/profil",
+    component: Profil,
   },
 
   // BACKOFFICE -----------------------------------

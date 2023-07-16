@@ -34,7 +34,11 @@ class NotFoundError extends HTTPError
 }
 
 class InternalError extends HTTPError{
-    
+    public function __construct($message = "Internal Server Error", $code = 500)
+    {
+        $this->message = $message;
+        $this->code = $code;
+    }
 }
 
 class BadRequest extends HTTPError{

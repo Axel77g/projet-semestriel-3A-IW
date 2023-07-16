@@ -8,6 +8,7 @@ use App\Core\Mailer;
 use App\Services\AuthServices;
 use App\Core\Validator;
 use App\Errors\ValidatorError;
+use App\Models\AnalyticsLogs;
 
 class Auth extends Controller
 {
@@ -24,6 +25,8 @@ class Auth extends Controller
             throw new ValidatorError($validator->getErrors());
         }
         $user = User::fetch(["email"=>$payload['email']]);
+
+        addAnalyticsLogs($user->getId());
 
         $token = AuthServices::generateToken($user);
         echo json_encode([
@@ -76,6 +79,8 @@ class Auth extends Controller
             <a href='http://localhost:8080/verify?email=".$mail."&code=".$verif_code."'>Verify</a>
         ";
         $mailer->sendMail($user->getEmail(), $subject, $message);
+
+        addAnalyticsLogs($user->getId());
 
         echo json_encode([
             "success"=> true,
@@ -168,5 +173,12 @@ class Auth extends Controller
             }
         }
     }
+
+}
+
+function addAnalyticsLogs($user_id = 0){
+    $analytics = new AnalyticsLogs();
+    $analytics->setUserId($user_id);
+    $analytics->save();
 
 }

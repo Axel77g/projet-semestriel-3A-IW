@@ -50,6 +50,11 @@ export default class BackofficeContainer extends Component {
               icon: "people",
             },
             {
+              title: "Profil",
+              url: "/profil",
+              icon: "person",
+            },
+            {
               title: "Logout",
               url: "/logout",
               icon: "arrow-return-left",
@@ -61,6 +66,7 @@ export default class BackofficeContainer extends Component {
   }
 
   render() {
+    console.log(this);
     return createElement("div", { class: ["backoffice"] }, [
       createElement("aside", { class: ["sidebar-panel"] }, [
         createElement("h1", { class: ["sidebar-title", "mb-4"] }, "Backoffice"),

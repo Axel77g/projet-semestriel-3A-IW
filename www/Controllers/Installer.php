@@ -77,8 +77,8 @@ class Installer {
         createUser($payload);
 
         // seader 
-        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "menu (parent_id, title, url, visible, position) VALUES (null, 'Home', '/', 1, 0);");
         $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "page (author_id, slug, title, template, content) VALUES (1, '/', 'Home', 'home', '[]');");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "menu (parent_id, title, page_id, visible, position) VALUES (null, 'Home', 1, 1, 0);");
         $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "comment (content, author_id, page_id, comment_id) VALUES ('Commentaire 1', 1, 1, NULL);");
 
         echo json_encode(["success" => true]);
@@ -183,6 +183,7 @@ function writeInitialDatabase($prefix){
         template TEMPLATE_PAGE NOT NULL,
         content TEXT NOT NULL,
         is_commentable SMALLINT NOT NULL DEFAULT 1,
+        views INTEGER NOT NULL DEFAULT 0,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         FOREIGN KEY (author_id) REFERENCES ". $prefix ."user(id) ON DELETE CASCADE
@@ -212,6 +213,17 @@ function writeInitialDatabase($prefix){
         id SERIAL,
         token varchar NULL,
         expire_on TIMESTAMP NULL,
+        user_id int4 NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        FOREIGN KEY (user_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
+        PRIMARY KEY (id)
+    );
+
+    -- Analytics_logs
+    DROP TABLE IF EXISTS " . $prefix . "analytics_logs CASCADE;
+    CREATE TABLE " . $prefix . "analytics_logs (
+        id SERIAL,
         user_id int4 NULL,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
