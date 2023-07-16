@@ -1,6 +1,7 @@
 import Component from "../../core/Component.js";
 import Input from "../../components/ui/Input.js";
 import Api from "../../core/Api.js";
+import Button from "../../components/ui/Button.js";
 
 export default class ForgotPassword extends Component {
   init() {
@@ -39,13 +40,13 @@ export default class ForgotPassword extends Component {
         ),
       ]);
     } else {
-      return createElement("div", {}, [
+      return createElement("div", { class: "box-wrapper" }, [
         createElement("h1", { class: ["header"] }, "Forgot Password ?"),
         createElement(
           "form",
           { class: ["login-form"], onsubmit: this.handleSumbit },
           [
-            new Input({
+            createElement(Input, {
               name: "email",
               type: "email",
               id: "email",
@@ -54,11 +55,7 @@ export default class ForgotPassword extends Component {
               value: this.state.email,
               message: this.state.messages.email,
             }),
-            createElement(
-              "button",
-              { class: ["btn", "btn-primary", "login-button"] },
-              "Send Email"
-            ),
+            createElement(Button, { class: ["my-3"], children: "Send Email" }),
           ]
         ),
       ]);
