@@ -15,7 +15,6 @@
 
     <script src="/src/assets/jquery.js"></script>
     <script src="/src/assets/bootstrap/js/bootstrap.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
