@@ -87,7 +87,6 @@ class Users extends Controller{
 
         $user->set($payload);
         $user->save();
-  
         return $user;
     }
 
