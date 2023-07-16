@@ -13,6 +13,7 @@ import Page_404 from "../pages/Page_404/Page_404.js";
 import PageList from "../pages/Backoffice/PageList.js";
 import CommentList from "../pages/Backoffice/CommentList.js";
 import CommentDetail from "../pages/Backoffice/CommentDetail.js";
+import Profil from "../pages/Profil/index.js";
 
 export default [
   {
@@ -41,6 +42,10 @@ export default [
   {
     path: "/change-password",
     component: ChangePassword,
+  },
+  {
+    path: "/profil",
+    component: Profil,
   },
 
   // BACKOFFICE -----------------------------------

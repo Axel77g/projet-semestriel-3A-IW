@@ -95,6 +95,10 @@ export default class DomRenderer {
 
         if (attr == "style") {
           for (let style in obj.attributes[attr]) {
+            if (style.startsWith("--")) {
+              element.style.setProperty(style, obj.attributes[attr][style]);
+              continue;
+            }
             element.style[style] = obj.attributes[attr][style];
           }
           continue;

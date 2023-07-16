@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
-
+use App\Utils\Protection;
 use App\Utils\StringHelpers;
 
 class Page extends Model
@@ -22,32 +22,32 @@ class Page extends Model
     */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = Protection::int($id);
     }
 
     public function setAuthorId($id)
     {
-        $this->author_id = $id;
+        $this->author_id = Protection::int($id);
     }
 
     public function setParentSlug($parent_slug)
     {
-        $this->parent_slug = $parent_slug;
+        $this->parent_slug = Protection::protect($parent_slug);
     }
 
     public function setSlug($slug)
     {
-        $this->slug = StringHelpers::slugify($slug);
+        $this->slug = StringHelpers::slugify(Protection::protect($slug));
     }
 
     public function setTitle($str)
     {
-        $this->title = $str;
+        $this->title = Protection::protect($str);
     }
 
     public function setTemplate($str)
     {
-        $this->template = strtolower($str);
+        $this->template = Protection::protect(strtolower($str));
     }
 
     public function setContent(array $array)
@@ -57,7 +57,7 @@ class Page extends Model
 
     public function setIsCommentable(bool $bool)
     {
-        $this->is_commentable = (int) $bool;
+        $this->is_commentable = (int) Protection::int($bool);
     }
 
     /*

@@ -38,7 +38,7 @@ class File extends Model {
     }
 
     public function setUserId($user_id) {
-        $this->user_id = Protection::protect($user_id);
+        $this->user_id = Protection::int($user_id);
     }
 
     public function getPath() {

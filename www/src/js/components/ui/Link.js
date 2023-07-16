@@ -5,7 +5,7 @@ export class Link extends Component {
     return createElement(
       "a",
       {
-        class: ["nav-link"],
+        class: this.props?.class ?? ["nav-link"],
         href: this.props.href,
         onclick: (e) => {
           e.preventDefault();

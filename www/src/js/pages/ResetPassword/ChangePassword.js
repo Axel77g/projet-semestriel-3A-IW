@@ -1,6 +1,7 @@
 import Component from "../../core/Component.js";
 import Input from "../../components/ui/Input.js";
 import Api from "../../core/Api.js";
+import Button from "../../components/ui/Button.js";
 
 export default class ChangePassword extends Component {
   init() {
@@ -30,13 +31,13 @@ export default class ChangePassword extends Component {
   }
   render() {
     if (router.route.query.has("email") && router.route.query.has("code")) {
-      return createElement("div", {}, [
+      return createElement("div", { class: "box-wrapper" }, [
         createElement("h1", { class: ["header"] }, "Change your password"),
         createElement(
           "form",
           { class: ["login-form"], onsubmit: this.handleSumbit },
           [
-            new Input({
+            createElement(Input, {
               name: "password",
               type: "password",
               id: "password",
@@ -45,7 +46,7 @@ export default class ChangePassword extends Component {
               value: this.state.password,
               message: this.state.messages.password,
             }),
-            new Input({
+            createElement(Input, {
               name: "confirmPassword",
               type: "password",
               class: ["form-control"],
@@ -55,11 +56,10 @@ export default class ChangePassword extends Component {
               value: this.state.confirmPassword,
               message: this.state.messages.confirmPassword,
             }),
-            createElement(
-              "button",
-              { class: ["btn", "btn-primary", "login-button"] },
-              "Change Password"
-            ),
+            createElement(Button, {
+              class: ["mb-3"],
+              children: "Change Password",
+            }),
           ]
         ),
       ]);

@@ -1,9 +1,11 @@
 import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
-import authMix, { AUTH_STATE } from "../../mixins/authMixin.js";
+import authMix from "../../mixins/authMixin.js";
+import { AUTH_STATE } from "../../utils/auth.js";
 import Button from "../ui/Button.js";
 import Input from "../ui/Input.js";
+import { Link } from "../ui/Link.js";
 export class CommentForm extends Component {
   get mixins() {
     return [authMix];
@@ -49,11 +51,18 @@ export class CommentForm extends Component {
       this.state.isAuth === AUTH_STATE.UNKOWN
         ? createElement("p", {}, "Chargement...")
         : this.state.isAuth === AUTH_STATE.NOT_AUTH
-        ? createElement(
-            "p",
-            {},
-            "Vous devez être connecté pour poster un commentaire"
-          )
+        ? createElement("p", {}, [
+            createElement(
+              "span",
+              {},
+              "Vous devez être connecté pour poster un commentaire, "
+            ),
+            createElement(Link, {
+              href: "/login",
+              children: "connectez-vous",
+              class: ["link"],
+            }),
+          ])
         : createElement("div", {}, [
             createElement(Input, {
               type: "text",

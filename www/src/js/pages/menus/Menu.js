@@ -1,5 +1,4 @@
 import { Link } from "../../components/ui/Link.js";
-import Api from "../../core/Api.js";
 
 // Components
 import Component from "../../core/Component.js";
