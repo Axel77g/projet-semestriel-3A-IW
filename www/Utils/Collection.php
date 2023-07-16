@@ -61,13 +61,21 @@ class Collection implements Sanitize{
                 return $a->$key < $b->$key;
             }
         });
+
     }
     public function sort($callback){
         usort($this->items, $callback);
     }
 
+
+    public function limit($limit){
+        $this->items = array_slice($this->items, 0, $limit);
+    }
+
+   
     public function count(){
         return count($this->items);
+
     }
 
     public function except(array $keys) : Collection

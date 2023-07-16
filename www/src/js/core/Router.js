@@ -88,7 +88,7 @@ export default class Router {
         path: pathname,
       });
 
-      if (page === null) {
+      if (page === null || page.code == 404) {
         target = Routes.find((r) => r.path == "/404");
       } else {
         target = {

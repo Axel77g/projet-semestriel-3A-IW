@@ -355,3 +355,32 @@ Route::post('/api/install', [
     "controller" => "Installer",
     "action" => "create",
 ]);
+
+// Analytics Routes ---------------------------------------------------------------
+
+Route::get('/api/analytics/top-article', [
+    "controller" => "Analytics",
+    "action" => "top_articles",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::get('/api/analytics/stat-logs', [
+    "controller" => "Analytics",
+    "action" => "stat_logs",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::get('/api/analytics/stat-comments', [
+    "controller" => "Analytics",
+    "action" => "stat_comments",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);

@@ -71,6 +71,7 @@ class Comments extends Controller
         $comment = new Comment();
 
         $comment->setContent($payload['content']);
+
         $comment->setAuthorId($payload['author_id']);
         $comment->setPageId($payload['page_id']);
 

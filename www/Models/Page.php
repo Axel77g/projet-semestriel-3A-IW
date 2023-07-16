@@ -17,6 +17,8 @@ class Page extends Model
     protected string $content = "";
     protected int $is_commentable = 0;
 
+    protected int $views = 0;
+
     /*
     *   Setters
     */
@@ -58,6 +60,11 @@ class Page extends Model
     public function setIsCommentable(bool $bool)
     {
         $this->is_commentable = (int) Protection::int($bool);
+    }
+
+    public function setViews(int $views)
+    {
+        $this->views = $views;
     }
 
     /*
@@ -106,6 +113,11 @@ class Page extends Model
     public function getIsCommentable() : bool
     {
         return (bool) $this->is_commentable;
+    }
+
+    public function getViews()
+    {
+        return $this->views;
     }
 
     public function getParent()
