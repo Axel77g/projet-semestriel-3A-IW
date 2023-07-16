@@ -11,7 +11,7 @@ export default class ForgotPassword extends Component {
       messages: {},
     };
 
-    document.title = "Forgot Password";
+    document.title = "Mot de passe oublié ?";
   }
   handleSumbit(e) {
     e.preventDefault();
@@ -20,7 +20,7 @@ export default class ForgotPassword extends Component {
       if (response.success === true) {
         this.setState({ success: true });
       } else {
-        this.setState({ messages: JSON.parse(response.messages) });
+        this.setState({ messages: response.message });
       }
     });
   }
@@ -32,16 +32,16 @@ export default class ForgotPassword extends Component {
   render() {
     if (this.state.success === true) {
       return createElement("div", { class: ["alert", "alert-success"] }, [
-        createElement("h1", { class: ["header"] }, "Email Sent"),
+        createElement("h1", { class: ["header"] }, "Email envoyé"),
         createElement(
           "p",
           {},
-          "Please check your email for a link to reset your password."
+          "Merci de vérifier votre boîte mail pour réinitialiser votre mot de passe."
         ),
       ]);
     } else {
       return createElement("div", { class: "box-wrapper" }, [
-        createElement("h1", { class: ["header"] }, "Forgot Password ?"),
+        createElement("h1", { class: ["header"] }, "Mot de passe oublié ?"),
         createElement(
           "form",
           { class: ["login-form"], onsubmit: this.handleSumbit },
@@ -55,7 +55,11 @@ export default class ForgotPassword extends Component {
               value: this.state.email,
               message: this.state.messages.email,
             }),
-            createElement(Button, { class: ["my-3"], children: "Send Email" }),
+            createElement(Button, {
+              class: ["my-3"],
+              children: "Envoyer un email de réinitialisation",
+              type: "submit",
+            }),
           ]
         ),
       ]);
