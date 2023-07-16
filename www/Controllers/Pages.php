@@ -160,6 +160,7 @@ class Pages extends Controller
         $payload = request()->json();
 
         $validator = new Validator();
+
         $validator->validate($payload,[
             "path" => "required"
         ]);
