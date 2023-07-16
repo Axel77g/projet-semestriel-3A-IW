@@ -14,7 +14,7 @@ export default class Register extends Component {
       password: "",
       messages: {},
     };
-    document.title = "Register";
+    document.title = "S'inscrire";
   }
   handleSumbit(e) {
     e.preventDefault();
@@ -23,7 +23,7 @@ export default class Register extends Component {
       if (response.success === true) {
         router.push("/login");
       } else {
-        this.setState({ messages: JSON.parse(response.messages) });
+        this.setState({ messages: response.message });
       }
     });
   }
@@ -32,13 +32,13 @@ export default class Register extends Component {
   }
   render() {
     let content = createElement("div", { class: "box-wrapper" }, [
-      createElement("h1", {}, "Register"),
-      createElement("form", { onsubmit: this.handleSumbit }, [
+      createElement("h1", {}, "S'inscrire"),
+      createElement("form", { onsubmit: this.handleSumbit.bind(this) }, [
         createElement(Input, {
           name: "firstname",
           type: "text",
           id: "firstname",
-          placeholder: "Firstname",
+          placeholder: "Prénom",
           onChange: this.handleChange.bind(this),
           value: this.state.firstname,
           message: this.state.messages.firstname,
@@ -47,7 +47,7 @@ export default class Register extends Component {
           name: "lastname",
           type: "text",
           id: "lastname",
-          placeholder: "Lastname",
+          placeholder: "Nom",
           onChange: this.handleChange.bind(this),
           value: this.state.lastname,
           message: this.state.messages.lastname,
@@ -65,12 +65,16 @@ export default class Register extends Component {
           name: "password",
           type: "password",
           id: "password",
-          placeholder: "Password",
+          placeholder: "Mot de passe",
           onChange: this.handleChange.bind(this),
           value: this.state.password,
           message: this.state.messages.password,
         }),
-        createElement(Button, { class: ["my-3"], children: "Create Account" }),
+        createElement(Button, {
+          class: ["my-3"],
+          children: "S'inscrire",
+          type: "submit",
+        }),
       ]),
     ]);
 
