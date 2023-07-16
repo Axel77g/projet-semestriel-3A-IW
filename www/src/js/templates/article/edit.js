@@ -27,7 +27,18 @@ export class ArticleEdit extends Component {
   }
 
   onAskContent(callable) {
-    callable(this.content);
+    const content = this.content;
+    if (!this.check(content)) return callable(new Error("Invalid content"));
+    callable(content);
+  }
+
+  check(content) {
+    let errors = {};
+    if (!content.thumbnail) {
+      errors = { ...errors, thumbnail: ["La thumbnail est requise"] };
+    }
+    this.setState({ errors });
+    return !Boolean(Object.keys(errors).length);
   }
 
   forceUpdate() {
@@ -82,6 +93,7 @@ export class ArticleEdit extends Component {
           onChange: (value) => {
             this.setState({ thumbnail: value });
           },
+          message: this.state.errors?.thumbnail,
         }),
       ]),
       createElement(
