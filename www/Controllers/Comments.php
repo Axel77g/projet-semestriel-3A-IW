@@ -75,7 +75,6 @@ class Comments extends Controller
         $comment->setAuthorId($payload['author_id']);
         $comment->setPageId($payload['page_id']);
 
-
         if (isset($payload['comment_id']))
             $comment->setCommentId($payload['comment_id']);
 
