@@ -77,8 +77,8 @@ class Installer {
         createUser($payload);
 
         // seader 
-        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "menu (parent_id, title, url, visible, position) VALUES (null, 'Home', '/', 1, 0);");
         $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "page (author_id, slug, title, template, content) VALUES (1, '/', 'Home', 'home', '[]');");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "menu (parent_id, title, page_id, visible, position) VALUES (null, 'Home', 1, 1, 0);");
         $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "comment (content, author_id, page_id, comment_id) VALUES ('Commentaire 1', 1, 1, NULL);");
 
         echo json_encode(["success" => true]);

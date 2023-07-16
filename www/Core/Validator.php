@@ -11,11 +11,14 @@ class Validator implements Sanitize{
             foreach($rules as $key => $rule){
                 $rules = explode("|", $rule);
                 foreach($rules as $rule){
+                    
                     $rule = explode(":", $rule);
                     $ruleName = $rule[0];
                     $ruleValue = $rule[1] ?? null;
                     $param = $rule[2] ?? null;
-                    $this->$ruleName($key, $data[$key], $ruleValue, $param);
+                 
+                    $val = isset($data[$key]) ? $data[$key] : null;
+                    $this->$ruleName($key, $val, $ruleValue, $param);
                 }
             }
         }

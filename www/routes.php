@@ -115,7 +115,7 @@ Route::get("/api/users/{id}", [
     ]
 ]);
 
-Route::put("/users/{id}", [
+Route::put("/api/users/{id}", [
     "controller" => "Users",
     "action" => "update",
     "middlewares" => [
@@ -277,8 +277,6 @@ Route::delete('/api/menu/{id}', [
 Route::get('/api/pages', [
     "controller" => "Pages",
     "action" => "index",
-    "middlewares" => [
-        "Auth",    ]
 ]);
 
 Route::post('/api/pages', [
