@@ -30,7 +30,7 @@ class Pages extends Controller
         $pages->each(function(&$page){
             $page->path = $page->getPath();
         });
-
+        
         if($query->has('withContent')){
             $pages = $pages->map(function($page){
                 return [
@@ -43,6 +43,20 @@ class Pages extends Controller
         }
 
         return $pages;
+    }
+
+    public function home(){
+        $page = Page::fetch([
+            "template" => "home"
+        ]);
+
+        if (!$page) {
+            throw new NotFoundError();
+        }
+
+        $page->path = $page->getPath();
+
+        return $page;
     }
 
     public function show($params)
@@ -85,10 +99,14 @@ class Pages extends Controller
 
         $page->setAuthorId($authUser->id);
         $page->setParentSlug($payload['parent_slug']);
+        $page->setTemplate($payload['template']);
         $page->setSlug($payload['title']);
         $page->setTitle($payload['title']);
-        $page->setTemplate($payload['template']);
         $page->setContent($payload['content']);
+
+        if($page->getTemplate() == "home" && page::exists(["template" => $page->getTemplate()])){
+            throw new HTTPError("Template Home have to be unique", 400);
+        }
 
         if (!Page::exists(["slug" => $page->slug])) {
             $page->save();

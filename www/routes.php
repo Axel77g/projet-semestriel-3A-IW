@@ -279,6 +279,11 @@ Route::get('/api/pages', [
     "action" => "index",
 ]);
 
+Route::get('/api/pages/home', [
+    "controller" => "Pages",
+    "action" => "home",
+]);
+
 Route::post('/api/pages', [
     "controller" => "Pages",
     "action" => "create",
