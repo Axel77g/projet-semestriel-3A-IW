@@ -119,7 +119,7 @@ class Pages extends Controller
         $page->setTitle($payload['title']);
         $page->setContent($payload['content']);
 
-        if($page->getTemplate() == "home" && page::exists(["template" => $page->getTemplate()])){
+        if($page->getTemplate() == "home" && Page::exists(["template" => $page->getTemplate()])){
             throw new HTTPError("Template Home have to be unique", 400);
         }
 
