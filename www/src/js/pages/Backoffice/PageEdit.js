@@ -69,14 +69,24 @@ export default class PageEdit extends Component {
   }
 
   getChildrenContent() {
-    this.propagate("AskContent", (content) => {
-      this.setState({ content });
+    return new Promise((resolve, reject) => {
+      this.propagate("AskContent", (content) => {
+        if (content instanceof Error) {
+          console.error(content);
+          let container = document.querySelector(".text-danger");
+          container.scrollIntoView({ behavior: "smooth" });
+          return resolve(false);
+        } else {
+          this.setState({ content });
+          return resolve(true);
+        }
+      });
     });
   }
 
   async handleSubmit(e) {
-    this.getChildrenContent();
-
+    let res = await this.getChildrenContent();
+    if (!res) return;
     const method = this.state.isEdit ? "put" : "post";
     const endpoint = this.state.isEdit
       ? "api/pages/" + router.route.params.slug

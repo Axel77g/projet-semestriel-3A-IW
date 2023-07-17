@@ -54,7 +54,7 @@ class Page extends Model
 
     public function setContent(array $array)
     {
-        $this->content = json_encode($array);
+        $this->content = Protection::removeScripts(json_encode($array));
     }
 
     public function setIsCommentable(bool $bool)

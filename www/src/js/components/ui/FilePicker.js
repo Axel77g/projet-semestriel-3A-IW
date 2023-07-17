@@ -47,38 +47,46 @@ export default class FilePicker extends Component {
   }
 
   render() {
-    return createElement("div", { class: ["input-group", "mb-3"] }, [
-      createElement("div", {}, [
-        createElement(
-          "label",
-          { class: ["form-label", "d-block"], for: this.props.id },
+    return createElement("div", { class: ["mb-3"] }, [
+      createElement("div", { class: ["input-group"] }, [
+        createElement("div", {}, [
+          createElement(
+            "label",
+            { class: ["form-label", "d-block"], for: this.props.id },
 
-          this.props.placeholder || "Choisir un fichier"
-        ),
-        !this.props.value?.id &&
-          createElement("input", {
-            type: "file",
-            class: ["form-control"],
-            accept: this.props?.accept || "",
-            id: this.props.id,
-            onchange: this.handleChange.bind(this),
-          }),
-        this.props.value?.id &&
-          createElement("div", { class: ["input-group"] }, [
+            this.props.placeholder || "Choisir un fichier"
+          ),
+          !this.props.value?.id &&
             createElement("input", {
-              type: "text",
+              type: "file",
               class: ["form-control"],
-              value: this.props.value?.name || "",
-              disabled: true,
+              accept: this.props?.accept || "",
+              id: this.props.id,
+              onchange: this.handleChange.bind(this),
             }),
+          this.props.value?.id &&
+            createElement("div", { class: ["input-group"] }, [
+              createElement("input", {
+                type: "text",
+                class: ["form-control"],
+                value: this.props.value?.name || "",
+                disabled: true,
+              }),
 
-            createElement(Button, {
-              class: ["btn-danger"],
-              onClick: this.deleteFile.bind(this),
-              children: [createElement("i", { class: ["bi", "bi-trash"] })],
-            }),
-          ]),
+              createElement(Button, {
+                class: ["btn-danger"],
+                onClick: this.deleteFile.bind(this),
+                children: [createElement("i", { class: ["bi", "bi-trash"] })],
+              }),
+            ]),
+        ]),
       ]),
+      this.props.message &&
+        createElement(
+          "div",
+          { class: ["text-danger", "fs-6"] },
+          this.props.message ? this.props.message[0] : ""
+        ),
     ]);
   }
 }

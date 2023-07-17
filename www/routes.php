@@ -297,13 +297,7 @@ Route::post('/api/pages', [
     ]
 ]);
 
-Route::get('/api/pages/{slug}', [
-    "controller" => "Pages",
-    "action" => "show",
-    "middlewares" => [
-        "Auth",
-    ]
-]);
+
 
 
 Route::put('/api/pages/{slug}', [
@@ -318,6 +312,29 @@ Route::put('/api/pages/{slug}', [
 Route::delete('/api/pages/{id}', [
     "controller" => "Pages",
     "action" => "delete",
+    "middlewares" => [
+        "Auth",
+    ]
+]);
+
+Route::get('/api/pages/latest', [
+    "controller" => "Pages",
+    "action" => "latestArticle",
+]);
+
+Route::get('/api/pages/popular', [
+    "controller" => "Pages",
+    "action" => "popularArticle",
+]);
+
+Route::get('/api/pages/random', [
+    "controller" => "Pages",
+    "action" => "randomArticle",
+]);
+
+Route::get('/api/pages/{slug}', [
+    "controller" => "Pages",
+    "action" => "show",
     "middlewares" => [
         "Auth",
     ]
