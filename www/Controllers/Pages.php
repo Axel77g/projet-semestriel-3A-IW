@@ -172,7 +172,6 @@ class Pages extends Controller
 
     public function resolvePath()
     {
-
         $payload = request()->json();
 
         $validator = new Validator();
@@ -209,5 +208,105 @@ class Pages extends Controller
             ...$page->toArray(),
             "content"=> PageServices::populateContentFileRelation($page->getContent())
         ]);
+    }
+
+    public function latestArticle(){
+
+        $query = request()->getQuery();
+
+        $pages = Page::all();
+
+        if (!$pages) throw new NotFoundError();
+        $pages->sort(
+            function($a, $b){
+                return $a->getCreatedAt() < $b->getCreatedAt();
+            }
+        );
+        $pages->filter(function($page){
+            return $page->getTemplate() == "article";
+        });
+        $pages->limit(6);
+
+        $pages->each(function(&$page){
+            $page->path = $page->getPath();
+        });
+
+        if($query->has('withContent')){
+            $pages = $pages->map(function($page){
+                return [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+            });
+            echo json_encode($pages->toArray());
+            return;
+        }
+
+        return $pages;
+    }
+
+    public function popularArticle(){
+        $query = request()->getQuery();
+        $pages = Page::all();
+        if (!$pages) throw new NotFoundError();
+        $pages->sort(
+            function($a, $b){
+                return $a->getViews() < $b->getViews();
+            }
+        );
+        $pages->filter(function($page){
+            return $page->getTemplate() == "article";
+        });
+        $pages->limit(6);
+
+        $pages->each(function(&$page){
+            $page->path = $page->getPath();
+        });
+
+        if($query->has('withContent')){
+            $pages = $pages->map(function($page){
+                return [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+            });
+            echo json_encode($pages->toArray());
+            return;
+        }
+        
+
+        return $pages;
+    }
+
+    public function randomArticle(){
+
+        $query = request()->getQuery();
+        $pages = Page::all();
+        if (!$pages) throw new NotFoundError();
+        $pages->filter(function($page){
+            return $page->getTemplate() == "article";
+        });
+
+        $pages->shuffle();
+
+        $pages->limit(6);
+
+        $pages->each(function(&$page){
+            $page->path = $page->getPath();
+        });
+
+        if($query->has('withContent')){
+            $pages = $pages->map(function($page){
+                return [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+            });
+            echo json_encode($pages->toArray());
+            return;
+        }
+
+
+        return $pages;
     }
 }

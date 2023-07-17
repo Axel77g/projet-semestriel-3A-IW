@@ -13,6 +13,8 @@ import Page_404 from "../pages/Page_404/Page_404.js";
 import PageList from "../pages/Backoffice/PageList.js";
 import CommentList from "../pages/Backoffice/CommentList.js";
 import CommentDetail from "../pages/Backoffice/CommentDetail.js";
+import UserList from "../pages/Backoffice/UserList.js";
+import UserEdit from "../pages/Backoffice/UserEdit.js";
 import Profil from "../pages/Profil/index.js";
 
 export default [
@@ -77,6 +79,18 @@ export default [
   {
     path: "/admin/menu/edit/:id",
     component: MenuEdit,
+  },
+  {
+    path: "/admin/users",
+    component: UserList,
+  },
+  {
+    path: "/admin/users/edit/:id",
+    component: UserEdit,
+  },
+  {
+    path: "/admin/users/create",
+    component: UserEdit,
   },
 
   // // Article --------------

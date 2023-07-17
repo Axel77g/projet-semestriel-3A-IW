@@ -17,7 +17,14 @@ class Protection
     }
     public static function protect($string)
     {
-        return htmlspecialchars($string);
+        
+        return htmlspecialchars(Protection::removeScripts($string));
+    }
+
+    public static function removeScripts($string){
+        $string =  preg_replace('/\<script\>/i', "", $string);
+        $string =  preg_replace('/\<\/script\>/i', "", $string);
+        return $string; 
     }
 
     public static function int($int){
