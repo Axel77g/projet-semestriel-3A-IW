@@ -76,12 +76,12 @@ export class Step1 extends Component {
           }),
         ]),
 
-        
         createElement("div", { class: ["mb-3"] }, [
           createElement(Input, {
             key: "input_port_database",
             name: "input_port_database",
             placeholder: "Port",
+            type: "number",
             value: this.props.form.input_port_database,
             message: this.props.messages?.input_port_database,
             onChange: (e) => {
