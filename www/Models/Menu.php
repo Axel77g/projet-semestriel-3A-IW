@@ -3,60 +3,79 @@
 namespace App\Models;
 
 use App\Core\Model;
+use App\Utils\Protection;
 
-class Menu extends Model {
+class Menu extends Model
+{
 
     protected ?int $parent_id = null;
     public string $title = "";
-    protected string $url = "";
+    protected int $page_id = 0;
     protected int $visible;
     protected int $position = 0;
 
     /*
     * Getters
     */
-    public function getParentId(): int {
+    public function getParentId(): int
+    {
         return $this->parent_id;
     }
 
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
 
-    public function getUrl(): string {
-        return $this->url;
+    public function getPageId(): string
+    {
+        return $this->page_id;
     }
 
-    public function getPosition(): int {
+    public function getPage(){
+        return Page::fetch($this->page_id);
+    }
+
+    public function getPath(){
+        $page = $this->getPage();
+        return $page->getPath();
+    }
+
+    public function getPosition(): int
+    {
         return $this->position;
     }
 
-    public function getVisible(): int {
+    public function getVisible(): int
+    {
         return $this->visible;
     }
 
     /*
     * Setters
     */
-    public function setParentId(?int $parent_id = null): void {
+    public function setParentId(?int $parent_id = null): void
+    {
         $this->parent_id = $parent_id;
-    }   
-
-    public function setTitle(string $title): void {
-        $this->title = $title;
     }
 
-    public function setUrl(string $url): void {
-        $this->url = $url;
+    public function setTitle(string $title): void
+    {
+        $this->title = Protection::protect($title);
     }
 
-    public function setVisible(int $visible): void {
+    public function setPageId(int $page_id): void
+    {
+        $this->page_id = $page_id;
+    }
+
+    public function setVisible(int $visible): void
+    {
         $this->visible = $visible;
     }
 
-    public function setPosition(int $position): void {
+    public function setPosition(int $position): void
+    {
         $this->position = $position;
     }
-    
-
 }

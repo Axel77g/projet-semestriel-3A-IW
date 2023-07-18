@@ -1,12 +1,23 @@
 import DomRenderer from "./DomRenderer.js";
 import Routes from "./Routes.js";
 
+import Api from "./Api.js";
+import PV from "../pages/_PageView.js";
+import { AUTH_STATE, AuthUtils } from "../utils/auth.js";
+
 export default class Router {
   constructor() {
     this.routes = [];
     this.lastRendered = null;
     window.addEventListener("routeChange", this.refresh.bind(this));
+    window.addEventListener("popstate", () => {
+      this.refresh();
+    });
     this.route = null;
+    this.auth = {
+      user: null,
+      isAuth: AUTH_STATE.UNKOWN,
+    };
   }
 
   push(route, state = {}, unused = "") {
@@ -19,20 +30,33 @@ export default class Router {
     window.dispatchEvent(new Event("routeChange"));
   }
 
-  refresh() {
+  async refresh() {
+    if (this.auth.isAuth === AUTH_STATE.UNKOWN) {
+      const auth = await AuthUtils.getAuth();
+      this.auth = auth;
+    } else {
+      //load async the auth state if it is known
+      AuthUtils.getAuth().then((auth) => {
+        if (auth.isAuth !== this.auth.isAuth) {
+          this.auth = auth;
+          this.refresh();
+        }
+      });
+    }
+
     document.body.innerHTML = "";
     if (this.lastRendered != null) {
       this.lastRendered.destroy();
     }
 
-    const pathname = window.location.pathname;
-    let route = Routes.find((r) => r.path == pathname);
+    const pathname = window.location.pathname.replace(/\/$/, "");
     let params = {};
     let pass = false;
     let target = null;
     for (let route of Routes) {
       pass = false;
       params = {};
+      route.path = route.path.replace(/\/$/, "");
       let routePathnameSplited = route.path.split("/");
       let pathnameSplited = pathname.split("/");
       if (pathnameSplited.length != routePathnameSplited.length) continue;
@@ -56,8 +80,22 @@ export default class Router {
         break;
       }
     }
+
     if (target == null) {
-      target = Routes.find((r) => r.path == "/404");
+      const api = new Api();
+
+      const page = await api.post("api/pages/resolve", {
+        path: pathname,
+      });
+
+      if (page === null || page.code == 404) {
+        target = Routes.find((r) => r.path == "/404");
+      } else {
+        target = {
+          page: page,
+          component: PV,
+        };
+      }
     }
 
     this.route = {

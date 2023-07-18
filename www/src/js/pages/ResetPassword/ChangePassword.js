@@ -1,6 +1,7 @@
 import Component from "../../core/Component.js";
 import Input from "../../components/ui/Input.js";
 import Api from "../../core/Api.js";
+import Button from "../../components/ui/Button.js";
 
 export default class ChangePassword extends Component {
   init() {
@@ -9,6 +10,8 @@ export default class ChangePassword extends Component {
       confirmPassword: "",
       messages: {},
     };
+
+    document.title = "Change Password";
   }
   handleSumbit(e) {
     e.preventDefault();
@@ -19,7 +22,7 @@ export default class ChangePassword extends Component {
         if (response.success === true) {
           router.push("/login");
         } else {
-          this.setState({ messages: JSON.parse(response.messages) });
+          this.setState({ messages: response.message });
         }
       });
   }
@@ -28,36 +31,36 @@ export default class ChangePassword extends Component {
   }
   render() {
     if (router.route.query.has("email") && router.route.query.has("code")) {
-      return createElement("div", {}, [
-        createElement("h1", { class: ["header"] }, "Change your password"),
+      return createElement("div", { class: "box-wrapper" }, [
+        createElement("h1", { class: ["header"] }, "Changer de mot de passe"),
         createElement(
           "form",
-          { class: ["login-form"], onsubmit: this.handleSumbit },
+          { class: ["login-form"], onsubmit: this.handleSumbit.bind(this) },
           [
-            new Input({
+            createElement(Input, {
               name: "password",
               type: "password",
               id: "password",
-              placeholder: "New Password",
+              placeholder: "Nouveau mot de passe",
               onChange: this.handleChange.bind(this),
               value: this.state.password,
               message: this.state.messages.password,
             }),
-            new Input({
+            createElement(Input, {
               name: "confirmPassword",
               type: "password",
               class: ["form-control"],
               id: "confirmPassword",
-              placeholder: "Confirm Password",
+              placeholder: "Confirmer le mot de passe",
               onChange: this.handleChange.bind(this),
               value: this.state.confirmPassword,
               message: this.state.messages.confirmPassword,
             }),
-            createElement(
-              "button",
-              { class: ["btn", "btn-primary", "login-button"] },
-              "Change Password"
-            ),
+            createElement(Button, {
+              class: ["mb-3"],
+              children: "Changer le mot de passe",
+              type: "submit",
+            }),
           ]
         ),
       ]);

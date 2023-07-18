@@ -8,6 +8,8 @@ use App\Core\Mailer;
 use App\Services\AuthServices;
 use App\Core\Validator;
 use App\Errors\ValidatorError;
+use App\Models\AnalyticsLogs;
+use App\Errors\Unauthorized;
 
 class Auth extends Controller
 {
@@ -22,8 +24,11 @@ class Auth extends Controller
         ]);
         $user = User::fetch(["email"=>$payload['email']]);
 
+        addAnalyticsLogs($user->getId());
+
         $token = AuthServices::generateToken($user);
         echo json_encode([
+            "role"=> $user->getRole(),
             "success"=> true,
             "token"=> $token
         ]);
@@ -51,6 +56,16 @@ class Auth extends Controller
         $user->setLastname($payload['lastname']);
         $user->setEmail($payload['email']);
         $user->setPassword($payload['password']);
+
+        if(!empty($payload['role'])){
+            $authUser = request()->auth()->user();
+            if(!$authUser->isAdmin()) {
+                throw new Unauthorized();
+            }
+            else{
+                $user->setRole($payload['role']);
+            }
+        }
         $user->setVerificationCode();
         $user->save();
 
@@ -66,6 +81,8 @@ class Auth extends Controller
             <a href='http://localhost:8080/verify?email=".$mail."&code=".$verif_code."'>Verify</a>
         ";
         $mailer->sendMail($user->getEmail(), $subject, $message);
+
+        addAnalyticsLogs($user->getId());
 
         echo json_encode([
             "success"=> true,
@@ -152,5 +169,12 @@ class Auth extends Controller
             }
         }
     }
+
+}
+
+function addAnalyticsLogs($user_id = 0){
+    $analytics = new AnalyticsLogs();
+    $analytics->setUserId($user_id);
+    $analytics->save();
 
 }

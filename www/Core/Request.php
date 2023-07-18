@@ -37,6 +37,10 @@ class Request{
         return $this->headers;
     }
 
+    public function getQuery(){
+        return new RequestQuery($_GET);
+    }
+
     public function body(){
         return file_get_contents('php://input');
     }
@@ -51,6 +55,23 @@ class Request{
             $token = $headers['authorization'];
             return Auth::get($token);
         }
-        return null;
+        return new Auth();
     }
+}
+
+
+class RequestQuery{
+    protected array $query = [];
+    public function __construct($query){
+        $this->query = $query;
+    }
+
+    public function get($key){
+        return $this->query[$key];
+    }
+
+    public function has($key){
+        return isset($this->query[$key]);
+    }
+
 }

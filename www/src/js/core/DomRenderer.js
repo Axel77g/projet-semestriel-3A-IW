@@ -15,7 +15,6 @@ export default class DomRenderer {
     DomRenderer.root = component;
 
     let structure = DomRenderer.getStrucutre(component);
-    // console.log("Builded Struture", structure);
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.last_dom_rendered = dom;
     domParent.appendChild(DomRenderer.last_dom_rendered);
@@ -26,11 +25,6 @@ export default class DomRenderer {
     let dom = DomRenderer.getDOM(structure);
     DomRenderer.compareAndModifyDOM(DomRenderer.last_dom_rendered, dom);
     DomRenderer.root.propagate("Rerender");
-    // console.log(
-    //   "Updated Struture",
-    //   DomRenderer.last_dom_rendered,
-    //   DomRenderer.root
-    // );
   }
 
   static getStrucutre(component) {
@@ -53,10 +47,11 @@ export default class DomRenderer {
         (childElement) => {
           if (typeof childElement.tag == "function") {
             const old = component.findChildren(
-              childElement?.key || childElement.tag.name,
+              childElement.attributes?.key || childElement.tag.name,
               oldComponents,
               component.componentIndex
             );
+
             const oldConstructor = old ? old.protoConstructor : null;
             let childComponent;
 
@@ -92,6 +87,7 @@ export default class DomRenderer {
 
     if (obj.attributes) {
       for (const attr in obj.attributes) {
+        if (["key", "ref", "html"].includes(attr)) continue;
         if (attr.startsWith("on")) {
           element.addEventListener(attr.slice(2), obj.attributes[attr]);
           continue;
@@ -99,6 +95,10 @@ export default class DomRenderer {
 
         if (attr == "style") {
           for (let style in obj.attributes[attr]) {
+            if (style.startsWith("--")) {
+              element.style.setProperty(style, obj.attributes[attr][style]);
+              continue;
+            }
             element.style[style] = obj.attributes[attr][style];
           }
           continue;
@@ -127,7 +127,13 @@ export default class DomRenderer {
       const textNode = document.createTextNode(obj.children);
       element.appendChild(textNode);
     }
+
+    if (obj.attributes?.html) {
+      element.innerHTML = obj.attributes.html;
+    }
+
     obj.domElement = element;
+
     return element;
   }
 
@@ -171,7 +177,6 @@ export default class DomRenderer {
     for (let i = oldChildren.length - 1; i >= 0; i--) {
       const oldChild = oldChildren[i];
       const newChild = newChildren[i];
-
       if (newChild) {
         if (
           oldChild.nodeType === Node.TEXT_NODE &&
@@ -191,12 +196,10 @@ export default class DomRenderer {
     for (let i = 0; i < newChildren.length; i++) {
       if (oldChildren[i]?.tagName != newChildren[i].tagName) {
         const newChild = newChildren[i];
-
+        const newChildClone = newChild.cloneNode(true);
+        newChild.parentNode.replaceChild(newChildClone, newChild);
         oldElement.appendChild(newChild);
       }
     }
-
-    // Compare le texte des éléments
-    /*   */
   }
 }

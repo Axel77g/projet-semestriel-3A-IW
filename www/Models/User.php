@@ -41,7 +41,7 @@ class User extends Model{
     }
 
     public function setIsVerified($int){
-        $this->is_verified = $int;
+        $this->is_verified = Protection::int($int);
     }
 
     public function setFirstname($str){
@@ -57,7 +57,7 @@ class User extends Model{
     }
     
     public function setEmail($str){
-        $email =  Protection::protect(strtolower(trim($str)));
+        $email =  Protection::email($str);
         if(!filter_var($email,FILTER_VALIDATE_EMAIL)) throw new \Exception("Invalid email");
         $this->email = $email;
     }
@@ -81,8 +81,11 @@ class User extends Model{
     }
 
     public function setRole(String $role){
-        
         $this->role = $role;
+    }
+
+    public function getRole(){
+        return $this->role;
     }
 
     public function hasRole(string $role) {    
@@ -91,5 +94,17 @@ class User extends Model{
 
     public function isAdmin() {
         return $this->role == "admin";
+    }
+
+
+    public function toArray()
+    {
+        $this->except(array_merge($this->getExcept(),["password","verification_code","reset_code"]));
+        return parent::toArray();
+    }
+    public function toJson()
+    {
+        $this->except(array_merge($this->getExcept(),["password","verification_code","reset_code"]));
+        return parent::toJson();
     }
 }

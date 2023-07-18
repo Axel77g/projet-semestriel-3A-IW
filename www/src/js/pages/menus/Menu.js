@@ -1,4 +1,4 @@
-import Api from "../../core/Api.js";
+import { Link } from "../../components/ui/Link.js";
 
 // Components
 import Component from "../../core/Component.js";
@@ -16,10 +16,11 @@ export default class Menu extends Component {
         createElement(
           "a",
           {
+            id: "menu-item-dropdown-" + this.key,
             class: ["nav-link", "dropdown-toggle"],
+            role: "button",
             href: "#",
-            "data-toggle": "dropdown",
-            "aria-haspopup": "true",
+            "data-bs-toggle": "dropdown",
             "aria-expanded": "false",
           },
           this.state.menu.title
@@ -28,7 +29,7 @@ export default class Menu extends Component {
           "div",
           {
             class: ["dropdown-menu"],
-            "aria-labelledby": "navbarDropdown",
+            "aria-labelledby": "menu-item-dropdown-" + this.key,
           },
           this.props.menuChildren.map((menu) => {
             return createElement(
@@ -48,17 +49,11 @@ export default class Menu extends Component {
     }
 
     return createElement("li", { class: ["nav-item"] }, [
-      createElement(
-        "a",
-        {
-          class: ["dropdown-item"],
-          onclick: (e) => {
-            e.preventDefault();
-            router.push(this.state.menu.url);
-          },
-        },
-        this.state.menu.title
-      ),
+      createElement(Link, {
+        class: ["nav-link"],
+        href: this.state.menu.url,
+        children: this.state.menu.title,
+      }),
     ]);
   }
 }

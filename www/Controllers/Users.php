@@ -4,13 +4,11 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Errors\NotFoundError;
-use App\Errors\UserAlreadyExists;
-use App\Errors\WrongPassword;
 use App\Models\User;
 use App\Policies\UserPolicy;
-use App\Services\AuthServices;
-use App\Core\Mailer;    
-
+use App\Core\Validator;
+use App\Errors\Unauthorized;
+use App\Errors\ValidatorError;
 
 class Users extends Controller{
     
@@ -26,6 +24,9 @@ class Users extends Controller{
         return $auth->user();
     }
 
+    public function isAdmin(){
+        return true;
+    }
 
     function show($params) {
 
@@ -39,16 +40,62 @@ class Users extends Controller{
 
     function update($params) {
         $payload = request()->json();
+
+        $authUser = request()->auth()->user();
+        $validator = new Validator();
+        $validation = [
+            "firstname" => "required",
+            "lastname" => "required",
+        ];
+
+        if($authUser && !$authUser->isAdmin()){
+            $validation = array_merge($validation,[
+                "email" => "required|email",
+            ]);
+        }
+
+        if(!empty($payload['password'])){
+            $validation = array_merge($validation,[
+                "password" => "required|minLength:8|maxLength:50",
+                "password_confirmation" => "required|minLength:8|maxLength:50"
+            ]);
+        }else{
+            unset($payload['password']);
+        }
+
+
+
+        if(!empty($payload['role'])){
+            $authUser = request()->auth()->user();
+            if(!$authUser->isAdmin()) throw new Unauthorized();
+        }
+
+
+        $validator->validate($payload,$validation);
+
+        if($validator->hasErrors()) throw new ValidatorError($validator->getErrors());
+
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
+
+        UserPolicy::update($authUser, $user);
+
+        if($authUser && !$authUser->isAdmin()){
+            $existing = User::fetch(["email"=>$payload['email']]);
+            if($existing && $existing->id != $user->id) throw new ValidatorError(["email"=>["Cet email existe déjà"]]);
+        }
+
         $user->set($payload);
         $user->save();
-        echo $user->toJson();
+        return $user;
     }
 
     function destroy($params) {
         $user = User::fetch($params['id']);
         if(!$user) throw new NotFoundError();
+
+        UserPolicy::destroy(request()->auth()->user(), $user);
+
         $user->destroy();
     }
 

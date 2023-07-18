@@ -70,6 +70,11 @@ class Installer {
         // Create the first user (Admin)
         createUser($payload);
 
+        // seader 
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "page (author_id, slug, title, template, content) VALUES (1, '/', 'Home', 'home', '[]');");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "menu (parent_id, title, page_id, visible, position) VALUES (null, 'Home', 1, 1, 0);");
+        $db->getConnection()->exec("INSERT INTO " . DB_PREFIX . "comment (content, author_id, page_id, comment_id) VALUES ('Commentaire 1', 1, 1, NULL);");
+
         echo json_encode(["success" => true]);
     }
 
@@ -88,6 +93,9 @@ function writeConfig($payload){
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
     fwrite($myfile, 'define("DEFAULT_ROLE","user");');
+    fwrite($myfile, "\n");
+    fwrite($myfile, "\n");
+    fwrite($myfile, 'define("TITLE","' . $payload["input_name_site"] . '");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
 
@@ -133,15 +141,18 @@ function writeInitialDatabase($prefix){
     -- Version: 1.0.0
 
 
-    DROP TYPE IF EXISTS TYPEROLE CASCADE;
-    CREATE TYPE TYPEROLE AS ENUM ('admin', 'user');
+    DROP TYPE IF EXISTS TYPE_ROLE CASCADE;
+    CREATE TYPE TYPE_ROLE AS ENUM ('admin', 'user');
+
+    DROP TYPE IF EXISTS STATUS_COMMENT CASCADE;
+    CREATE TYPE STATUS_COMMENT AS ENUM ('pending', 'validated', 'refused');
 
 
     -- USERS
     DROP TABLE IF EXISTS " . $prefix . "user CASCADE;
     CREATE TABLE " . $prefix . "user (
         id SERIAL PRIMARY KEY,
-        role TYPEROLE DEFAULT 'user',
+        role TYPE_ROLE DEFAULT 'user',
         firstname VARCHAR(100) NOT NULL,
         lastname VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
@@ -149,27 +160,27 @@ function writeInitialDatabase($prefix){
         is_verified BOOLEAN DEFAULT FALSE,
         verification_code VARCHAR(255),
         reset_code INTEGER,
-        created_at TIMESTAMP NOT NULL,
-        updated_at TIMESTAMP NOT NULL
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
     );
 
-    -- ARTICLES
-
-    DROP TABLE IF EXISTS " . $prefix . "article CASCADE;
-    CREATE TABLE " . $prefix . "article (
-        id SERIAL,
-        slug varchar(255) NOT NULL,
-        title varchar(255) NOT NULL,
-        description text NOT NULL,
-        content text NOT NULL,
-        author int NOT NULL,
-        image varchar(255) NOT NULL,
-        views int NOT NULL DEFAULT 0,
-        likes int NOT NULL DEFAULT 0,
+    -- Pages
+    DROP TABLE IF EXISTS ". $prefix ."page CASCADE;
+    DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
+    CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
+    CREATE TABLE ". $prefix ."page(
+        id SERIAL PRIMARY KEY NOT NULL,
+        author_id INTEGER NOT NULL,
+        parent_slug VARCHAR(255),
+        slug VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        template TEMPLATE_PAGE NOT NULL,
+        content TEXT NOT NULL,
+        is_commentable SMALLINT NOT NULL DEFAULT 1,
+        views INTEGER NOT NULL DEFAULT 0,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        PRIMARY KEY (id),
-        FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE
+        FOREIGN KEY (author_id) REFERENCES ". $prefix ."user(id) ON DELETE CASCADE
     );
 
     -- COMMENTS
@@ -178,14 +189,15 @@ function writeInitialDatabase($prefix){
     CREATE TABLE " . $prefix . "comment (
         id SERIAL,
         content text NOT NULL,
-        author int NOT NULL,
-        article int NOT NULL,
-        comment int,
+        author_id int NOT NULL,
+        page_id int NOT NULL,
+        comment_id int,
+        status STATUS_COMMENT DEFAULT 'pending',
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-        FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
-        FOREIGN KEY (article) REFERENCES " . $prefix . "article(id) ON DELETE CASCADE,
-        FOREIGN KEY (comment) REFERENCES " . $prefix . "comment(id) ON DELETE CASCADE,
+        FOREIGN KEY (author_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
+        FOREIGN KEY (page_id) REFERENCES " . $prefix . "page(id) ON DELETE CASCADE,
+        FOREIGN KEY (comment_id) REFERENCES " . $prefix . "comment(id) ON DELETE CASCADE,
         PRIMARY KEY (id)
     );
 
@@ -195,6 +207,17 @@ function writeInitialDatabase($prefix){
         id SERIAL,
         token varchar NULL,
         expire_on TIMESTAMP NULL,
+        user_id int4 NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        FOREIGN KEY (user_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE,
+        PRIMARY KEY (id)
+    );
+
+    -- Analytics_logs
+    DROP TABLE IF EXISTS " . $prefix . "analytics_logs CASCADE;
+    CREATE TABLE " . $prefix . "analytics_logs (
+        id SERIAL,
         user_id int4 NULL,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -220,22 +243,44 @@ function writeInitialDatabase($prefix){
 
     -- Menu
 
-    DROP TABLE IF EXISTS " . $prefix . "menu;
+    DROP TABLE IF EXISTS " . $prefix . "menu CASCADE;
 
     CREATE TABLE " . $prefix . "menu (
         id SERIAL PRIMARY KEY,
-        parent_id INT NULL DEFAULT 0,
+        parent_id INT NULL DEFAULT NULL,
         title VARCHAR(255) NOT NULL,
-        url VARCHAR(255) NOT NULL,
+        page_id INT NOT NULL,
         visible SMALLINT NOT NULL DEFAULT 1,
         position INT NOT NULL DEFAULT 0,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+        FOREIGN KEY (page_id) REFERENCES " . $prefix . "page(id) ON DELETE SET NULL ON UPDATE CASCADE,
         CONSTRAINT fk_" . $prefix . "menu_parent_id FOREIGN KEY (parent_id) REFERENCES " . $prefix . "menu(id) ON DELETE CASCADE
     );
+    
     ");
     fclose($myfile);
 }
+
+    // -- ARTICLES
+
+    //  DROP TABLE IF EXISTS " . $prefix . "article CASCADE;
+    //  CREATE TABLE " . $prefix . "article (
+    //      id SERIAL,
+    //      slug varchar(255) NOT NULL,
+    //      title varchar(255) NOT NULL,
+    //      description text NOT NULL,
+    //      content text NOT NULL,
+    //      author int NOT NULL,
+    //      image varchar(255) NOT NULL,
+    //      views int NOT NULL DEFAULT 0,
+    //      likes int NOT NULL DEFAULT 0,
+    //      created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    //      updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    //      PRIMARY KEY (id),
+    //      FOREIGN KEY (author) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE
+    //  );
 
 function createUser($payload){
     $existing = User::fetch(["email"=>$payload['input_email_site']]);
