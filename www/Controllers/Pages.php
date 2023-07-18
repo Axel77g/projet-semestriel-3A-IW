@@ -30,7 +30,7 @@ class Pages extends Controller
         $pages->each(function(&$page){
             $page->path = $page->getPath();
         });
-
+        
         if($query->has('withContent')){
             $pages = $pages->map(function($page){
                 return [
@@ -43,6 +43,35 @@ class Pages extends Controller
         }
 
         return $pages;
+    }
+
+    public function home(){
+
+        $query = request()->getQuery();
+
+        $page = Page::fetch([
+            "template" => "home"
+        ]);
+
+        if (!$page) {
+            throw new NotFoundError();
+        }
+
+        $page->path = $page->getPath();
+
+        if($query->has('withContent')){
+
+            $page =
+                [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+
+            echo json_encode($page);
+            return;
+        }
+
+        return $page;
     }
 
     public function show($params)
@@ -85,10 +114,14 @@ class Pages extends Controller
 
         $page->setAuthorId($authUser->id);
         $page->setParentSlug($payload['parent_slug']);
+        $page->setTemplate($payload['template']);
         $page->setSlug($payload['title']);
         $page->setTitle($payload['title']);
-        $page->setTemplate($payload['template']);
         $page->setContent($payload['content']);
+
+        if($page->getTemplate() == "home" && Page::exists(["template" => $page->getTemplate()])){
+            throw new HTTPError("Template Home have to be unique", 400);
+        }
 
         if (!Page::exists(["slug" => $page->slug])) {
             $page->save();
@@ -204,7 +237,7 @@ class Pages extends Controller
                 return $a->getCreatedAt() < $b->getCreatedAt();
             }
         );
-        $pages->filter(function($page){
+        $pages = $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
         $pages->limit(6);
@@ -236,7 +269,7 @@ class Pages extends Controller
                 return $a->getViews() < $b->getViews();
             }
         );
-        $pages->filter(function($page){
+        $pages = $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
         $pages->limit(6);
@@ -265,10 +298,12 @@ class Pages extends Controller
         $query = request()->getQuery();
         $pages = Page::all();
         if (!$pages) throw new NotFoundError();
-        $pages->filter(function($page){
+        
+        $pages = $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
 
+        
         $pages->shuffle();
 
         $pages->limit(6);
