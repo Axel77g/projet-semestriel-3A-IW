@@ -21,8 +21,8 @@ class Analytics extends Controller
                 return $a->getViews() < $b->getViews();
             }
         );
-        $page->filter(function($page){
-            return $page->getTemplate() == "article";
+        $page = $page->filter(function($page){
+            return $page->getTemplate() != "article_list";
         });
         $page->limit(5);
         
