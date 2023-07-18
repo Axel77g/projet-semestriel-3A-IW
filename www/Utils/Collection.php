@@ -112,6 +112,10 @@ class Collection implements Sanitize{
         return new Collection($result);
 
     }
+
+    public function shuffle(){
+        shuffle($this->items);
+    }
     
 }
 
