@@ -50,13 +50,12 @@ export default class ArticleList extends Component {
   }
 
   render() {
-    console.log(this.state);
     if (this.state.articles) {
       let articles = this.state.articles.map((article) => {
         return createElement(ArticleCard, { article: article });
       });
 
-      let list = createElement("div", {class: "home-articles"}, [
+      let list = createElement("div", { class: "home-articles" }, [
         createElement("h3", {}, this.state.title),
         createElement("div", { class: ["articles-list"] }, articles),
       ]);

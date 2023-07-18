@@ -46,6 +46,9 @@ class Pages extends Controller
     }
 
     public function home(){
+
+        $query = request()->getQuery();
+
         $page = Page::fetch([
             "template" => "home"
         ]);
@@ -55,6 +58,18 @@ class Pages extends Controller
         }
 
         $page->path = $page->getPath();
+
+        if($query->has('withContent')){
+
+            $page =
+                [
+                    ...$page->toArray(),
+                    "content"=> PageServices::populateContentFileRelation($page->getContent())
+                ];
+
+            echo json_encode($page);
+            return;
+        }
 
         return $page;
     }
@@ -104,7 +119,7 @@ class Pages extends Controller
         $page->setTitle($payload['title']);
         $page->setContent($payload['content']);
 
-        if($page->getTemplate() == "home" && page::exists(["template" => $page->getTemplate()])){
+        if($page->getTemplate() == "home" && Page::exists(["template" => $page->getTemplate()])){
             throw new HTTPError("Template Home have to be unique", 400);
         }
 
@@ -222,7 +237,7 @@ class Pages extends Controller
                 return $a->getCreatedAt() < $b->getCreatedAt();
             }
         );
-        $pages->filter(function($page){
+        $pages = $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
         $pages->limit(6);
@@ -254,7 +269,7 @@ class Pages extends Controller
                 return $a->getViews() < $b->getViews();
             }
         );
-        $pages->filter(function($page){
+        $pages = $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
         $pages->limit(6);
@@ -283,10 +298,12 @@ class Pages extends Controller
         $query = request()->getQuery();
         $pages = Page::all();
         if (!$pages) throw new NotFoundError();
-        $pages->filter(function($page){
+        
+        $pages = $pages->filter(function($page){
             return $page->getTemplate() == "article";
         });
 
+        
         $pages->shuffle();
 
         $pages->limit(6);
