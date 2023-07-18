@@ -56,17 +56,13 @@ class Comments extends Controller
     public function create()
     {
         $payload = request()->json();
-
+        
         $validator = new Validator();
         $validator->validate($payload, [
             'content' => 'required',
             'author_id' => 'required',
             'page_id' => 'required',
         ]);
-
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
 
         $comment = new Comment();
 

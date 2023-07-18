@@ -30,7 +30,6 @@ class Menus extends Controller
         $payload = request()->json();
 
         $validator = new Validator();
-
         $validator->validate($payload, [
             "title" => "required",
             "page_id" => "required",

@@ -90,10 +90,6 @@ class Pages extends Controller
             "content" => "required"
         ]);
 
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
-
         $authUser = request()->auth()->user();
         $page = new Page();
 
@@ -140,10 +136,6 @@ class Pages extends Controller
             "content" => "required"
         ]);
 
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
-
         $page->set($payload);
         $page->setSlug($page->getTitle());
 
@@ -176,13 +168,10 @@ class Pages extends Controller
 
         $validator = new Validator();
 
-        $validator->validate($payload,[
+        $validator->validate($payload, [
             "path" => "required"
         ]);
 
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
 
         $pages = Page::all()->toArray();
 
