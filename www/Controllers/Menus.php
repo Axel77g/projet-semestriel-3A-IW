@@ -30,16 +30,11 @@ class Menus extends Controller
         $payload = request()->json();
 
         $validator = new Validator();
-
         $validator->validate($payload, [
             "title" => "required",
             "page_id" => "required",
             "position" => "numeric",
         ]);
-
-        if ($validator->hasErrors()) {
-            throw new ValidatorError($validator->getErrors());
-        }
 
         $menu = new Menu();
 

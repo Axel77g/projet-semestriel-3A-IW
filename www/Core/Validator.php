@@ -2,6 +2,7 @@
 namespace App\Core;
 
 use App\Core\Sanitize;
+use App\Errors\ValidatorError;
 
 class Validator implements Sanitize{
     
@@ -20,6 +21,10 @@ class Validator implements Sanitize{
                     $val = isset($data[$key]) ? $data[$key] : null;
                     $this->$ruleName($key, $val, $ruleValue, $param);
                 }
+            }
+
+            if($this->hasErrors()){
+                throw new ValidatorError($this->getErrors());
             }
         }
     
