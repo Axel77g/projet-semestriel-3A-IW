@@ -65,7 +65,8 @@ export default class UserEdit extends Component {
     }
 
     let response = await api[method](endpoint, payload);
-    if (response?.id) {
+
+    if (response) {
       router.push("/admin/users");
     } else {
       if (response?.code == 422) {
