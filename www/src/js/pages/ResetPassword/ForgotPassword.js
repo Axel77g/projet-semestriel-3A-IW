@@ -31,14 +31,18 @@ export default class ForgotPassword extends Component {
 
   render() {
     if (this.state.success === true) {
-      return createElement("div", { class: ["alert", "alert-success"] }, [
-        createElement("h1", { class: ["header"] }, "Email envoyé"),
-        createElement(
-          "p",
-          {},
-          "Merci de vérifier votre boîte mail pour réinitialiser votre mot de passe."
-        ),
-      ]);
+      return createElement(
+        "div",
+        { class: ["alert", "alert-success", "ma-5"] },
+        [
+          createElement("h1", { class: ["header"] }, "Email envoyé"),
+          createElement(
+            "p",
+            {},
+            "Merci de vérifier votre boîte mail pour réinitialiser votre mot de passe."
+          ),
+        ]
+      );
     } else {
       return createElement("div", { class: "box-wrapper" }, [
         createElement("h1", { class: ["header"] }, "Mot de passe oublié ?"),
