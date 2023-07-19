@@ -44,76 +44,66 @@ export class CommentForm extends Component {
         comment: "",
       });
     }
-    document.getElementById("form-comment").reset();
   }
 
   render() {
-    return createElement(
-      "form",
-      { id: "form-comment", class: "comment-form" },
-      [
-        this.state.isAuth === AUTH_STATE.UNKOWN
-          ? createElement("p", {}, "Chargement...")
-          : this.state.isAuth === AUTH_STATE.NOT_AUTH
-          ? createElement("p", {}, [
-              createElement(
-                "span",
-                {},
-                "Vous devez être connecté pour poster un commentaire, "
-              ),
-              createElement(Link, {
-                href: "/login",
-                children: "connectez-vous",
-                class: ["link"],
+    return createElement("form", { class: "comment-form" }, [
+      this.state.isAuth === AUTH_STATE.UNKOWN
+        ? createElement("p", {}, "Chargement...")
+        : this.state.isAuth === AUTH_STATE.NOT_AUTH
+        ? createElement("p", {}, [
+            createElement(
+              "span",
+              {},
+              "Vous devez être connecté pour poster un commentaire, "
+            ),
+            createElement(Link, {
+              href: "/login",
+              children: "connectez-vous",
+              class: ["link"],
+            }),
+          ])
+        : createElement("div", {}, [
+            createElement(Input, {
+              type: "text",
+              placeholder: "Votre nom",
+              name: "name",
+              value:
+                this.state.user?.firstname + " " + this.state.user?.lastname,
+              attributes: {
+                disabled: true,
+              },
+            }),
+            createElement(Input, {
+              type: "textarea",
+              placeholder: "Commentaire",
+              name: "comment",
+              value: this.state.comment,
+              onChange: (e) => {
+                this.setState({
+                  comment: e.value,
+                });
+              },
+              message: this.state.errors?.content,
+            }),
+            this.state.success &&
+              createElement("p", { class: "form-success" }, this.state.success),
+            createElement("div", { class: ["form-action"] }, [
+              createElement(Button, {
+                type: "submit",
+                children: "Envoyer",
+                onClick: this.handleSubmit.bind(this),
               }),
-            ])
-          : createElement("div", {}, [
-              createElement(Input, {
-                type: "text",
-                placeholder: "Votre nom",
-                name: "name",
-                value:
-                  this.state.user?.firstname + " " + this.state.user?.lastname,
-                attributes: {
-                  disabled: true,
-                },
-              }),
-              createElement(Input, {
-                id: "commentText",
-                type: "textarea",
-                placeholder: "Commentaire",
-                name: "comment",
-                value: this.state.comment,
-                onChange: (e) => {
-                  this.setState({
-                    comment: e.value,
-                  });
-                },
-                message: this.state.errors?.content,
-              }),
-              this.state.success &&
-                createElement(
-                  "p",
-                  { class: "form-success" },
-                  this.state.success
-                ),
-              createElement("div", { class: ["form-action"] }, [
+              this.props.comment &&
                 createElement(Button, {
-                  type: "submit",
-                  children: "Envoyer",
-                  onClick: this.handleSubmit.bind(this),
+                  onClick: () => {
+                    this.props.onCancel();
+                  },
+                  class: ["btn-secondary"],
+                  children: "Annuler",
                 }),
-                this.props.comment &&
-                  createElement(Button, {
-                    onClick: () => {
-                      this.props.onCancel();
-                    },
-                    class: ["btn-secondary"],
-                    children: "Annuler",
-                  }),
-              ]),
             ]),
-      ]
-    );
+          ]),
+    ]);
   }
 }
