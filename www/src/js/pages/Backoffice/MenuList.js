@@ -72,7 +72,12 @@ export default class MenuList extends Component {
           visible: (item) => {
             return createElement(
               "span",
-              { class: ["badge", "text-bg-primary"] },
+              {
+                class: [
+                  "badge",
+                  "" + item.visible ? "text-bg-primary" : "text-bg-danger",
+                ],
+              },
               item.visible ? "Visible" : "Invisible"
             );
           },
