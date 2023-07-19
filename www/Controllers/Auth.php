@@ -78,7 +78,7 @@ class Auth extends Controller
         $message = "
             <h1>Thanks For Registration</h1>
             <p>Click on the link below to verify your account</p>
-            <a href='https://".$_SERVER['HTTP_HOST']."/verify?email=".$mail."&code=".$verif_code."'>Verify</a>
+            <a href='http://".$_SERVER['HTTP_HOST']."/verify?email=".$mail."&code=".$verif_code."'>Verify</a>
         ";
         $mailer->sendMail($user->getEmail(), $subject, $message);
 
