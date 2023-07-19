@@ -16,6 +16,13 @@
     <script src="/src/assets/jquery.js"></script>
     <script src="/src/assets/bootstrap/js/bootstrap.min.js" ></script>
 
+    <script>
+        
+        <?php if (defined("TITLE")) : ?>
+            const SITE_NAME = "<?= TITLE ?>";
+        <?php endif; ?>
+    </script>
+
 </head>
 
 <body>

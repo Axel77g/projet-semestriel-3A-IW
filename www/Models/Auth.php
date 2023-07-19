@@ -38,7 +38,10 @@ class Auth extends Model{
     }
 
     public function user(){
-        return User::fetch(["id"=>$this->user_id]);
+        if($this->user_id == 0)
+            return null;
+        $user = User::fetch(["id"=>$this->user_id]);
+        return isset($user) ? $user : null;
     }
 
     function isValid(){

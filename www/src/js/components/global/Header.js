@@ -19,7 +19,7 @@ export default class HomeHeader extends Component {
 
   fetchMenus() {
     let api = new Api();
-    api.get("api/menus").then((response) => {
+    api.get("api/menus?header").then((response) => {
       this.setState({
         menus: response,
       });

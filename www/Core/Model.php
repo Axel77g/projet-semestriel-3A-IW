@@ -24,8 +24,12 @@ abstract class Model implements Sanitize{
         $class = get_called_class();
         $model = new $class();
         $query = $model->query();
-        $query = $query->select()->where($where);
+        $query = $query->select();
        
+        if(count($where) > 0){
+            $query->where($where);
+        }
+
         if(count($orderBy) > 0){
             $query->orderBy($orderBy[0], $orderBy[1]);
         }else{

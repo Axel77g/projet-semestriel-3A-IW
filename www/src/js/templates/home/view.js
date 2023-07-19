@@ -16,7 +16,9 @@ export class HomeView extends Component {
     return createElement("main", { class: "home-container" }, [
       createElement("section", { class: "banner-container" }, [
         createElement("img", {
-          src: this.content.banner.file_banner.path || "/assets/img/404.jpg",
+          src:
+            this.content.banner.file_banner?.path ||
+            "/src/assets/images/banner_placeholder.png",
           alt: this.content.banner.title,
         }),
         createElement(
@@ -25,8 +27,8 @@ export class HomeView extends Component {
             class: "banner-content",
           },
           [
-            createElement("h1", {}, this.content.banner.title),
-            createElement("p", {}, this.content.banner.subtitle),
+            createElement("h1", {}, this.content.banner?.title),
+            createElement("p", {}, this.content.banner?.subtitle),
             createElement(BannerAction, {
               actions: this.props.page.content.banner.actions,
             }),

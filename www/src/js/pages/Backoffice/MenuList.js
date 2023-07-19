@@ -19,7 +19,7 @@ export default class MenuList extends Component {
   async fetchMenus() {
     let api = new Api();
     try {
-      const response = await api.get("api/menus");
+      const response = await api.get("api/menus?all");
       this.setState({
         menus: response,
       });

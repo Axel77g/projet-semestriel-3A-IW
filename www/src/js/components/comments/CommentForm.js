@@ -43,7 +43,14 @@ export class CommentForm extends Component {
           "Votre commentaire a bien été posté, il est en attente de validation par un modérateur",
         comment: "",
       });
+      this.textArea.reset();
     }
+  }
+
+  get textArea() {
+    return this.$components.find(
+      (child) => child instanceof Input && child.props.type == "textarea"
+    );
   }
 
   render() {

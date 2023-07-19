@@ -136,10 +136,8 @@ export default class Input extends Component {
       });
     }
   }
-  onRerender() {
-    if (!Boolean(this.props.value)) {
-      this.ref_input.domElement.value = "";
-    }
+  reset() {
+    this.ref_input.domElement.value = "";
   }
   render() {
     this.ref_input = this.input;
