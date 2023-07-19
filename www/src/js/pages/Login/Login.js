@@ -16,15 +16,21 @@ export default class Login extends Component {
   }
   handleSumbit(e) {
     e.preventDefault();
-    let api = new Api();
-    api.post("api/login", this.state).then((response) => {
-      if (response.success === true) {
-        localStorage.setItem("authorization", response.token);
-        router.push(response.role === "admin" ? "/admin" : "/");
-      } else {
-        this.setState({ messages: response.message });
-      }
-    });
+    let api = new Api(false);
+
+    api
+      .post("api/login", this.state)
+      .then((response) => {
+        if (response.success === true) {
+          localStorage.setItem("authorization", response.token);
+          router.push(response.role === "admin" ? "/admin" : "/");
+        } else {
+          this.setState({ messages: response.message });
+        }
+      })
+      .catch((err) => {
+        this.setState({ messages: { email: ["Email non Vérifié"] } });
+      });
   }
   handleChange(e) {
     this.setState(e);
