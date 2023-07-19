@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Utils;
+
+use App\Core\Model;
 use App\Core\Sanitize;
 
 class Collection implements Sanitize{
@@ -51,20 +53,34 @@ class Collection implements Sanitize{
     // filters    
     public function reverse(){
         $this->items = array_reverse($this->items);
+        return $this;
     }
 
     public function sortBy($key, $order = "asc"){
         $this->sort(function($a, $b) use($key, $order){
-            if($order == "asc"){
-                return $a->$key > $b->$key;
+            
+            if(is_a(
+                $a,Model::class) && is_a($b, Model::class
+                )){
+                $getter  = "get".ucfirst($key);
+                $valA = $a->$getter();
+                $valB = $b->$getter();
             }else{
-                return $a->$key < $b->$key;
+                $valA = $a->$key;
+                $valB = $b->$key;
+            }
+            
+            if($order == "asc"){
+                return $valA > $valB;
+            }else{
+                return $valA < $valB;
             }
         });
-
+        return $this;
     }
     public function sort($callback){
         usort($this->items, $callback);
+        return $this;
     }
 
 

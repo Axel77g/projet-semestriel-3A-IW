@@ -29,6 +29,12 @@ export class ArticleListEdit extends Component {
     callable(this.content);
   }
 
+  onPatch() {
+    this.init();
+    this.update();
+    this.forceUpdate();
+  }
+
   handleToogle(id) {
     const selectedArticles = [...this.state.selectedArticles];
     const index = selectedArticles.indexOf(id);

@@ -69,9 +69,9 @@ class File extends Model {
         return User::fetch($this->user_id);
     }
 
-    public function save(){
+    public function save($remember = true){
         $this->path = $this->getPath();
-        parent::save();
+        parent::save($remember);
     }
 
     

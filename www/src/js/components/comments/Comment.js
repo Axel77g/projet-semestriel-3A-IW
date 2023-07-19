@@ -3,6 +3,7 @@ import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
 import authMixin from "../../mixins/authMixin.js";
 import { CommentForm } from "./CommentForm.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class Comment extends Component {
   get mixins() {
@@ -87,7 +88,7 @@ export default class Comment extends Component {
           ),
         ]),
 
-        createElement("p", {}, this.props.comment.content),
+        createElement("p", {}, htmlDecode(this.props.comment.content)),
       ]),
       this.state.isCommenting &&
         createElement(CommentForm, {

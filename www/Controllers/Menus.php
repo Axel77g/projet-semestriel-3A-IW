@@ -9,6 +9,7 @@ use App\Models\Menu;
 
 use App\Errors\NotFoundError;
 use App\Errors\ValidatorError;
+use App\Policies\MenuPolicy;
 use App\Utils\Collection;
 
 class Menus extends Controller
@@ -16,12 +17,36 @@ class Menus extends Controller
 
     function index(): Collection
     {
-        $menus = Menu::all();
+        $query = request()->getQuery();
+        $where = [
+            'visible'=>1
+        ];
 
-        $menus->each(function (&$menu) {
+        if($query->has('footer')){
+            $where = [
+                ...$where,
+                "is_footer" => 1
+            ];
+        }
+
+        if($query->has('header')){
+            $where = [
+                ...$where,
+                "is_header" => 1
+            ];
+        }
+       
+        if($query->has('all')){   
+            MenuPolicy::displayInvisble(request()->auth()->user());
+            unset($where['visible']);
+        }
+
+        $menus = Menu::findMany($where);
+        $menus->each(function(&$menu){
             $menu->url = $menu->getPath();
         });
 
+        $menus->sortBy("position");
         return $menus;
     }
 
@@ -38,7 +63,7 @@ class Menus extends Controller
         ]);
 
         $menu = new Menu();
-
+        
         $menu->setPageId($payload['page_id']);
         if (!$menu->getPage()) throw new BadRequest();
 
@@ -46,7 +71,8 @@ class Menus extends Controller
         $menu->setParentId($payload['parent_id'] ?? null);
         $menu->setPosition($payload['position']);
         $menu->setVisible($payload['visible']);
-
+        $menu->setIsFooter($payload['is_footer']);
+        $menu->setIsHeader($payload['is_header']);
         $menu->save();
 
         return $menu;

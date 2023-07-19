@@ -134,9 +134,7 @@ class QueryBuilder {
     }
 
     public function orderBy($property = 'id', $direction = "ASC"){
-        $this->query .= " ORDER BY :property :direction";
-        $this->execPayload['property'] = $property;
-        $this->execPayload['direction'] = $direction;
+        $this->query .= " ORDER BY $property $direction";
         return $this;
     }
 
@@ -157,32 +155,25 @@ class QueryBuilder {
     }
 
     public function execute($lastId = false){
-        try {
-            if(str_contains($this->query, "DELETE") && !str_contains($this->query,"WHERE")) {  
-                throw new InternalError("DELETE without WHERE");
-            }
-    
-            $pdo = $this->db->getConnection();
-            $stmt = $pdo->prepare($this->query);
-            $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
-            $this->parseExecPayload();
-            $stmt->execute($this->execPayload);
-    
-            if($lastId)
-                return $pdo->lastInsertId();
-                
-            return $stmt;
-           
-        } catch (\Throwable $th) {
-            //dd($this,$this->query,$this->execPayload, $th);
+        if(str_contains($this->query, "DELETE") && !str_contains($this->query,"WHERE")) {  
+            throw new InternalError("DELETE without WHERE");
         }
+
+        $pdo = $this->db->getConnection();
+        $stmt = $pdo->prepare($this->query);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS,get_class($this->model));
+        $this->parseExecPayload();
+        $stmt->execute($this->execPayload);
+    
+        if($lastId)
+            return $pdo->lastInsertId();
+
+        return $stmt;
     }
 
     public function debug(){
-        echo "<pre>";
-        var_dump($this->query);
-        var_dump($this->execPayload);
-        echo "</pre>";
+        dump($this->query);
+        dump($this->execPayload);
        
     }
 

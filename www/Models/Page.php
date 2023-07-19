@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use App\Core\Model;
+use App\Services\PageServices;
+use App\Traits\HasHistory;
 use App\Utils\Protection;
 use App\Utils\StringHelpers;
 
+
 class Page extends Model
 {
+
+    use HasHistory;
 
     public int $author_id;
     protected ?string $parent_slug = "";
@@ -137,5 +142,19 @@ class Page extends Model
         } else {
             return "/" . $this->slug;
         }
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        return [
+            ...$array,
+            'content' => PageServices::populateContentFileRelation($this->getContent()),
+        ];
+    }
+
+    public function toJson()
+    {
+        return json_encode($this->toArray());
     }
 }
