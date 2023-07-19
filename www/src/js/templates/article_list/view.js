@@ -23,7 +23,7 @@ export class ArticleListView extends Component {
   }
 
   render() {
-    return createElement("div", {}, [
+    return createElement("div", { class: ["home-wrapper", "articles_page"] }, [
       createElement("h1", {}, this.props.page.title),
       createElement("div", { class: "articles-list" }, [
         ...this.state.articles.map((article) => {

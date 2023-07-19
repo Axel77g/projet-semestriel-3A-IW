@@ -104,6 +104,7 @@ export default class Profil extends Component {
               placeholder: "Email",
               value: this.state.user?.email,
               message: this.state.errors?.email,
+              readonly: true,
               onChange: (e) => {
                 this.setState({
                   user: { ...this.state.user, email: e.value },

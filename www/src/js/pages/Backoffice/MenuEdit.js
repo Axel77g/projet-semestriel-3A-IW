@@ -18,8 +18,11 @@ export default class MenuEdit extends Component {
       isEdit: Boolean(router.route.params.id),
       title: "",
       url: "",
-      position: 0,
+      position: 1,
       page_id: null,
+      is_footer: false,
+      is_header: false,
+
       visible: false,
       messages: {},
     };
@@ -61,6 +64,8 @@ export default class MenuEdit extends Component {
       visible: this.state.visible,
       position: this.state.position,
       page_id: this.state.page_id == "-1" ? null : this.state.page_id,
+      is_footer: this.state.is_footer,
+      is_header: this.state.is_header,
     };
 
     let response;
@@ -102,6 +107,7 @@ export default class MenuEdit extends Component {
             placeholder: "Parent",
             options: this.state.menus
               .filter(({ id }) => id != router.route.params.id)
+              .filter((page) => page.parent_id === null)
               .map(({ id, title }) => ({
                 value: id,
                 label: title,
@@ -133,14 +139,32 @@ export default class MenuEdit extends Component {
             onChange: (e) => this.setState({ position: e.value }),
           }),
         ]),
-        createElement(Switch, {
-          key: "visible",
-          name: "visible",
-          label: "Visible",
-          checked: this.state.visible,
-          message: this.state.messages?.visible,
-          onChange: (e) => this.setState({ visible: e.checked }),
-        }),
+        createElement("div", { class: ["form-row"] }, [
+          createElement(Switch, {
+            key: "visible",
+            name: "visible",
+            label: "Visible",
+            checked: this.state.visible,
+            message: this.state.messages?.visible,
+            onChange: (e) => this.setState({ visible: e.checked }),
+          }),
+          createElement(Switch, {
+            key: "is_header",
+            name: "is_header",
+            label: "Afficher dans le header",
+            checked: this.state.is_header,
+            message: this.state.messages?.is_header,
+            onChange: (e) => this.setState({ is_header: e.checked }),
+          }),
+          createElement(Switch, {
+            key: "is_footer",
+            name: "is_footer",
+            label: "Afficher dans le footer",
+            checked: this.state.is_footer,
+            message: this.state.messages?.is_footer,
+            onChange: (e) => this.setState({ is_footer: e.checked }),
+          }),
+        ]),
         createElement(Button, {
           key: "submit",
           class: ["btn", "btn-primary", "mt-4"],

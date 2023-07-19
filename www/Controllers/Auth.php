@@ -78,7 +78,7 @@ class Auth extends Controller
         $message = "
             <h1>Thanks For Registration</h1>
             <p>Click on the link below to verify your account</p>
-            <a href='http://localhost:8080/verify?email=".$mail."&code=".$verif_code."'>Verify</a>
+            <a href='https://".$_SERVER['HTTP_HOST']."/verify?email=".$mail."&code=".$verif_code."'>Verify</a>
         ";
         $mailer->sendMail($user->getEmail(), $subject, $message);
 
@@ -99,7 +99,7 @@ class Auth extends Controller
                 if($user->getVerificationCode() == $code){
                     $user->setIsVerified(1);
                     $user->save();
-                    header("Location: http://localhost:8080/login");
+                    header("Location: /login");
                 }else{
                     echo "Invalid verification code";
                 }
@@ -128,7 +128,7 @@ class Auth extends Controller
         $subject = "Change your password";
         $message = "
             <p>Click on the link below to change your password</p>
-            <a href='http://localhost:8080/change-password?email=".$mail."&code=".$reset_code."'>Change your password</a>
+            <a href='http://".$_SERVER['HTTP_HOST']."/change-password?email=".$mail."&code=".$reset_code."'>Change your password</a>
         ";
         $mailer->sendMail($user->getEmail(), $subject, $message);
         echo json_encode([

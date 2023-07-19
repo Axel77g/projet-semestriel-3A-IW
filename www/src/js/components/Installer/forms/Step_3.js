@@ -40,6 +40,7 @@ export class Step3 extends Component {
             key: "input_port_smtp",
             name: "input_port_smtp",
             placeholder: "SMTP Port",
+            type: "number",
             value: this.props.form.input_port_smtp,
             message: this.props.messages.input_port_smtp,
             onChange: (e) => {

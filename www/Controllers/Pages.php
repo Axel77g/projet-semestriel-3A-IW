@@ -31,23 +31,10 @@ class Pages extends Controller
             $page->path = $page->getPath();
         });
         
-        if($query->has('withContent')){
-            $pages = $pages->map(function($page){
-                return [
-                    ...$page->toArray(),
-                    "content"=> PageServices::populateContentFileRelation($page->getContent())
-                ];
-            });
-            echo json_encode($pages->toArray());
-            return;
-        }
-
         return $pages;
     }
 
     public function home(){
-
-        $query = request()->getQuery();
 
         $page = Page::fetch([
             "template" => "home"
@@ -57,20 +44,10 @@ class Pages extends Controller
             throw new NotFoundError();
         }
 
-        $page->path = $page->getPath();
-
-        if($query->has('withContent')){
-
-            $page =
-                [
-                    ...$page->toArray(),
-                    "content"=> PageServices::populateContentFileRelation($page->getContent())
-                ];
-
-            echo json_encode($page);
-            return;
-        }
-
+        
+        $page->setViews($page->getViews() + 1);
+        $page->save(false);
+        
         return $page;
     }
 
@@ -159,8 +136,6 @@ class Pages extends Controller
 
     public function delete($params)
     {
-        $payload = request()->json();
-
         $page = Page::fetch([
             "id" => $params['id']
         ]);
@@ -199,21 +174,17 @@ class Pages extends Controller
         if (!$page) {
             throw new NotFoundError();
         }
-
+        
         $page->setViews($page->getViews() + 1);
-        $page->save();
+        $page->save(false);
+        
 
         $page->author = $page->getAuthor();
         $page->author->except(['email']);
-        echo json_encode([
-            ...$page->toArray(),
-            "content"=> PageServices::populateContentFileRelation($page->getContent())
-        ]);
+        return $page;
     }
 
     public function latestArticle(){
-
-        $query = request()->getQuery();
 
         $pages = Page::all();
 
@@ -232,22 +203,10 @@ class Pages extends Controller
             $page->path = $page->getPath();
         });
 
-        if($query->has('withContent')){
-            $pages = $pages->map(function($page){
-                return [
-                    ...$page->toArray(),
-                    "content"=> PageServices::populateContentFileRelation($page->getContent())
-                ];
-            });
-            echo json_encode($pages->toArray());
-            return;
-        }
-
         return $pages;
     }
 
     public function popularArticle(){
-        $query = request()->getQuery();
         $pages = Page::all();
         if (!$pages) throw new NotFoundError();
         $pages->sort(
@@ -263,17 +222,6 @@ class Pages extends Controller
         $pages->each(function(&$page){
             $page->path = $page->getPath();
         });
-
-        if($query->has('withContent')){
-            $pages = $pages->map(function($page){
-                return [
-                    ...$page->toArray(),
-                    "content"=> PageServices::populateContentFileRelation($page->getContent())
-                ];
-            });
-            echo json_encode($pages->toArray());
-            return;
-        }
         
 
         return $pages;
@@ -297,18 +245,6 @@ class Pages extends Controller
         $pages->each(function(&$page){
             $page->path = $page->getPath();
         });
-
-        if($query->has('withContent')){
-            $pages = $pages->map(function($page){
-                return [
-                    ...$page->toArray(),
-                    "content"=> PageServices::populateContentFileRelation($page->getContent())
-                ];
-            });
-            echo json_encode($pages->toArray());
-            return;
-        }
-
 
         return $pages;
     }

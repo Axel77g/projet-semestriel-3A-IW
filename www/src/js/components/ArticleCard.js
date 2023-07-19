@@ -1,5 +1,6 @@
 import Component from "../core/Component.js";
 import Button from "./ui/Button.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class ArticlesCard extends Component {
   render() {
@@ -15,7 +16,7 @@ export default class ArticlesCard extends Component {
           createElement(
             "h5",
             { class: ["card-title", "text-truncate"] },
-            article.title
+            htmlDecode(article.title)
           ),
           // createElement(
           //   "h6",

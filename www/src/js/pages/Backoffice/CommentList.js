@@ -2,6 +2,7 @@ import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
 import BackofficeContainer from "./Index.js";
 import { Table } from "../../components/ui/Table.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class CommentList extends Component {
   init() {
@@ -93,10 +94,10 @@ export default class CommentList extends Component {
               return createElement(
                 "p",
                 {},
-                item.content.substring(0, 50) + "..."
+                htmlDecode(item.content.substring(0, 50) + "...")
               );
             }
-            return createElement("p", {}, item.content);
+            return createElement("p", {}, htmlDecode(item.content));
           },
         },
         itemActions: [

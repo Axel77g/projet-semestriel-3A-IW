@@ -124,6 +124,21 @@ export default class Input extends Component {
           ]),
       ]);
     } else {
+      if (this.props.readonly) {
+        return createElement(
+          "div",
+          {
+            class: ["form-control", "text-muted"],
+            id: this.props.name,
+            placeholder: this.props.placeholder,
+            value: this.props.value ?? "",
+            readonly: true,
+            onchange: this.handleChange.bind(this),
+            ...(this.props?.attributes ?? {}),
+          },
+          this.props.value ?? ""
+        );
+      }
       return createElement("input", {
         type: this.props.type ?? "text",
         name: this.props.name,
@@ -136,8 +151,11 @@ export default class Input extends Component {
       });
     }
   }
-
+  reset() {
+    this.ref_input.domElement.value = "";
+  }
   render() {
+    this.ref_input = this.input;
     return createElement(
       "div",
       {
@@ -152,7 +170,7 @@ export default class Input extends Component {
           },
           this.props.placeholder
         ),
-        this.input,
+        this.ref_input,
         createElement(
           "div",
           { class: ["text-danger", "fs-6"] },

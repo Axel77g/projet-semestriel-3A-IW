@@ -56,7 +56,7 @@ export default class ArticleList extends Component {
       });
 
       let list = createElement("div", { class: "home-articles" }, [
-        createElement("h3", {}, this.state.title),
+        createElement("h1", {}, this.state.title),
         createElement("div", { class: ["articles-list"] }, articles),
       ]);
 

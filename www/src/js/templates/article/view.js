@@ -1,5 +1,6 @@
 import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export class ArticleView extends Component {
   get date() {
@@ -18,7 +19,7 @@ export class ArticleView extends Component {
             src: "/" + this.props.page.content?.thumbnail?.path,
           }),
           createElement("div", { class: "article-header-info" }, [
-            createElement("h1", {}, this.props.page.title),
+            createElement("h1", {}, htmlDecode(this.props.page.title)),
             createElement("span", {
               html: `Publié par <b>${
                 this.props.page.author.firstname +

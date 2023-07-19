@@ -24,10 +24,27 @@ abstract class Model implements Sanitize{
         $class = get_called_class();
         $model = new $class();
         $query = $model->query();
-        $result = $query->select()->where($where)->offset($offset)->execute();
-        if($limit > 0){
-            $result->limit($limit);
+        $query = $query->select();
+       
+        if(count($where) > 0){
+            $query->where($where);
         }
+
+        if(count($orderBy) > 0){
+            $query->orderBy($orderBy[0], $orderBy[1]);
+        }else{
+            $query->orderBy("id", "ASC");
+        }
+
+        if($limit > 0){
+            $query->limit($limit);
+        }
+        
+        if($offset > 0){
+            $query->offset($offset);
+        }
+
+        $result = $query->execute();
         return new Collection($result->fetchAll());
     }
 
@@ -35,10 +52,10 @@ abstract class Model implements Sanitize{
         return new QueryBuilder($this);
     }
 
-    public function save(){
+    public function save($remember = true){
         $query = $this->query();
         if($this->id > 0){ 
-            if(method_exists($this, "remember")){
+            if(method_exists($this, "remember") && $remember){
                 $this->remember();
             }
             $query->update()->where(["id"=>$this->id])->execute();
@@ -56,7 +73,7 @@ abstract class Model implements Sanitize{
         $class = get_called_class();
         $model = new $class();
         $query = $model->query();
-
+       
         $result = $query->select()->where($params)->execute();
         return $result->fetch();
     }
@@ -71,7 +88,7 @@ abstract class Model implements Sanitize{
         $class = get_called_class();
         $model = new $class();
         $query = $model->query();
-        $result = $query->select()->execute();
+        $result = $query->select()->orderBy("id","ASC")->execute();
         return new Collection($result->fetchAll());
 
     }
