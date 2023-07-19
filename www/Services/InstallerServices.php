@@ -190,6 +190,19 @@ class InstallerServices{
             FOREIGN KEY (page_id) REFERENCES " . $prefix . "page(id) ON DELETE CASCADE ON UPDATE CASCADE,
             CONSTRAINT fk_" . $prefix . "menu_parent_id FOREIGN KEY (parent_id) REFERENCES " . $prefix . "menu(id) ON DELETE CASCADE
         );
+
+        -- History
+
+        DROP TABLE IF EXISTS " . $prefix . "history CASCADE;
+        CREATE TABLE " . $prefix . "history (
+            id SERIAL PRIMARY KEY,
+            model_id INT NOT NULL,
+            model VARCHAR(255) NOT NULL,
+            data TEXT NOT NULL,
+            created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+            updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+        );
         
         ");
         fclose($myfile);
