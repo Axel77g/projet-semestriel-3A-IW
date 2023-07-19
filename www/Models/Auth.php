@@ -45,6 +45,8 @@ class Auth extends Model{
     }
 
     function isValid(){
+        if(empty($this->token))
+            return false;
         $tokenExploded = explode(".",$this->token);
         $payload = json_decode(base64_decode($tokenExploded[0]),true);
 
