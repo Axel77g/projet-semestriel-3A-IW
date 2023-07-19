@@ -15,11 +15,22 @@ class StringHelpers{
 
     static function slugify($string) {
 
-        $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
-        $slug = strtolower($slug);
-        $slug = trim($slug, '-');
-        
-        return $slug;
+       // Remplacer les accents par des lettres normales
+    $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+    
+    // Convertir en minuscules
+    $string = strtolower($string);
+    
+    // Remplacer les espaces par des underscores
+    $string = preg_replace('/\s+/', '_', $string);
+    
+    // Remplacer les caractères spéciaux par des underscores
+    $string = preg_replace('/[^a-z0-9_]/', '_', $string);
+    
+    // Supprimer les underscores en début et fin de chaîne
+    $string = trim($string, '_');
+    
+    return $string;
     }
     
 }
