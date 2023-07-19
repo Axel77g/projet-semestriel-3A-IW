@@ -33,6 +33,7 @@ export default class DomRenderer {
     component.componentIndex = 0;
 
     let oldComponents = [...component.$components];
+    component.$components = [];
     DomRenderer.getElementStruture(element, component, oldComponents);
     component.renderElement = element;
     return element;
@@ -58,6 +59,7 @@ export default class DomRenderer {
             if (childElement.tag == oldConstructor && old) {
               childComponent = old;
               childComponent.redefine(childElement.attributes);
+              component.$components.push(childComponent);
             } else {
               childComponent = new childElement.tag(
                 childElement.attributes,
@@ -84,7 +86,6 @@ export default class DomRenderer {
 
   static getDOM(obj) {
     const element = document.createElement(obj.tag);
-
     if (obj.attributes) {
       for (const attr in obj.attributes) {
         if (["key", "ref", "html"].includes(attr)) continue;
@@ -133,7 +134,7 @@ export default class DomRenderer {
     }
 
     obj.domElement = element;
-
+    element.shadowElement = obj;
     return element;
   }
 
@@ -201,5 +202,8 @@ export default class DomRenderer {
         oldElement.appendChild(newChild);
       }
     }
+
+    if (newElement.shadowElement)
+      newElement.shadowElement.domElement = oldElement;
   }
 }

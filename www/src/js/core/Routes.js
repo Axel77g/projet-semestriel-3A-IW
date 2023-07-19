@@ -16,11 +16,16 @@ import CommentDetail from "../pages/Backoffice/CommentDetail.js";
 import UserList from "../pages/Backoffice/UserList.js";
 import UserEdit from "../pages/Backoffice/UserEdit.js";
 import Profil from "../pages/Profil/index.js";
+import Test from "../components/Test/index.js";
 
 export default [
   {
     path: "",
     component: Home,
+  },
+  {
+    path: "/test",
+    component: Test,
   },
 
   // Auth --------------

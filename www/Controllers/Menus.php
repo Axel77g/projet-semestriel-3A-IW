@@ -21,6 +21,7 @@ class Menus extends Controller
             $menu->url = $menu->getPath();
         });
 
+        $menus->sortBy("position");
         return $menus;
     }
 

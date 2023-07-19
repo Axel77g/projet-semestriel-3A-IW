@@ -44,7 +44,7 @@ export class History extends Component {
           items: this.state.history,
           headers: [
             {
-              label: "Date de création",
+              label: "Date de modification",
               key: "updated_at",
             },
           ],
@@ -60,7 +60,13 @@ export class History extends Component {
           templates: {
             updated_at: (item) => {
               let date = new Date(item.updated_at);
-              return createElement("span", {}, date.toLocaleDateString());
+              /* string DD/MM/YYYY hh:ii */
+              let string = date.toLocaleDateString() + " ";
+              string +=
+                date.getHours().toString().padStart(2, "0") +
+                ":" +
+                date.getMinutes().toString().padStart(2, "0");
+              return createElement("span", {}, string);
             },
           },
         }),

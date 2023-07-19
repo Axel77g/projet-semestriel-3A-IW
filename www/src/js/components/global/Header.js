@@ -65,64 +65,90 @@ export default class HomeHeader extends Component {
             ]
           ),
           createElement("div", { class: ["d-flex", "align-items-center"] }, [
-            this.state.isAuth &&
-              createElement("span", { class: ["nav-item", "dropdown"] }, [
-                createElement(
-                  "a",
-                  {
-                    id: "user-dropdown",
-                    class: ["nav-link", "dropdown-toggle"],
-                    role: "button",
-                    href: "#",
-                    "data-bs-toggle": "dropdown",
-                    "aria-expanded": "false",
-                  },
-                  this.state.user.firstname
-                ),
-                createElement(
-                  "div",
-                  {
-                    class: ["dropdown-menu", "dropdown-menu-end"],
-                    "aria-labelledby": "user-dropdown",
-                  },
-                  [
-                    createElement(Link, {
-                      key: "profil-link",
-                      href: "/profil",
-                      class: ["dropdown-item"],
-                      children: [
-                        createElement("i", {
-                          class: ["bi", "bi-person"],
-                        }),
-                        createElement("span", { class: "pl-3" }, "Profil"),
-                      ],
-                    }),
-                    this.state.user.role == "admin" &&
+            this.state.isAuth
+              ? createElement("span", { class: ["nav-item", "dropdown"] }, [
+                  createElement(
+                    "a",
+                    {
+                      id: "user-dropdown",
+                      class: ["nav-link", "dropdown-toggle"],
+                      role: "button",
+                      href: "#",
+                      "data-bs-toggle": "dropdown",
+                      "aria-expanded": "false",
+                    },
+                    this.state.user.firstname
+                  ),
+                  createElement(
+                    "div",
+                    {
+                      class: ["dropdown-menu", "dropdown-menu-end"],
+                      "aria-labelledby": "user-dropdown",
+                    },
+                    [
                       createElement(Link, {
-                        key: "profil-dashboard",
-                        href: "/admin",
+                        key: "profil-link",
+                        href: "/profil",
                         class: ["dropdown-item"],
                         children: [
                           createElement("i", {
-                            class: ["bi", "bi-speedometer2"],
+                            class: ["bi", "bi-person"],
                           }),
-                          createElement("span", { class: "pl-3" }, "Dashboard"),
+                          createElement("span", { class: "pl-3" }, "Profil"),
                         ],
                       }),
-                    createElement(Link, {
-                      key: "profil-logout",
-                      href: "/logout",
-                      class: ["dropdown-item"],
-                      children: [
-                        createElement("i", {
-                          class: ["bi", "bi-box-arrow-left"],
+                      this.state.user.role == "admin" &&
+                        createElement(Link, {
+                          key: "profil-dashboard",
+                          href: "/admin",
+                          class: ["dropdown-item"],
+                          children: [
+                            createElement("i", {
+                              class: ["bi", "bi-speedometer2"],
+                            }),
+                            createElement(
+                              "span",
+                              { class: "pl-3" },
+                              "Dashboard"
+                            ),
+                          ],
                         }),
-                        createElement("span", { class: "pl-3" }, "Déconnexion"),
-                      ],
+                      createElement(Link, {
+                        key: "profil-logout",
+                        href: "/logout",
+                        class: ["dropdown-item"],
+                        children: [
+                          createElement("i", {
+                            class: ["bi", "bi-box-arrow-left"],
+                          }),
+                          createElement(
+                            "span",
+                            { class: "pl-3" },
+                            "Déconnexion"
+                          ),
+                        ],
+                      }),
+                    ]
+                  ),
+                ])
+              : createElement(
+                  "div",
+                  { class: ["d-flex", "align-items-center"] },
+                  [
+                    createElement(Link, {
+                      key: "login",
+                      class: ["pr-3"],
+                      href: "/login",
+                      children: "Connexion",
+                    }),
+                    createElement(Link, {
+                      key: "register",
+                      href: "/register",
+                      class: [],
+                      children: "S'inscrire",
                     }),
                   ]
                 ),
-              ]),
             createElement(
               "button",
               {

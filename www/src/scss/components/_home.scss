@@ -1,0 +1,54 @@
+.home-container {
+  .banner-container {
+    height: 80vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: white;
+    background: black;
+    img {
+      opacity: 0.5;
+      width: 100vw;
+      height: 100%;
+      z-index: 1;
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+    }
+    .banner-content {
+      p {
+        opacity: 0.8;
+      }
+      font-size: larger;
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      padding: 0 2em;
+      margin: 2em auto;
+      z-index: 1;
+    }
+  }
+
+  .home-wrapper {
+    margin: 2em auto;
+    max-width: 1000px;
+    padding: 0 2em;
+    + .home-wrapper {
+      margin-top: 5em;
+    }
+  }
+  .contact-section {
+    .contact-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2em 0;
+      padding: 1em;
+      max-width: 300px;
+      i {
+        padding-right: 0.5em;
+      }
+      border: 1px solid #ccc;
+    }
+  }
+}

@@ -255,7 +255,7 @@ function writeInitialDatabase($prefix){
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
-        FOREIGN KEY (page_id) REFERENCES " . $prefix . "page(id) ON DELETE SET NULL ON UPDATE CASCADE,
+        FOREIGN KEY (page_id) REFERENCES " . $prefix . "page(id) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT fk_" . $prefix . "menu_parent_id FOREIGN KEY (parent_id) REFERENCES " . $prefix . "menu(id) ON DELETE CASCADE
     );
     

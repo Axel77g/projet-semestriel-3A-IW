@@ -22,7 +22,7 @@ export default class PageEdit extends Component {
       isEdit: Boolean(this.slug),
 
       slug: "",
-      template: -1,
+      template: "article",
       parent_slug: null,
       content: {},
       is_commentable: false,
@@ -71,6 +71,7 @@ export default class PageEdit extends Component {
 
   getChildrenContent() {
     return new Promise((resolve, reject) => {
+      debugger;
       this.propagate("AskContent", (content) => {
         if (content instanceof Error) {
           console.error(content);
@@ -112,6 +113,20 @@ export default class PageEdit extends Component {
     }
   }
 
+  async handleRemember(page) {
+    this.setState({
+      id: page.id,
+      slug: page.slug,
+      title: page.title,
+      template: page.template,
+      parent_slug: page.parent_slug,
+      content: page.content,
+      is_commentable: page.is_commentable,
+    });
+
+    this.propagate("Patch");
+  }
+
   async fetchPage(pages) {
     const page = pages.find((page) => page.slug == this.slug);
     if (page) {
@@ -123,18 +138,21 @@ export default class PageEdit extends Component {
         parent_slug: page.parent_slug,
         content: page.content,
         is_commentable: page.is_commentable,
+        path: page.path,
       });
+
+      this.propagate("Patch");
     }
   }
 
   async fetchPages() {
     const api = new Api();
-    const pages = await api.get("api/pages?withContent=true");
+    const pages = await api.get("api/pages");
 
     if (Array.isArray(pages)) {
       this.setState({
         parentOptions: pages
-          .filter((page) => page.slug != this.slug)
+          .filter((page) => page.slug != this.slug && page.template != "home")
           .map((page) => ({
             label: page.title,
             value: page.slug,
@@ -150,11 +168,21 @@ export default class PageEdit extends Component {
       "div",
       {},
       [
-        createElement(
-          "h1",
-          {},
-          this.state.isEdit ? "Modification de page" : "Creation de page"
-        ),
+        createElement("div", { class: ["form-row"] }, [
+          createElement(
+            "h1",
+            {},
+            this.state.isEdit ? "Modification de page" : "Creation de page"
+          ),
+          createElement(Button, {
+            children: "Voir la page",
+            onClick: () => {
+              router.push(
+                this.state.template == "home" ? "/" : this.state.path
+              );
+            },
+          }),
+        ]),
         createElement("div", { class: ["form-row"] }, [
           createElement(Input, {
             name: "title",
@@ -178,6 +206,7 @@ export default class PageEdit extends Component {
             name: "template",
             label: "Template de page",
             placeholder: "Template de page",
+            noDefault: true,
             onChange: this.handleChange.bind(this),
             value: this.state.template,
             message: this.state.errors.template,
@@ -216,29 +245,21 @@ export default class PageEdit extends Component {
             children: "Enregistrer",
           }),
         ]),
-        this.state.isEdit &&
-          createElement(History, {
-            model_id: this.state.id,
-            model: "App\\Models\\Page",
-            onRemember: (page) => {
-              this.setState({
-                id: page.id,
-                slug: page.slug,
-                title: page.title,
-                template: page.template,
-                parent_slug: page.parent_slug,
-                content: page.content,
-                is_commentable: page.is_commentable,
-              });
-              this.propagate("Patch");
-            },
-          }),
+        ,
       ].filter(Boolean)
     );
 
     return createElement("div", {}, [
       createElement(BackofficeContainer, {
-        child,
+        child: [
+          child,
+          this.state.isEdit &&
+            createElement(History, {
+              model_id: this.state.id,
+              model: "App\\Models\\Page",
+              onRemember: this.handleRemember.bind(this),
+            }),
+        ],
       }),
     ]);
   }

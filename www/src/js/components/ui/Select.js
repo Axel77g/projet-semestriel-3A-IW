@@ -38,11 +38,12 @@ export default class Select extends Component {
             class: ["form-select"],
           },
           [
-            createElement(
-              "option",
-              { value: -1, selected: true },
-              this.props?.placeholder || "Selectionner un élément"
-            ),
+            !Boolean(this?.props.noDefault) &&
+              createElement(
+                "option",
+                { value: -1, selected: true },
+                this.props?.placeholder || "Selectionner un élément"
+              ),
             ...this.props?.options.map(({ value, label }) =>
               createElement(
                 "option",
