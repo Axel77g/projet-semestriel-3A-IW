@@ -26,12 +26,19 @@ export class Table extends Component {
       typeof template == "function"
         ? template(item)
         : createElement("span", {}, item[header.toLowerCase()]);
+    return createElement(
+      "td",
+      { class: header.toLowerCase() == "actions" ? ["narrow-td"] : [] },
+      [element]
+    );
+  }
 
-    return createElement("td", {}, [element]);
+  get hasActions() {
+    return this.props.itemActions.length > 0;
   }
 
   setItemActionsBtns() {
-    if (this.props.itemActions.length > 0) {
+    if (this.hasActions) {
       this.props.headers.push({
         label: "Actions",
         key: "actions",
@@ -39,7 +46,7 @@ export class Table extends Component {
       this.props.templates["actions"] = (item) => {
         return createElement(
           "div",
-          { class: ["btn-group"] },
+          { class: ["btn-group", "narrow-td"] },
           this.props.itemActions.map((action) => {
             return createElement(Button, {
               onClick: (e) => {
@@ -61,7 +68,13 @@ export class Table extends Component {
     return createElement(
       "table",
       {
-        class: ["table", "table-striped", "table-hover", "mt-4"],
+        class: [
+          "table",
+          "table-striped",
+          "table-hover",
+          "mt-4",
+          "align-middle",
+        ],
       },
       [
         //thead
@@ -79,7 +92,7 @@ export class Table extends Component {
           "tbody",
           {},
           this?.props?.items?.length > 0
-            ? this.props.items.map((item) => {
+            ? this.props.items.map((item, i) => {
                 return createElement(
                   "tr",
                   {},

@@ -415,3 +415,22 @@ Route::get('/api/analytics/stat-comments', [
         "Permission:admin"
     ]
 ]);
+
+// History Routes ---------------------------------------------------------------
+Route::post('/api/history/', [
+    "controller" => "Histories",
+    "action" => "retrieveAll",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::put('/api/history/back/{id}', [
+    "controller" => "Histories",
+    "action" => "back",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);

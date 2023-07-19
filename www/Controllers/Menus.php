@@ -17,7 +17,6 @@ class Menus extends Controller
     function index() : Collection
     {
         $menus = Menu::all();
-
         $menus->each(function(&$menu){
             $menu->url = $menu->getPath();
         });
@@ -37,7 +36,7 @@ class Menus extends Controller
         ]);
 
         $menu = new Menu();
-
+        
         $menu->setPageId($payload['page_id']);
         if(!$menu->getPage()) throw new BadRequest();
         

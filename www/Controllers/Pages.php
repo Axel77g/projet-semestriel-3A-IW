@@ -124,9 +124,6 @@ class Pages extends Controller
         } else {
             throw new HTTPError("Page already exist", 400);
         }
-
-        $page->save();
-
         return $page;
     }
 

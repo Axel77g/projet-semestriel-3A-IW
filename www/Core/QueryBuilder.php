@@ -174,7 +174,7 @@ class QueryBuilder {
             return $stmt;
            
         } catch (\Throwable $th) {
-            //dd($this,$this->query,$this->execPayload, $th);
+            dd($this,$this->query,$this->execPayload, $th);
         }
     }
 

@@ -3,6 +3,7 @@ import Api from "../core/Api.js";
 import Header from "./global/Header.js";
 
 import { HomeView as home } from "../templates/index.js";
+import CommentConversation from "./comments/CommentConversation.js";
 
 export default class Home extends Component {
   init() {

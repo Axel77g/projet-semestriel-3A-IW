@@ -1,4 +1,5 @@
 import Button from "../../components/ui/Button.js";
+import { History } from "../../components/ui/History.js";
 import Input from "../../components/ui/Input.js";
 import Select from "../../components/ui/Select.js";
 import Switch from "../../components/ui/Switch.js";
@@ -115,6 +116,7 @@ export default class PageEdit extends Component {
     const page = pages.find((page) => page.slug == this.slug);
     if (page) {
       this.setState({
+        id: page.id,
         slug: page.slug,
         title: page.title,
         template: page.template,
@@ -214,6 +216,23 @@ export default class PageEdit extends Component {
             children: "Enregistrer",
           }),
         ]),
+        this.state.isEdit &&
+          createElement(History, {
+            model_id: this.state.id,
+            model: "App\\Models\\Page",
+            onRemember: (page) => {
+              this.setState({
+                id: page.id,
+                slug: page.slug,
+                title: page.title,
+                template: page.template,
+                parent_slug: page.parent_slug,
+                content: page.content,
+                is_commentable: page.is_commentable,
+              });
+              this.propagate("Patch");
+            },
+          }),
       ].filter(Boolean)
     );
 

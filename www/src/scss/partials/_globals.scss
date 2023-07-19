@@ -90,3 +90,8 @@ $i: 0;
   }
   $i: $i + 1;
 }
+
+.narrow-td {
+  white-space: nowrap;
+  width: 1%;
+}
