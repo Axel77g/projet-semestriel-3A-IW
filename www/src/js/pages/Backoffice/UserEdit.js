@@ -68,7 +68,7 @@ export default class UserEdit extends Component {
     if (response?.id) {
       router.push("/admin/users");
     } else {
-      if(response?.code == 422){
+      if (response?.code == 422) {
         this.setState({ messages: response.data });
       }
     }

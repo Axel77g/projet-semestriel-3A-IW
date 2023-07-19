@@ -124,6 +124,21 @@ export default class Input extends Component {
           ]),
       ]);
     } else {
+      if (this.props.readonly) {
+        return createElement(
+          "div",
+          {
+            class: ["form-control", "text-muted"],
+            id: this.props.name,
+            placeholder: this.props.placeholder,
+            value: this.props.value ?? "",
+            readonly: true,
+            onchange: this.handleChange.bind(this),
+            ...(this.props?.attributes ?? {}),
+          },
+          this.props.value ?? ""
+        );
+      }
       return createElement("input", {
         type: this.props.type ?? "text",
         name: this.props.name,
