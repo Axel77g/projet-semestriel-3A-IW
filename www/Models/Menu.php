@@ -32,7 +32,8 @@ class Menu extends Model
         return $this->page_id;
     }
 
-    public function getPage(){
+    public function getPage() 
+    {
         return Page::fetch($this->page_id);
     }
 

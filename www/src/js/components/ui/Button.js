@@ -16,7 +16,7 @@ export default class Button extends Component {
         type: this.props.type ?? "button",
         class: ["btn", this.colorClass, ...this.props.class],
         onclick: (e) => {
-          this.props?.onClick(e);
+          if (this.props?.onClick) this.props?.onClick(e);
         },
       },
       this.props.children

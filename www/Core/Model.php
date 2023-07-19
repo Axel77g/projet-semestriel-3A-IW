@@ -14,6 +14,12 @@ abstract class Model implements Sanitize{
     private array $_except = [];
 
 
+    public function __construct(){
+        if($this->id > 0 && method_exists($this, "setOldValue")){            
+            $this->setOldValue($this->toArray());
+        }
+    }
+
     public static function findMany($where = [], $limit = 0, $offset = 0, $orderBy = []){
         $class = get_called_class();
         $model = new $class();
@@ -31,11 +37,13 @@ abstract class Model implements Sanitize{
 
     public function save(){
         $query = $this->query();
-        if($this->id > 0){
-            
+        if($this->id > 0){ 
+            if(method_exists($this, "remember")){
+                $this->remember();
+            }
             $query->update()->where(["id"=>$this->id])->execute();
             return $this;
-        }else{
+        }else{ 
             $this->id = $query->insert()->execute(true);
             return $this;
         }

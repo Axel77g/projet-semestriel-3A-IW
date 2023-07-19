@@ -19,6 +19,14 @@ export class ArticleEdit extends Component {
     };
   }
 
+  onPatch() {
+    this.init();
+    this.update();
+    this.forceUpdate();
+  }
+
+  onRerender() {}
+
   get content() {
     return {
       thumbnail: this.state.thumbnail,
