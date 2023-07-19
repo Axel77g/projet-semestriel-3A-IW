@@ -59,13 +59,17 @@ class Installer {
         InstallerServices::writeInitialDatabase(str_replace("&quot;", "", $payload["input_table_prefix_database"]));
 
         // Execute the file to create the initial database
-        $db = new Database();
-        $query = file_get_contents("./initialDatabase.sql");
-        $db->getConnection()->exec($query);
 
-
-        // Create the first user (Admin)
-        InstallerServices::createUser($payload);
+        try {
+            $db = new Database();
+            $query = file_get_contents("./initialDatabase.sql");
+            $db->getConnection()->exec($query);
+            // Create the first user (Admin)
+            InstallerServices::createUser($payload);
+        } catch (\Throwable $th) {
+            unlink("./config.php");
+            throw $th;
+        }       
         // seader 
         InstallerServices::seedDatabase();
     

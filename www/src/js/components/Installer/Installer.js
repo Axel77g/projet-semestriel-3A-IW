@@ -30,7 +30,6 @@ export class Installer extends Component {
         input_port_smtp: "",
         input_username_smtp: "",
         input_password_smtp: "",
-        
       },
       messages: {},
       currentStep: 0,
@@ -43,6 +42,8 @@ export class Installer extends Component {
         "Finish",
       ],
     };
+
+    document.title = "Installation du site";
   }
 
   nextStep() {
@@ -82,26 +83,42 @@ export class Installer extends Component {
   submitForm() {
     const api = new API();
     api.post("api/install", this.state.form).then((response) => {
-      if (response.code && response.code === 500 && response.message== "Database connection error") {
-        this.setState({ messages: { 
-          input_host_database: ["Erreur de Connexion à la base de données"], 
-          input_name_database: ["Erreur de Connexion à la base de données"], 
-          input_port_database: ["Erreur de Connexion à la base de données"],
-          input_password_database: ["Erreur de Connexion à la base de données"],
-          input_username_database: ["Erreur de Connexion à la base de données"],
-       }, currentStep: 1 });
-       return
+      if (
+        response.code &&
+        response.code === 500 &&
+        response.message == "Database connection error"
+      ) {
+        this.setState({
+          messages: {
+            input_host_database: ["Erreur de Connexion à la base de données"],
+            input_name_database: ["Erreur de Connexion à la base de données"],
+            input_port_database: ["Erreur de Connexion à la base de données"],
+            input_password_database: [
+              "Erreur de Connexion à la base de données",
+            ],
+            input_username_database: [
+              "Erreur de Connexion à la base de données",
+            ],
+          },
+          currentStep: 1,
+        });
+        return;
       }
       if (!response.success) {
         this.setState({ messages: response.message });
         this.redirectFromError();
       } else {
-        api.post("api/login", {email: this.state.form.input_email_site, password: this.state.form.input_password_site}).then((response) => {
-          if (response.success === true) {
-            localStorage.setItem("authorization", response.token);
-            window.location = (response.role === "admin" ? "/admin" : "/");
-          }
-        });
+        api
+          .post("api/login", {
+            email: this.state.form.input_email_site,
+            password: this.state.form.input_password_site,
+          })
+          .then((response) => {
+            if (response.success === true) {
+              localStorage.setItem("authorization", response.token);
+              window.location = response.role === "admin" ? "/admin" : "/";
+            }
+          });
       }
     });
   }
