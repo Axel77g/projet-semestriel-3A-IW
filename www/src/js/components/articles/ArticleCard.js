@@ -1,5 +1,6 @@
 import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class ArticleCard extends Component {
   init() {
@@ -18,7 +19,7 @@ export default class ArticleCard extends Component {
           src: "/" + this.props.article.content?.thumbnail?.path,
         }),
         createElement("div", { class: "article-card-content" }, [
-          createElement("h3", {}, this.props.article.title),
+          createElement("h3", {}, htmlDecode(this.props.article.title)),
           createElement("span", {}, "Publié le " + this.date),
         ]),
       ]),

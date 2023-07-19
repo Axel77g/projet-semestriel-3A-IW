@@ -102,6 +102,7 @@ export default class MenuEdit extends Component {
             placeholder: "Parent",
             options: this.state.menus
               .filter(({ id }) => id != router.route.params.id)
+              .filter((page) => page.parent_id === null)
               .map(({ id, title }) => ({
                 value: id,
                 label: title,
