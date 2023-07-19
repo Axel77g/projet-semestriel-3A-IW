@@ -59,7 +59,7 @@ class Installer {
         include("./config.php");
 
         // Write a file to create the initial database (With the prefix)
-        writeInitialDatabase($payload["input_table_prefix_database"]);
+        writeInitialDatabase(str_replace("&quot;", "", $payload["input_table_prefix_database"]));
 
         // Execute the file to create the initial database
         $db = new Database();
@@ -95,7 +95,7 @@ function writeConfig($payload){
     fwrite($myfile, 'define("DEFAULT_ROLE","user");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("TITLE","' . $payload["input_name_site"] . '");');
+    fwrite($myfile, 'define("TITLE","' . str_replace("&quot;", "", $payload["input_name_site"]) . '");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
 
@@ -103,15 +103,15 @@ function writeConfig($payload){
     fwrite($myfile, "\n");
     fwrite($myfile, 'define("DB_PORT", ' . $payload["input_port_database"] . ');');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("DB_HOST", "' . $payload["input_host_database"] . '");');
+    fwrite($myfile, 'define("DB_HOST", "' . str_replace("&quot;", "", $payload["input_host_database"]) . '");');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("DB_NAME", "' . $payload["input_name_database"] . '");');
+    fwrite($myfile, 'define("DB_NAME", "' . str_replace("&quot;", "", $payload["input_name_database"]) . '");');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("DB_USERNAME","' . $payload["input_username_database"] . '");');
+    fwrite($myfile, 'define("DB_USERNAME","' . str_replace("&quot;", "", $payload["input_username_database"]) . '");');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("DB_PASSWORD","' . $payload["input_password_database"] . '");');
+    fwrite($myfile, 'define("DB_PASSWORD","' . str_replace("&quot;", "", $payload["input_password_database"]) . '");');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("DB_PREFIX","' . $payload["input_table_prefix_database"] . '");');
+    fwrite($myfile, 'define("DB_PREFIX","' . str_replace("&quot;", "", $payload["input_table_prefix_database"]) . '");');
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
 
@@ -120,13 +120,13 @@ function writeConfig($payload){
     fwrite($myfile, "\n");
     fwrite($myfile, "\n");
 
-    fwrite($myfile, 'define("SMTP_HOST", "' . $payload["input_host_smtp"] . '");');
+    fwrite($myfile, 'define("SMTP_HOST", "' . str_replace("&quot;", "", $payload["input_host_smtp"]) . '");');
     fwrite($myfile, "\n");
     fwrite($myfile, 'define("SMTP_PORT", ' . $payload["input_port_smtp"] . ');');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("SMTP_USERNAME", "' . $payload["input_username_smtp"] . '");');
+    fwrite($myfile, 'define("SMTP_USERNAME", "' . str_replace("&quot;", "", $payload["input_username_smtp"]) . '");');
     fwrite($myfile, "\n");
-    fwrite($myfile, 'define("SMTP_PASSWORD", "' . $payload["input_password_smtp"] . '");');
+    fwrite($myfile, 'define("SMTP_PASSWORD", "' . str_replace("&quot;", "", $payload["input_password_smtp"]) . '");');
     fwrite($myfile, "\n");
 
     fclose($myfile);
