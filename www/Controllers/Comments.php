@@ -85,7 +85,7 @@ class Comments extends Controller
 
         $comment = Comment::fetch($params['id']);
         if (!$comment) throw new NotFoundError();
-
+        CommentPolicy::update($comment->getAuthorId(), request()->auth()->user());
         $comment->set($payload);
         $comment->save();
 
@@ -97,11 +97,11 @@ class Comments extends Controller
 
         $comment = Comment::fetch($params['id']);
         if (!$comment) throw new NotFoundError();
-        
+        CommentPolicy::destroy($comment, request()->auth()->user());
+
         $answersCount = Comment::findMany([
             'comment_id' => $params['id']
         ])->count();
-
 
         if($answersCount > 0){
             $comment->setContent("Ce commentaire a été supprimé");

@@ -16,9 +16,9 @@ class CommentPolicy extends Policy {
         return Policy::handle($author->isAdmin() || $author->getId() == $comment->getAuthorId());
     }
 
-    static public function update(Comment $authorId, User $authUser): bool
+    static public function update(Comment $comment, User $authUser): bool
     {
-        return Policy::handle($authUser->isAdmin() || $authUser->getId() == $authorId);
+        return Policy::handle($authUser->isAdmin() || $authUser->getId() == $comment->getAuthorId());
     }
 
     static public function destroy(Comment $comment, User $authUser): bool 
