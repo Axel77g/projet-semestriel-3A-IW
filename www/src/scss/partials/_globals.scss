@@ -1,0 +1,97 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $admin_font_family;
+}
+
+.link {
+  color: var(--bs-link-color-rgb);
+  text-decoration: none;
+  &:hover {
+    color: var(--bs-link-color-rgb);
+  }
+}
+
+.box-wrapper {
+  margin: 1em auto;
+  padding: 2em;
+  width: calc(100vw - 4em);
+  max-width: 600px;
+
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+}
+
+//margins paddings
+
+$sizes-gap: (0px, 2px, 4px, 8px, 16px, 32px, 64px);
+
+//for all sizes gap create margin and padding classes using the index
+$i: 0;
+@each $size in $sizes-gap {
+  .m-#{$i} {
+    margin: $size;
+  }
+  .p-#{$i} {
+    padding: $size;
+  }
+
+  .ml-#{$i} {
+    margin-left: $size;
+  }
+  .pl-#{$i} {
+    padding-left: $size;
+  }
+
+  .mr-#{$i} {
+    margin-right: $size;
+  }
+  .pr-#{$i} {
+    padding-right: $size;
+  }
+
+  .mt-#{$i} {
+    margin-top: $size;
+  }
+  .pt-#{$i} {
+    padding-top: $size;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: $size;
+  }
+
+  .pb-#{$i} {
+    padding-bottom: $size;
+  }
+
+  .mx-#{$i} {
+    margin-left: $size;
+    margin-right: $size;
+  }
+
+  .px-#{$i} {
+    padding-left: $size;
+    padding-right: $size;
+  }
+
+  .my-#{$i} {
+    margin-top: $size;
+    margin-bottom: $size;
+  }
+
+  .py-#{$i} {
+    padding-top: $size;
+    padding-bottom: $size;
+  }
+  $i: $i + 1;
+}
+
+.narrow-td {
+  white-space: nowrap;
+  width: 1%;
+}

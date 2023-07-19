@@ -1,46 +1,102 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Errors\NotFoundError;
 use App\Models\User;
+use App\Policies\UserPolicy;
+use App\Core\Validator;
+use App\Errors\Unauthorized;
+use App\Errors\ValidatorError;
 
 class Users extends Controller{
+    
+    function index() {
 
-    public function me(){
-        echo "<pre>";
-        $query = User::query()->select("firstname")
-        ->where([
-            "id"=>1,
-            "firstname"=>["!=","John"]
-        ])->whereIn("age",[10,54])
-        ->orderBy("id")
-        ->limit(10)
-        ->offset(15)
-        ->toSql();
+        $users = User::all();
 
-        $query2 = User::query()->update([
-            "firstname"=>"John",
-            "lastname"=>"Doe"
-            ])->where(["id"=>15])->toSql();
-            
-        $query3 = User::query()->insert([
-                "firstname"=>"John",
-                "lastname"=>"Doe"
-        ])->toSql();
-                
-        $query4 = User::query()->delete()->where(["id"=>15])->toSql();
-        var_dump($query);
-        var_dump($query2);
-        var_dump($query3);
-        var_dump($query4);
-        //echo "User me";
+        return $users;
     }
 
-    function show($params){
-        echo "User with id " . $params['id'];
+    public function me() {
+        $auth = request()->auth();
+        return $auth->user();
     }
 
-    function deleteMass(){
-        echo "delete users";
+    public function isAdmin(){
+        return true;
     }
+
+    function show($params) {
+
+        $user = User::fetch($params['id']);
+        
+        UserPolicy::index(request()->auth()->user(),$user);
+
+        if(!$user) throw new NotFoundError();
+        return $user;
+    }
+
+    function update($params) {
+        $payload = request()->json();
+
+        $authUser = request()->auth()->user();
+        $validator = new Validator();
+        $validation = [
+            "firstname" => "required",
+            "lastname" => "required",
+        ];
+
+        if($authUser && !$authUser->isAdmin()){
+            $validation = array_merge($validation,[
+                "email" => "required|email",
+            ]);
+        }
+
+        if(!empty($payload['password'])){
+            $validation = array_merge($validation,[
+                "password" => "required|minLength:8|maxLength:50",
+                "password_confirmation" => "required|minLength:8|maxLength:50"
+            ]);
+        }else{
+            unset($payload['password']);
+        }
+
+
+
+        if(!empty($payload['role'])){
+            $authUser = request()->auth()->user();
+            if(!$authUser->isAdmin()) throw new Unauthorized();
+        }
+
+
+        $validator->validate($payload,$validation);
+
+        if($validator->hasErrors()) throw new ValidatorError($validator->getErrors());
+
+        $user = User::fetch($params['id']);
+        if(!$user) throw new NotFoundError();
+
+        UserPolicy::update($authUser, $user);
+
+        if($authUser && !$authUser->isAdmin()){
+            $existing = User::fetch(["email"=>$payload['email']]);
+            if($existing && $existing->id != $user->id) throw new ValidatorError(["email"=>["Cet email existe déjà"]]);
+        }
+
+        $user->set($payload);
+        $user->save();
+        return $user;
+    }
+
+    function destroy($params) {
+        $user = User::fetch($params['id']);
+        if(!$user) throw new NotFoundError();
+
+        UserPolicy::destroy(request()->auth()->user(), $user);
+
+        $user->destroy();
+    }
+
 }

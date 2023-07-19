@@ -1,0 +1,54 @@
+.backoffice {
+  display: flex;
+  height: 100vh;
+  * {
+    box-sizing: border-box;
+  }
+  aside {
+    padding: 30px;
+    flex: 0 0 250px;
+    background: rgb(37, 37, 37);
+    color: white;
+    h3 {
+      font-size: 14px;
+      opacity: 0.5;
+      margin: 5px 0;
+      margin-top: 10px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      a {
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        &:active {
+          background: rgba(255, 255, 255, 0.2);
+        }
+        display: block;
+        padding: 10px;
+        color: currentColor;
+        text-decoration: none;
+        transition: 0.3s;
+        i {
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+  main {
+    padding: 20px;
+    background: rgb(249, 249, 249);
+    flex: 1;
+    & > * {
+      background: white;
+      border: solid 1px rgb(237, 237, 237);
+      padding: 20px;
+      & + * {
+        margin-top: 20px;
+      }
+    }
+    overflow-y: auto;
+  }
+}

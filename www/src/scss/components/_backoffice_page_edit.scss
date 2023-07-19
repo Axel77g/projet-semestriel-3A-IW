@@ -1,0 +1,40 @@
+.article-edit-paragraphs {
+  & > div {
+    padding: 10px;
+    background: #f3f8ff8c;
+    border: solid 1px #c5d9f1;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 10px;
+
+    & + div {
+      margin-top: 20px;
+    }
+
+    [id^="editor-container"] {
+      height: 270px;
+      grid-area: 2 / 1 / 3 / 3;
+      [class^="ql"] {
+        background: white;
+      }
+      .ql-container {
+        height: 60%;
+      }
+    }
+  }
+}
+.form-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  & > div {
+    flex: 1;
+  }
+
+  & + .form-row {
+    margin: 1rem 0;
+  }
+}

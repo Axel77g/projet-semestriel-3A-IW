@@ -1,0 +1,19 @@
+footer {
+  background: #ececec;
+  padding: 2em max(2em, calc(calc(100vw - 1000px + 4em) / 2));
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    a {
+      opacity: 0.5;
+      &:hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
+    }
+  }
+}

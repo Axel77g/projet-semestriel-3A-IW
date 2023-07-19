@@ -13,7 +13,40 @@ class HTTPError extends Exception
 
     function __destruct()
     {
+
+        $request = request()->getHeaders();
+
+        if(isset($request['accept']) && $request['accept'] == 'application/json'){
+            header('Content-Type: application/json');
+            echo json_encode(["code" => $this->code, "message" => $this->message]);
+            return;
+        }
+
         $view = new View(null, "error");
         $view->massAsign( ["code" => $this->code, "message" => $this->message]);
     }
+}
+
+class NotFoundError extends HTTPError
+{
+    protected $code = 404;
+    protected $message = 'Not Found';
+}
+
+class InternalError extends HTTPError{
+    public function __construct($message = "Internal Server Error", $code = 500)
+    {
+        $this->message = $message;
+        $this->code = $code;
+    }
+}
+
+class BadRequest extends HTTPError{
+    protected $code = 400;
+    protected $message;
+}
+
+class MethodNotAllowed extends HTTPError{
+    protected $code = 405;
+    protected $message = 'Method Not Allowed';
 }

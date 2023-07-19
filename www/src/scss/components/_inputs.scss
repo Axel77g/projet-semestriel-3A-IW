@@ -1,0 +1,42 @@
+.password-strength {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  &-bar {
+    height: 5px;
+    width: 100%;
+    background: #e0e0e0;
+    border-radius: 5px;
+    position: relative;
+
+    &::after {
+      height: 100%;
+      content: "";
+      width: var(--w);
+      background: #ff0000;
+      border-radius: 5px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: 0.2s;
+    }
+
+    &--weak {
+      &::after {
+        background: #de2828;
+      }
+    }
+
+    &--medium {
+      &::after {
+        background: #ff8c00;
+      }
+    }
+
+    &--strong {
+      &::after {
+        background: #1cd71c;
+      }
+    }
+  }
+}
