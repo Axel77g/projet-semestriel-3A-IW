@@ -40,7 +40,7 @@ export default class HomeHeader extends Component {
             key: "brand",
             class: "navbar-brand",
             href: "/",
-            children: "Faraway",
+            children: SITE_NAME || "Site name",
           }),
 
           createElement(
