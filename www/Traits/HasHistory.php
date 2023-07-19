@@ -19,8 +19,4 @@ trait HasHistory{
         }
         HistoryServices::remember($this, $this->_old_value);
     }
-    /*public function getHistory(){
-        return HistoryServices::retrieveAll($this->getId(), get_class($this));
-    } */   
-
 }
