@@ -44,7 +44,7 @@ export default class ForgotPassword extends Component {
         createElement("h1", { class: ["header"] }, "Mot de passe oublié ?"),
         createElement(
           "form",
-          { class: ["login-form"], onsubmit: this.handleSumbit },
+          { class: ["login-form"], onsubmit: this.handleSumbit.bind(this) },
           [
             createElement(Input, {
               name: "email",
