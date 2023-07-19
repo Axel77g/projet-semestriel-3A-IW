@@ -24,6 +24,10 @@ class Auth extends Controller
         ]);
         $user = User::fetch(["email"=>$payload['email']]);
 
+        if(!$user->getIsVerified()){
+            throw new Unauthorized();
+        }
+
         addAnalyticsLogs($user->getId());
 
         $token = AuthServices::generateToken($user);
