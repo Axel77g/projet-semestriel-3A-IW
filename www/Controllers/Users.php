@@ -31,10 +31,9 @@ class Users extends Controller{
     function show($params) {
 
         $user = User::fetch($params['id']);
-        
-        UserPolicy::index(request()->auth()->user(),$user);
-
         if(!$user) throw new NotFoundError();
+        UserPolicy::show(request()->auth()->user(),$user);
+        
         return $user;
     }
 
