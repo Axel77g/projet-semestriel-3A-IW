@@ -53,7 +53,8 @@ class Request{
         $headers = $this->getHeaders();
         if(isset($headers['authorization'])){
             $token = $headers['authorization'];
-            return Auth::get($token);
+            $auth = Auth::get($token);
+            return $auth === false ? new Auth() : Auth::get($token) ;
         }
         return new Auth();
     }

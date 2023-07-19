@@ -59,7 +59,7 @@ class Auth extends Controller
 
         if(!empty($payload['role'])){
             $authUser = request()->auth()->user();
-            if(!$authUser->isAdmin()) {
+            if(!$authUser || !$authUser->isAdmin()) {
                 throw new Unauthorized();
             }
             else{
