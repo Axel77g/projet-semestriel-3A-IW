@@ -44,7 +44,7 @@ class Sitemap {
         fwrite($myfile, "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
         for($i = 0; $i < count($staticRoute); $i++){
             fwrite($myfile, "\t<url>\n");
-            fwrite($myfile, "\t\t<loc>https://".$_SERVER['HTTP_HOST']."/".$staticRoute[$i]."</loc>\n");
+            fwrite($myfile, "\t\t<loc>http://".$_SERVER['HTTP_HOST']."/".$staticRoute[$i]."</loc>\n");
             fwrite($myfile, "\t\t<lastmod>".date("Y-m-d")."</lastmod>\n");
             fwrite($myfile, "\t\t<changefreq>monthly</changefreq>\n");
             fwrite($myfile, "\t\t<priority>0.8</priority>\n");
@@ -54,7 +54,7 @@ class Sitemap {
         for($i = 0; $i < count($dynamicRoute); $i++){
             foreach($dynamicRoute[$i] as $key => $value){
                 fwrite($myfile, "\t<url>\n");
-                fwrite($myfile, "\t\t<loc>https://".$_SERVER['HTTP_HOST'].$key."</loc>\n");
+                fwrite($myfile, "\t\t<loc>http://".$_SERVER['HTTP_HOST'].$key."</loc>\n");
                 fwrite($myfile, "\t\t<lastmod>".$value->format("Y-m-d")."</lastmod>\n");
                 fwrite($myfile, "\t\t<changefreq>monthly</changefreq>\n");
                 fwrite($myfile, "\t\t<priority>0.5</priority>\n");
