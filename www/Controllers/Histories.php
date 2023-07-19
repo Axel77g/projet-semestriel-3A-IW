@@ -18,7 +18,6 @@ class Histories extends Controller{
         $model = $history->getModel();
         $model = $model::fetch($history->getModelId());
         $model->set($history->getData());
-        //$model->save();
         return $model;
 
     }
