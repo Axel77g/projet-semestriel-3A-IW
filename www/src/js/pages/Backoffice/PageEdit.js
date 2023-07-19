@@ -71,7 +71,6 @@ export default class PageEdit extends Component {
 
   getChildrenContent() {
     return new Promise((resolve, reject) => {
-      debugger;
       this.propagate("AskContent", (content) => {
         if (content instanceof Error) {
           console.error(content);
