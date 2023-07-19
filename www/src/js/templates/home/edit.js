@@ -68,6 +68,11 @@ export class HomeEdit extends Component {
     callable(content);
   }
 
+  onPatch() {
+    this.init();
+    this.update();
+  }
+
   check(content) {
     let errors = {};
     if (content.banner.file_banner === null) {

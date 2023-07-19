@@ -71,12 +71,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, 300px);
   gap: 2rem;
-  margin: 2em auto;
-  max-width: 1000px;
-  padding: 0 2em;
 
   .article-card {
-    width: 300px;
+    width: min(300px, 80vw);
     border: 1px solid #ccc;
     img {
       height: 200px;
@@ -86,7 +83,7 @@
     &-content {
       padding: 1em;
       span {
-        font-size: 0.8em;
+        font-size: 0.9em;
         color: #999;
       }
     }

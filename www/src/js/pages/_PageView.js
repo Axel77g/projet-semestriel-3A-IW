@@ -7,6 +7,8 @@ import {
   ArticleListView as article_list,
 } from "../templates/index.js";
 import CommentConversation from "../components/comments/CommentConversation.js";
+import { createElement } from "../core/Element.js";
+import Footer from "../components/global/Footer.js";
 
 export default class PageView extends Component {
   init() {}
@@ -23,10 +25,11 @@ export default class PageView extends Component {
 
   render() {
     return createElement("div", {}, [
-      createElement(Header, {}, []),
-      createElement(this.view, { page: this.page }, []),
+      createElement(Header, {}),
+      createElement(this.view, { page: this.page }),
       this.page.is_commentable &&
-        createElement(CommentConversation, { page: this.page }, []),
+        createElement(CommentConversation, { page: this.page }),
+      createElement(Footer, {}),
     ]);
   }
 }

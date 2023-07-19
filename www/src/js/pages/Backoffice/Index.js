@@ -109,7 +109,11 @@ export default class BackofficeContainer extends Component {
           ),
         ]),
       ]),
-      createElement("main", { class: ["main-panel"] }, [this.props.child]),
+      createElement(
+        "main",
+        { class: ["main-panel"] },
+        Array.isArray(this.props.child) ? this.props.child : [this.props.child]
+      ),
     ]);
   }
 }

@@ -28,6 +28,8 @@ class Histories extends Controller{
         $history = History::findMany([
             "model_id" => $payload["model_id"],
             "model" => $payload["model"]
+        ],0,0,[
+            "created_at","DESC"
         ]);
 
         if(!$history){

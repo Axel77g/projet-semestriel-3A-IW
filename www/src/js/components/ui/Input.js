@@ -136,8 +136,11 @@ export default class Input extends Component {
       });
     }
   }
-
+  reset() {
+    this.ref_input.domElement.value = "";
+  }
   render() {
+    this.ref_input = this.input;
     return createElement(
       "div",
       {
@@ -152,7 +155,7 @@ export default class Input extends Component {
           },
           this.props.placeholder
         ),
-        this.input,
+        this.ref_input,
         createElement(
           "div",
           { class: ["text-danger", "fs-6"] },
