@@ -59,7 +59,7 @@ class Menu extends Model
     */
     public function setParentId(?int $parent_id = null): void
     {
-        $this->parent_id = Protection::int($parent_id);
+        $this->parent_id = $parent_id;
     }
 
     public function setTitle(string $title): void
