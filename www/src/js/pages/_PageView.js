@@ -22,6 +22,7 @@ export default class PageView extends Component {
       meta.content = this.page.meta_description;
       document.head.appendChild(meta);
     }
+    document.title = this.page.title;
   }
 
   get view() {
