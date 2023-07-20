@@ -11,7 +11,18 @@ import { createElement } from "../core/Element.js";
 import Footer from "../components/global/Footer.js";
 
 export default class PageView extends Component {
-  init() {}
+  init() {
+    let existing = document.head.querySelector('meta[name="description"]');
+
+    if (existing) {
+      existing.content = this.page.meta_description;
+    } else {
+      let meta = document.createElement("meta");
+      meta.name = "description";
+      meta.content = this.page.meta_description;
+      document.head.appendChild(meta);
+    }
+  }
 
   get view() {
     const template = router.route.page.template;
