@@ -5,6 +5,7 @@ import Button from "../../components/ui/Button.js";
 import BackofficeContainer from "./Index.js";
 import { createElement } from "../../core/Element.js";
 import { Table } from "../../components/ui/Table.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class MenuList extends Component {
   init() {
@@ -71,7 +72,12 @@ export default class MenuList extends Component {
           visible: (item) => {
             return createElement(
               "span",
-              { class: ["badge", "text-bg-primary"] },
+              {
+                class: [
+                  "badge",
+                  "" + item.visible ? "text-bg-primary" : "text-bg-danger",
+                ],
+              },
               item.visible ? "Visible" : "Invisible"
             );
           },
@@ -82,6 +88,13 @@ export default class MenuList extends Component {
               item.parent_id
                 ? this.state.menus.find((m) => m.id === item.parent_id).title
                 : "Aucun"
+            );
+          },
+          title: (item) => {
+            return createElement(
+              "a",
+              { href: "/admin/menu/edit/" + item.id },
+              htmlDecode(item.title)
             );
           },
         },

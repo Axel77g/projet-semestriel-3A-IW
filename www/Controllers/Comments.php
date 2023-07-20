@@ -85,7 +85,7 @@ class Comments extends Controller
 
         $comment = Comment::fetch($params['id']);
         if (!$comment) throw new NotFoundError();
-        CommentPolicy::update($comment->getAuthorId(), request()->auth()->user());
+        CommentPolicy::update($comment, request()->auth()->user());
         $comment->set($payload);
         $comment->save();
 

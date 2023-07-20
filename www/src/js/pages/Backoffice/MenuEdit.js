@@ -7,11 +7,12 @@ import Select from "../../components/ui/Select.js";
 import Switch from "../../components/ui/Switch.js";
 import { createElement } from "../../core/Element.js";
 import BackofficeContainer from "./Index.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class MenuEdit extends Component {
   init() {
     this.state = {
-      parent_id: [],
+      parent_id: null,
       pages: [],
       menus: [],
 
@@ -104,13 +105,14 @@ export default class MenuEdit extends Component {
           createElement(Select, {
             key: "parent_id",
             name: "parent_id",
-            placeholder: "Parent",
+            label: "Parent",
+            placeholder: "Aucun parent",
             options: this.state.menus
               .filter(({ id }) => id != router.route.params.id)
               .filter((page) => page.parent_id === null)
               .map(({ id, title }) => ({
                 value: id,
-                label: title,
+                label: htmlDecode(title),
               })),
             value: this.state.parent_id,
             onChange: (e) => this.setState({ parent_id: e.value }),
@@ -123,7 +125,7 @@ export default class MenuEdit extends Component {
             placeholder: "Page",
             options: this.state.pages.map(({ id, title }) => ({
               value: id,
-              label: title,
+              label: htmlDecode(title),
             })),
             value: this.state.page_id,
             message: this.state.messages?.page_id,

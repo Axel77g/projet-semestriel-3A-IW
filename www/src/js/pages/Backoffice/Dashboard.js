@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import BackofficeContainer from "./Index.js";
 import Api from "../../core/Api.js";
 import Graph from "../../components/ui/Chart.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class Dashboard extends Component {
   init() {
@@ -24,7 +25,7 @@ export default class Dashboard extends Component {
         topArticles: {
           type: "bar",
           data: {
-            labels: response.map((article) => article.title),
+            labels: response.map((article) => htmlDecode(article.title)),
             datasets: [
               {
                 label: "Articles les plus lus",
@@ -168,7 +169,11 @@ export default class Dashboard extends Component {
       createElement("div", { class: "container" }, [
         //  Statistiques des logs
         createElement("h2", {}, "Logs"),
-        createElement("p", {}, "Total de connexion : " + this.state.totalLogs),
+        createElement(
+          "p",
+          {},
+          "Total de connexion : " + (this.state?.totalLogs || 0)
+        ),
         createElement("canvas", { id: "mychart-second" }, ""),
         createElement(Graph, {
           id: "mychart-second",
@@ -188,7 +193,7 @@ export default class Dashboard extends Component {
         createElement(
           "p",
           {},
-          "Total de commentaires : " + this.state.totalComments
+          "Total de commentaires : " + (this.state?.totalComments || 0)
         ),
         createElement("canvas", { id: "mychart-third" }, ""),
         createElement(Graph, {

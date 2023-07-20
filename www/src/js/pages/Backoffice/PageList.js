@@ -5,6 +5,7 @@ import Api from "../../core/Api.js";
 import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
 import BackofficeContainer from "./Index.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class PageList extends Component {
   init() {
@@ -12,9 +13,8 @@ export default class PageList extends Component {
       pages: [],
     };
     document.title = "Liste des pages";
-    
-    this.fetchPages();
 
+    this.fetchPages();
   }
 
   async fetchPages() {
@@ -53,7 +53,7 @@ export default class PageList extends Component {
               return createElement(
                 "a",
                 { href: "/admin/pages/edit/" + item.slug },
-                item.title
+                htmlDecode(item.title)
               );
             },
           },
