@@ -1,5 +1,5 @@
 import { Link } from "../../components/ui/Link.js";
-
+import { htmlDecode } from "../../utils/text_decode.js";
 // Components
 import Component from "../../core/Component.js";
 
@@ -23,7 +23,7 @@ export default class Menu extends Component {
             "data-bs-toggle": "dropdown",
             "aria-expanded": "false",
           },
-          this.state.menu.title
+          htmlDecode(this.state.menu.title)
         ),
         createElement(
           "div",
@@ -41,7 +41,7 @@ export default class Menu extends Component {
                   router.push(menu.url);
                 },
               },
-              menu.title
+              htmlDecode(menu.title)
             );
           })
         ),
@@ -52,7 +52,7 @@ export default class Menu extends Component {
       createElement(Link, {
         class: ["nav-link"],
         href: this.state.menu.url,
-        children: this.state.menu.title,
+        children: htmlDecode(this.state.menu.title),
       }),
     ]);
   }
