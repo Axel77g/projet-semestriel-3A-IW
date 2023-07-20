@@ -18,23 +18,24 @@ class Pages extends Controller
         $query = request()->getQuery();
         $where = [];
 
-        if($query->has('template')){
+        if ($query->has('template')) {
             $where['template'] = $query->get('template');
         }
-        if($query->has('ids')){
+        if ($query->has('ids')) {
             $where['id'] = ["IN", explode(",", $query->get('ids'))];
         }
-        
+
         $pages = count($where) ? Page::findMany($where) : Page::all();
 
-        $pages->each(function(&$page){
+        $pages->each(function (&$page) {
             $page->path = $page->getPath();
         });
-        
+
         return $pages;
     }
 
-    public function home(){
+    public function home()
+    {
 
         $page = Page::fetch([
             "template" => "home"
@@ -44,10 +45,10 @@ class Pages extends Controller
             throw new NotFoundError();
         }
 
-        
+
         $page->setViews($page->getViews() + 1);
         $page->save(false);
-        
+
         return $page;
     }
 
@@ -65,7 +66,7 @@ class Pages extends Controller
 
         echo json_encode([
             ...$page->toArray(),
-            "content"=> PageServices::populateContentFileRelation($page->getContent())
+            "content" => PageServices::populateContentFileRelation($page->getContent())
         ]);
     }
 
@@ -91,8 +92,9 @@ class Pages extends Controller
         $page->setSlug($payload['title']);
         $page->setTitle($payload['title']);
         $page->setContent($payload['content']);
+        $page->setMetaDescription($payload['meta_description'] ?? "");
 
-        if($page->getTemplate() == "home" && Page::exists(["template" => $page->getTemplate()])){
+        if ($page->getTemplate() == "home" && Page::exists(["template" => $page->getTemplate()])) {
             throw new HTTPError("Template Home have to be unique", 400);
         }
 
@@ -174,75 +176,78 @@ class Pages extends Controller
         if (!$page) {
             throw new NotFoundError();
         }
-        
+
         $page->setViews($page->getViews() + 1);
         $page->save(false);
-        
+
 
         $page->author = $page->getAuthor();
         $page->author->except(['email']);
         return $page;
     }
 
-    public function latestArticle(){
+    public function latestArticle()
+    {
 
         $pages = Page::all();
 
         if (!$pages) throw new NotFoundError();
         $pages->sort(
-            function($a, $b){
+            function ($a, $b) {
                 return $a->getCreatedAt() < $b->getCreatedAt();
             }
         );
-        $pages = $pages->filter(function($page){
+        $pages = $pages->filter(function ($page) {
             return $page->getTemplate() == "article";
         });
         $pages->limit(6);
 
-        $pages->each(function(&$page){
+        $pages->each(function (&$page) {
             $page->path = $page->getPath();
         });
 
         return $pages;
     }
 
-    public function popularArticle(){
+    public function popularArticle()
+    {
         $pages = Page::all();
         if (!$pages) throw new NotFoundError();
         $pages->sort(
-            function($a, $b){
+            function ($a, $b) {
                 return $a->getViews() < $b->getViews();
             }
         );
-        $pages = $pages->filter(function($page){
+        $pages = $pages->filter(function ($page) {
             return $page->getTemplate() == "article";
         });
         $pages->limit(6);
 
-        $pages->each(function(&$page){
+        $pages->each(function (&$page) {
             $page->path = $page->getPath();
         });
-        
+
 
         return $pages;
     }
 
-    public function randomArticle(){
+    public function randomArticle()
+    {
 
         $query = request()->getQuery();
         $pages = Page::all();
         if (!$pages) throw new NotFoundError();
-        
-        $pages = $pages->filter(function($page){
+
+        $pages = $pages->filter(function ($page) {
             return $page->getTemplate() == "article";
         });
 
-        
+
         $pages->shuffle();
 
         $pages->limit(6);
 
-        $pages->each(function(&$page){
+        $pages->each(function (&$page) {
             $page->path = $page->getPath();
         });
 
