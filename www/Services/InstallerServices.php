@@ -7,16 +7,18 @@ use App\Models\Menu;
 use App\Models\Page;
 use App\Models\User;
 
-class InstallerServices{
+class InstallerServices
+{
 
-    static function writeConfig($payload){
+    static function writeConfig($payload)
+    {
         $myfile = fopen("./config.php", "w");
-    
-        fwrite($myfile, '<?php'); 
-        fwrite($myfile, "\n");  
-        fwrite($myfile, "\n");  
-    
-        fwrite($myfile, 'define(\'ROUTES\', \'routes.php\');');  
+
+        fwrite($myfile, '<?php');
+        fwrite($myfile, "\n");
+        fwrite($myfile, "\n");
+
+        fwrite($myfile, 'define(\'ROUTES\', \'routes.php\');');
         fwrite($myfile, "\n");
         fwrite($myfile, 'define("ENV", "dev");');
         fwrite($myfile, "\n");
@@ -27,7 +29,7 @@ class InstallerServices{
         fwrite($myfile, 'define("TITLE","' . str_replace("&quot;", "", $payload["input_name_site"]) . '");');
         fwrite($myfile, "\n");
         fwrite($myfile, "\n");
-    
+
         fwrite($myfile, 'define("DB_DRIVER", "pgsql");');
         fwrite($myfile, "\n");
         fwrite($myfile, 'define("DB_PORT", ' . $payload["input_port_database"] . ');');
@@ -43,12 +45,12 @@ class InstallerServices{
         fwrite($myfile, 'define("DB_PREFIX","' . str_replace("&quot;", "", $payload["input_table_prefix_database"]) . '");');
         fwrite($myfile, "\n");
         fwrite($myfile, "\n");
-    
+
         fwrite($myfile, 'define("APP_KEY", "SALT");');
         fwrite($myfile, "\n");
         fwrite($myfile, "\n");
         fwrite($myfile, "\n");
-    
+
         fwrite($myfile, 'define("SMTP_HOST", "' . str_replace("&quot;", "", $payload["input_host_smtp"]) . '");');
         fwrite($myfile, "\n");
         fwrite($myfile, 'define("SMTP_PORT", ' . $payload["input_port_smtp"] . ');');
@@ -57,11 +59,12 @@ class InstallerServices{
         fwrite($myfile, "\n");
         fwrite($myfile, 'define("SMTP_PASSWORD", "' . str_replace("&quot;", "", $payload["input_password_smtp"]) . '");');
         fwrite($myfile, "\n");
-    
+
         fclose($myfile);
     }
-    
-    static function writeInitialDatabase($prefix){
+
+    static function writeInitialDatabase($prefix)
+    {
         $myfile = fopen("./initialDatabase.sql", "w");
         fwrite($myfile, "
         -- Author: ESGI
@@ -94,10 +97,10 @@ class InstallerServices{
         );
     
         -- Pages
-        DROP TABLE IF EXISTS ". $prefix ."page CASCADE;
+        DROP TABLE IF EXISTS " . $prefix . "page CASCADE;
         DROP TYPE IF EXISTS TEMPLATE_PAGE CASCADE;
         CREATE TYPE TEMPLATE_PAGE AS ENUM ('home', 'article','article_list');
-        CREATE TABLE ". $prefix ."page(
+        CREATE TABLE " . $prefix . "page(
             id SERIAL PRIMARY KEY NOT NULL,
             author_id INTEGER NOT NULL,
             parent_slug VARCHAR(255),
@@ -107,9 +110,10 @@ class InstallerServices{
             content TEXT NOT NULL,
             is_commentable SMALLINT NOT NULL DEFAULT 1,
             views INTEGER NOT NULL DEFAULT 0,
+            meta_description VARCHAR(200),
             created_at TIMESTAMP NOT NULL DEFAULT NOW(),
             updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-            FOREIGN KEY (author_id) REFERENCES ". $prefix ."user(id) ON DELETE CASCADE
+            FOREIGN KEY (author_id) REFERENCES " . $prefix . "user(id) ON DELETE CASCADE
         );
     
         -- COMMENTS
@@ -208,48 +212,49 @@ class InstallerServices{
         fclose($myfile);
     }
 
-    static function createUser($payload){
-        $existing = User::fetch(["email"=>$payload['input_email_site']]);
-            if($existing) throw new UserAlreadyExists();
-    
-            $user = new User();
-            $user->setFirstname($payload['input_firstname_site']);
-            $user->setLastname($payload['input_lastname_site']);
-            $user->setEmail($payload['input_email_site']);
-            $user->setPassword($payload['input_password_site']);
-            $user->setRole("admin");
-            $user->setIsVerified(true);
-            $user->save();
+    static function createUser($payload)
+    {
+        $existing = User::fetch(["email" => $payload['input_email_site']]);
+        if ($existing) throw new UserAlreadyExists();
+
+        $user = new User();
+        $user->setFirstname($payload['input_firstname_site']);
+        $user->setLastname($payload['input_lastname_site']);
+        $user->setEmail($payload['input_email_site']);
+        $user->setPassword($payload['input_password_site']);
+        $user->setRole("admin");
+        $user->setIsVerified(true);
+        $user->save();
     }
 
-    static function seedDatabase(){
+    static function seedDatabase()
+    {
         # -- Seed home page
         $homePage = new Page();
         $homePage->setAuthorId(1);
         $homePage->setSlug("accueil");
         $homePage->setTitle("Accueil");
         $homePage->setTemplate("home");
+        $homePage->setMetaDescription("La description de la page d'accueil");
         $homePage->setContent([
-            "banner"=>[
-                "title"=>"Titre du site",
-                "subtitle"=>"Sous titre du site",
-                "actions"=>[
-                    
-                ],
-                "file_banner"=>null
+            "banner" => [
+                "title" => "Titre du site",
+                "subtitle" => "Sous titre du site",
+                "actions" => [],
+                "file_banner" => null
             ],
-            "contact_section"=>[
-                "email"=>"email@example.com",
-                "phone"=>"00 00 00 00 00",
-                "address"=>"10 Rue de Paris, Paris France",
-                "socials"=>[],
+            "contact_section" => [
+                "email" => "email@example.com",
+                "phone" => "00 00 00 00 00",
+                "address" => "10 Rue de Paris, Paris France",
+                "socials" => [],
             ],
-            "articles_section"=>[
-                "enabled"=>true,
-                "type"=>"latest"
+            "articles_section" => [
+                "enabled" => true,
+                "type" => "latest"
             ],
-            "about_section_content"=>"<h1>A propos</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, facilisis vitae eros. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in volutpat rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</p>"
-            
+            "about_section_content" => "<h1>A propos</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, facilisis vitae eros. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in volutpat rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</p>"
+
         ]);
         $homePage->save();
 
@@ -259,31 +264,32 @@ class InstallerServices{
         $article->setSlug("article");
         $article->setTitle("Article");
         $article->setTemplate("article");
+        $article->setMetaDescription("La description de la première page d'article");
         $article->setIsCommentable(true);
         $article->setContent([
-            "thumbnail"=>null,
-            "blocs"=>[
+            "thumbnail" => null,
+            "blocs" => [
                 [
-                    "file_image"=>null,
-                    "image_postion"=>"left",
-                    "content"=> "<h2>Introduction</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, facilisis vitae eros. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in volutpat rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</p><p><br></p><blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, facilisis vitae eros. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in volutpat rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</blockquote><p><br></p><ol><li>Lorem ipsum dolor</li><li>Proin odio justo</li><li>Quisque vestibulum</li></ol>"
+                    "file_image" => null,
+                    "image_postion" => "left",
+                    "content" => "<h2>Introduction</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, facilisis vitae eros. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in volutpat rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</p><p><br></p><blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, facilisis vitae eros. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in volutpat rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</blockquote><p><br></p><ol><li>Lorem ipsum dolor</li><li>Proin odio justo</li><li>Quisque vestibulum</li></ol>"
                 ],
                 [
-                    "file_image"=>null,
-                    "image_postion"=>"left",
-                    "content"=> "<h2>Conclusion</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, <em>facilisis vitae eros</em>. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in <strong>volutpat</strong> rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</p>"
+                    "file_image" => null,
+                    "image_postion" => "left",
+                    "content" => "<h2>Conclusion</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id egestas mauris, a aliquet mi. Donec at porttitor metus, a pretium ipsum. Proin odio justo, dictum at varius et, <em>facilisis vitae eros</em>. Nullam eu felis sed purus dignissim tristique. Quisque vestibulum leo in <strong>volutpat</strong> rhoncus. Fusce sit amet ante et ipsum aliquet maximus. Cras faucibus mauris vitae est tempus varius. Ut ut semper dolor.</p>"
                 ]
             ]
         ]);
         $article->save();
 
         # -- Seed articles page
-
         $articlesPage = new Page();
         $articlesPage->setAuthorId(1);
         $articlesPage->setSlug("articles");
         $articlesPage->setTitle("Articles");
         $articlesPage->setTemplate("article_list");
+        $articlesPage->setMetaDescription("La description de la liste d'articles");
         $articlesPage->setContent([
             "selectedArticles" => [
                 $article->getId()
@@ -292,7 +298,6 @@ class InstallerServices{
         $articlesPage->save();
 
         # -- Seed menu
-
         $menuHome = new Menu();
         $menuHome->setTitle("Accueil");
         $menuHome->setPageId($homePage->getId());
@@ -307,7 +312,6 @@ class InstallerServices{
         $menuArticles->setPosition(1);
         $menuArticles->setIsHeader(1);
         $menuArticles->setVisible(1);
-        $menuArticles->save();      
+        $menuArticles->save();
     }
-    
 }
