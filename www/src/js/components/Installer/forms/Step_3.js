@@ -21,13 +21,13 @@ export class Step3 extends Component {
         createElement(
           "h1",
           { class: ["mb-3", "text-center"] },
-          "Mailer informations. Step 3/4"
+          "Informations SMTP. Etape 2/4"
         ),
         createElement("div", { class: ["mb-3"] }, [
           createElement(Input, {
             key: "input_host_smtp",
             name: "input_host_smtp",
-            placeholder: "SMTP Host",
+            placeholder: "Hôte SMTP",
             value: this.props.form.input_host_smtp,
             message: this.props.messages.input_host_smtp,
             onChange: (e) => {
@@ -39,7 +39,7 @@ export class Step3 extends Component {
           createElement(Input, {
             key: "input_port_smtp",
             name: "input_port_smtp",
-            placeholder: "SMTP Port",
+            placeholder: "Port SMTP",
             type: "number",
             value: this.props.form.input_port_smtp,
             message: this.props.messages.input_port_smtp,
@@ -52,7 +52,7 @@ export class Step3 extends Component {
           createElement(Input, {
             key: "input_username_smtp",
             name: "input_username_smtp",
-            placeholder: "SMTP Username",
+            placeholder: "Utilisateur SMTP",
             value: this.props.form.input_username_smtp,
             message: this.props.messages.input_username_smtp,
             onChange: (e) => {
@@ -65,7 +65,7 @@ export class Step3 extends Component {
             key: "input_password_smtp",
             name: "input_password_smtp",
             type: "password",
-            placeholder: "SMTP Password",
+            placeholder: "Mot de passe SMTP",
             value: this.props.form.input_password_smtp,
             message: this.props.messages.input_password_smtp,
             onChange: (e) => {

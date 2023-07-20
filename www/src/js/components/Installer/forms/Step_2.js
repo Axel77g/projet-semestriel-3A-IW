@@ -21,13 +21,13 @@ export class Step2 extends Component {
         createElement(
           "h1",
           { class: ["mb-3", "text-center"] },
-          "Site informations. Step 2/4"
+          "Informations du site. Etape 2/4"
         ),
         createElement("div", { class: ["mb-3"] }, [
           createElement(Input, {
             key: "input_name_site",
             name: "input_name_site",
-            placeholder: "Site name",
+            placeholder: "Nom du site",
             value: this.props.form.input_name_site,
             message: this.props.messages.input_name_site,
             onChange: (e) => {
@@ -39,7 +39,7 @@ export class Step2 extends Component {
           createElement(Input, {
             key: "input_firstname_site",
             name: "input_firstname_site",
-            placeholder: "Firstname",
+            placeholder: "Prénom",
             value: this.props.form.input_firstname_site,
             message: this.props.messages.input_firstname_site,
             onChange: (e) => {
@@ -51,7 +51,7 @@ export class Step2 extends Component {
           createElement(Input, {
             key: "input_lastname_site",
             name: "input_lastname_site",
-            placeholder: "Lastname",
+            placeholder: "Nom",
             value: this.props.form.input_lastname_site,
             message: this.props.messages.input_lastname_site,
             onChange: (e) => {
@@ -78,7 +78,7 @@ export class Step2 extends Component {
             key: "input_password_site",
             name: "input_password_site",
             type: "password",
-            placeholder: "Password",
+            placeholder: "Mot de passe",
             value: this.props.form.input_password_site,
             message: this.props.messages.input_password_site,
             onChange: (e) => {
@@ -86,7 +86,6 @@ export class Step2 extends Component {
             },
           }),
         ]),
-        
       ]
     );
   }

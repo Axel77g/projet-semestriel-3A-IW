@@ -35,11 +35,11 @@ export class Installer extends Component {
       currentStep: 0,
 
       steps: [
-        "Welcome",
-        "Database informations",
-        "Site informations",
-        "Mail informations",
-        "Finish",
+        "Bienvenue",
+        "Informations de la base de données",
+        "Informations du site",
+        "Informations du serveur SMTP",
+        "Installation terminée",
       ],
     };
 
@@ -169,14 +169,14 @@ export class Installer extends Component {
             createElement(Button, {
               class: ["mr-2"],
               onClick: this.previousStep.bind(this),
-              children: "Previous",
+              children: "Précédent",
             }),
             createElement(Button, {
               onClick: this.nextStep.bind(this),
               children:
                 this.state.currentStep < this.state.steps.length - 1
-                  ? "Next"
-                  : "Finish",
+                  ? "Suivant"
+                  : "Acceder au dashboard",
             }),
           ]),
         ]),

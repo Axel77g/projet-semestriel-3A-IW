@@ -21,14 +21,15 @@ export class Step1 extends Component {
         createElement(
           "h1",
           { class: ["mb-3", "text-center"] },
-          "Database informations. Step 1/4"
+
+          "Informations de la base de données. Etape 1/4"
         ),
 
         createElement("div", { class: ["mb-3"] }, [
           createElement(Input, {
             key: "input_host_database",
             name: "input_host_database",
-            placeholder: "Host",
+            placeholder: "Hôte",
             value: this.props.form.input_host_database,
             message: this.props.messages?.input_host_database,
             onChange: (e) => {
@@ -41,7 +42,7 @@ export class Step1 extends Component {
           createElement(Input, {
             key: "input_name_database",
             name: "input_name_database",
-            placeholder: "Database name",
+            placeholder: "Nom de la base de données",
             value: this.props.form?.input_name_database,
             message: this.props.messages?.input_name_database,
             onChange: (e) => {
@@ -53,7 +54,7 @@ export class Step1 extends Component {
           createElement(Input, {
             key: "input_username_database",
             name: "input_username_database",
-            placeholder: "Username",
+            placeholder: "Utilisateur",
             value: this.props.form.input_username_database,
             message: this.props.messages.input_username_database,
             onChange: (e) => {
@@ -66,7 +67,7 @@ export class Step1 extends Component {
           createElement(Input, {
             key: "input_password_database",
             name: "input_password_database",
-            placeholder: "Password",
+            placeholder: "Mot de passe",
             type: "password",
             value: this.props.form.input_password_database,
             message: this.props.messages.input_password_database,
@@ -93,7 +94,7 @@ export class Step1 extends Component {
           createElement(Input, {
             key: "input_table_prefix_database",
             name: "input_table_prefix_database",
-            placeholder: "Table prefix",
+            placeholder: "Prefix de Table",
             value: this.props.form.input_table_prefix_database,
             message: this.props.messages?.input_table_prefix_database,
             onChange: (e) => {
