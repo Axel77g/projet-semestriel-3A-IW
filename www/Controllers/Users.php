@@ -7,6 +7,7 @@ use App\Errors\NotFoundError;
 use App\Models\User;
 use App\Policies\UserPolicy;
 use App\Core\Validator;
+use App\Errors\InternalError;
 use App\Errors\Unauthorized;
 use App\Errors\ValidatorError;
 
@@ -91,6 +92,7 @@ class Users extends Controller{
 
     function destroy($params) {
         $user = User::fetch($params['id']);
+        if($params['id'] == 1) throw new InternalError("Vous ne pouvez pas supprimer l'utilisateur principal");
         if(!$user) throw new NotFoundError();
 
         UserPolicy::destroy(request()->auth()->user(), $user);
