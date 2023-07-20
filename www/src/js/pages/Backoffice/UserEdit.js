@@ -68,7 +68,7 @@ export default class UserEdit extends Component {
     if (response?.code == 422) {
       this.setState({ messages: response.data });
     } else if (response) {
-      router.push(window.location.pathname, {
+      router.push("/admin/users", {
         alert: {
           message: "Utilisateur enregistré avec succès",
           type: "success",
