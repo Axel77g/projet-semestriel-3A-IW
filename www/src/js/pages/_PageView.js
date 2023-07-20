@@ -9,7 +9,9 @@ import {
 import CommentConversation from "../components/comments/CommentConversation.js";
 
 export default class PageView extends Component {
-  init() {}
+  init() {
+    document.title = this.page.title;
+  }
 
   get view() {
     const template = router.route.page.template;
