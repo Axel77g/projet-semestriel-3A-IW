@@ -106,7 +106,12 @@ export default class PageEdit extends Component {
     const api = new Api();
     let response = await api[method](endpoint, payload);
     if (response?.id) {
-      router.push("/admin/pages");
+      router.push(window.location.pathname, {
+        alert: {
+          message: "Page enregistrée avec succès",
+          type: "success",
+        },
+      });
     } else {
       if (response.code == 422) {
         this.setState({ errors: response.message });
