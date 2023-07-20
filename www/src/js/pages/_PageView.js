@@ -11,7 +11,9 @@ import { createElement } from "../core/Element.js";
 import Footer from "../components/global/Footer.js";
 
 export default class PageView extends Component {
-  init() {}
+  init() {
+    document.title = this.page.title;
+  }
 
   get view() {
     const template = router.route.page.template;
