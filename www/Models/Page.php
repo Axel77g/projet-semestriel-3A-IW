@@ -72,7 +72,7 @@ class Page extends Model
         $this->views = $views;
     }
 
-    public function setMetaDescription($str)
+    public function setMetaDescription($str = "")
     {
         $this->meta_description = Protection::protect($str);
     }
