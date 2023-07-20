@@ -6,13 +6,18 @@ include 'autoload.php';
 use App\Core\Router;
 use App\Errors\HTTPError;
 use App\Errors\InternalError;
-use Exception;
+use Throwable;
 
 try{
     include("./routes.php");
     if(file_exists("./config.php")){
-        include("./config.php");
-        define("INSTALLER",false);
+        try{
+            include("./config.php");
+            define("INSTALLER",false);
+        }catch(Throwable $e){
+            unlink("./config.php");
+            define("INSTALLER",true);
+        } 
     }
     else{
         define("INSTALLER",true);
@@ -22,7 +27,7 @@ try{
     $route = $router->findRoute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
     $route->dispatch();
    
-}catch(Exception $e){
+}catch(Throwable $e){
     if(is_a($e,HTTPError::class)){
         http_response_code($e->getCode());
     }
