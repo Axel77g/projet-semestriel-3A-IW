@@ -43,7 +43,7 @@ export default class MenuEdit extends Component {
 
   async fetchMenus() {
     let api = new Api();
-    let menus = await api.get("api/menus");
+    let menus = await api.get("api/menus?all");
     this.setState({ menus });
     return menus;
   }
