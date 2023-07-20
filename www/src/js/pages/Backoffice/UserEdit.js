@@ -66,9 +66,14 @@ export default class UserEdit extends Component {
 
     let response = await api[method](endpoint, payload);
     if (response?.code == 422) {
-        this.setState({ messages: response.data });
-    }else if (response){
-       router.push("/admin/users");
+      this.setState({ messages: response.data });
+    } else if (response) {
+      router.push(window.location.pathname, {
+        alert: {
+          message: "Utilisateur enregistré avec succès",
+          type: "success",
+        },
+      });
     }
   }
 

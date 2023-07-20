@@ -78,7 +78,12 @@ export default class MenuEdit extends Component {
     }
 
     if (response.id) {
-      router.push("/admin/menus");
+      router.push(window.location.pathname, {
+        alert: {
+          message: "Menu enregistré avec succès",
+          type: "success",
+        },
+      });
     } else if (response.message) {
       this.setState({ messages: response.message });
     }

@@ -1,9 +1,11 @@
+import Component from "./Component.js";
 import DomRenderer from "./DomRenderer.js";
 import Routes from "./Routes.js";
-
 import Api from "./Api.js";
 import PV from "../pages/_PageView.js";
 import { AUTH_STATE, AuthUtils } from "../utils/auth.js";
+import { createElement } from "./Element.js";
+import Alert from "../components/ui/Alert.js";
 
 export default class Router {
   constructor() {
@@ -103,7 +105,19 @@ export default class Router {
       params,
       query: new URLSearchParams(window.location.search),
     };
-    let component = new target.component();
+    let component = new RouteView({
+      target: target,
+    });
     DomRenderer.build(document.body, component);
+  }
+}
+
+class RouteView extends Component {
+  render() {
+    return createElement("div", {}, [
+      createElement(this.props.target.component, {}),
+      window.history.state?.alert &&
+        createElement(Alert, { ...window.history.state?.alert }),
+    ]);
   }
 }

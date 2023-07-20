@@ -95,3 +95,13 @@ $i: 0;
   white-space: nowrap;
   width: 1%;
 }
+
+.global-alert {
+  position: fixed !important;
+  text-align: center;
+  bottom: 0;
+  width: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
