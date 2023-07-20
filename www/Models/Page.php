@@ -21,8 +21,8 @@ class Page extends Model
     protected string $template = "";
     protected string $content = "";
     protected int $is_commentable = 0;
-
     protected int $views = 0;
+    protected string $meta_description = "";
 
     /*
     *   Setters
@@ -72,6 +72,11 @@ class Page extends Model
         $this->views = $views;
     }
 
+    public function setMetaDescription($str)
+    {
+        $this->meta_description = Protection::protect($str);
+    }
+
     /*
     *   Getters
     */
@@ -86,7 +91,8 @@ class Page extends Model
         return $this->author_id;
     }
 
-    public function getAuthor(){
+    public function getAuthor()
+    {
         return User::fetch($this->author_id);
     }
 
@@ -112,10 +118,10 @@ class Page extends Model
 
     public function getContent(): array
     {
-        return json_decode($this->content,true);
+        return json_decode($this->content, true);
     }
 
-    public function getIsCommentable() : bool
+    public function getIsCommentable(): bool
     {
         return (bool) $this->is_commentable;
     }
@@ -123,6 +129,11 @@ class Page extends Model
     public function getViews()
     {
         return $this->views;
+    }
+
+    public function getMetaDescription()
+    {
+        return $this->meta_description;
     }
 
     public function getParent()
