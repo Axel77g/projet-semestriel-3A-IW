@@ -235,7 +235,7 @@ class InstallerServices
         $homePage->setSlug("accueil");
         $homePage->setTitle("Accueil");
         $homePage->setTemplate("home");
-        $homePage->setMetaDescription("La description de la page d'accueil");
+        $homePage->setMetaDescription("La description de la page accueil");
         $homePage->setContent([
             "banner" => [
                 "title" => "Titre du site",
@@ -264,7 +264,7 @@ class InstallerServices
         $article->setSlug("article");
         $article->setTitle("Article");
         $article->setTemplate("article");
-        $article->setMetaDescription("La description de la première page d'article");
+        $article->setMetaDescription("La description de la page article");
         $article->setIsCommentable(true);
         $article->setContent([
             "thumbnail" => null,
@@ -289,7 +289,7 @@ class InstallerServices
         $articlesPage->setSlug("articles");
         $articlesPage->setTitle("Articles");
         $articlesPage->setTemplate("article_list");
-        $articlesPage->setMetaDescription("La description de la liste d'articles");
+        $articlesPage->setMetaDescription("La description de la liste articles");
         $articlesPage->setContent([
             "selectedArticles" => [
                 $article->getId()
