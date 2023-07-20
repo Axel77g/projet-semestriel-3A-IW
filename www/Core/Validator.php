@@ -80,25 +80,25 @@ class Validator implements Sanitize{
         }
 
         public function maxLength($key, $value, $ruleValue){
-            if(strlen($value) > $ruleValue){
+            if(strlen(trim($value)) > (int) $ruleValue){
                 $this->errors[$key][] = "Le champ doit contenir moins de $ruleValue caractères";
             }
         }
 
         public function minLength($key, $value, $ruleValue){
-            if(strlen($value) < $ruleValue){
+            if(strlen(trim($value)) < (int) $ruleValue){
                 $this->errors[$key][] = "Le champ doit contenir plus de $ruleValue caractères";
             }
         }
 
         public function max($key, $value, $ruleValue){
-            if($value > $ruleValue){
+            if($value > (int) $ruleValue){
                 $this->errors[$key][] = "Le champ doit être inférieur à $ruleValue";
             }
         }
 
         public function min($key, $value, $ruleValue){
-            if($value < $ruleValue){
+            if($value < (int) $ruleValue){
                 $this->errors[$key][] = "Le champ doit être supérieur à $ruleValue";
             }
         }

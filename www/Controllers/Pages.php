@@ -78,8 +78,9 @@ class Pages extends Controller
         $validator = new Validator();
 
         $validator->validate($payload, [
-            "title" => "required",
+            "title" => "required|maxLength:100|minLength:2",
             "template" => "required",
+            "meta_description" => "required|maxLength:200|minLength:10",
             "content" => "required"
         ]);
 
@@ -122,7 +123,8 @@ class Pages extends Controller
 
         $validator = new Validator();
         $validator->validate($payload, [
-            "title" => "required",
+            "title" => "required|maxLength:100|minLength:2",
+            "meta_description" => "required|maxLength:200|minLength:10",
             "template" => "required",
             "content" => "required"
         ]);

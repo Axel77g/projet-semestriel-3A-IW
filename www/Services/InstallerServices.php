@@ -103,9 +103,9 @@ class InstallerServices
         CREATE TABLE " . $prefix . "page(
             id SERIAL PRIMARY KEY NOT NULL,
             author_id INTEGER NOT NULL,
-            parent_slug VARCHAR(255),
-            slug VARCHAR(255) NOT NULL,
-            title VARCHAR(255) NOT NULL,
+            parent_slug VARCHAR(100),
+            slug VARCHAR(100) NOT NULL,
+            title VARCHAR(100) NOT NULL,
             template TEMPLATE_PAGE NOT NULL,
             content TEXT NOT NULL,
             is_commentable SMALLINT NOT NULL DEFAULT 1,
@@ -138,7 +138,7 @@ class InstallerServices
         DROP TABLE IF EXISTS " . $prefix . "auth CASCADE;
         CREATE TABLE " . $prefix . "auth (
             id SERIAL,
-            token varchar NULL,
+            token varchar(300) NULL,
             expire_on TIMESTAMP NULL,
             user_id int4 NULL,
             created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -161,12 +161,12 @@ class InstallerServices
         DROP TABLE IF EXISTS " . $prefix . "file CASCADE;
         CREATE TABLE " . $prefix . "file (
             id SERIAL,
-            name varchar NULL,
-            path varchar NULL,
-            extension varchar NULL,
+            name VARCHAR(100) NULL,
+            path VARCHAR(32) NULL,
+            extension VARCHAR(10) NULL,
             size int4 NULL,
-            mime varchar NULL,
-            hash varchar NULL,
+            mime VARCHAR(127) NULL,
+            hash varchar(13) NULL,
             user_id int4 NULL,
             created_at TIMESTAMP NOT NULL DEFAULT NOW(),
             updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -181,7 +181,7 @@ class InstallerServices
         CREATE TABLE " . $prefix . "menu (
             id SERIAL PRIMARY KEY,
             parent_id INT NULL DEFAULT NULL,
-            title VARCHAR(255) NOT NULL,
+            title VARCHAR(100) NOT NULL,
             page_id INT NOT NULL,
             visible SMALLINT NOT NULL DEFAULT 1,
             position INT NOT NULL DEFAULT 0,
@@ -201,7 +201,7 @@ class InstallerServices
         CREATE TABLE " . $prefix . "history (
             id SERIAL PRIMARY KEY,
             model_id INT NOT NULL,
-            model VARCHAR(255) NOT NULL,
+            model VARCHAR(50) NOT NULL,
             data TEXT NOT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT NOW(),
             updated_at TIMESTAMP NOT NULL DEFAULT NOW()
