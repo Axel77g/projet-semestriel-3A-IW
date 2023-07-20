@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import BackofficeContainer from "./Index.js";
 import Api from "../../core/Api.js";
 import Graph from "../../components/ui/Chart.js";
+import { htmlDecode } from "../../utils/text_decode.js";
 
 export default class Dashboard extends Component {
   init() {
@@ -24,7 +25,7 @@ export default class Dashboard extends Component {
         topArticles: {
           type: "bar",
           data: {
-            labels: response.map((article) => article.title),
+            labels: response.map((article) => htmlDecode(article.title)),
             datasets: [
               {
                 label: "Articles les plus lus",
