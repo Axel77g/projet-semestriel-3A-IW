@@ -44,6 +44,10 @@ class User extends Model{
         $this->is_verified = Protection::int($int);
     }
 
+    public function getIsVerified(){
+        return $this->is_verified;
+    }
+
     public function setFirstname($str){
         $this->firstname =  Protection::protect(ucwords(strtolower(trim($str))));
     }

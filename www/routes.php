@@ -2,44 +2,17 @@
 
 use App\Core\Route;
 
-Route::get('/api/articles', [
-    "controller" => "Articles",
-    "action" => "index",
-]);
-
-
 Route::get("/", [
     "controller" => "Main",
     "action" => "index",
 ]);
 
-Route::get("/contact", [
-    "controller" => "Main",
-    "action" => "contact"
-]);
-
-// Route::get("/admin", [
-//     "controller" => "Users",
-//     "action" => "index",
-//     "middlewares" => [
-//         "Auth",
-//         "Permission:admin"
-//     ]
-// ]);
-
-Route::get("/api/isAdmin", [
-    "controller" => "Users",
-    "action" => "isAdmin",
-    "middlewares" => [
-        "Auth",
-        "Permission:admin"
-    ]
-]);
-
 // Comments Routes ---------------------------------------------------------------
+
 Route::get("/api/comments", [
     "controller" => "Comments",
     "action" => "index",
+    /* auth handle by controller */
 ]);
 
 Route::get("/api/comments/{id}", [
@@ -47,6 +20,7 @@ Route::get("/api/comments/{id}", [
     "action" => "show",
     "middlewares" => [
         "Auth",
+        "Permission:admin"
     ]
 ]);
 
@@ -63,13 +37,16 @@ Route::put("/api/comments/{id}", [
     "action" => "update",
     "middlewares" => [
         "Auth",
-        // "Permission:admin"
+        "Permission:admin"
     ]
 ]);
 
 Route::delete("/api/comments/{id}", [
     "controller" => "Comments",
-    "action" => "delete"
+    "action" => "delete",
+    "middlewares" => [
+        "Auth",
+    ]
 ]);
 
 // Auth Routes ---------------------------------------------------------------
@@ -120,7 +97,8 @@ Route::get("/api/users/{id}", [
     "controller" => "Users",
     "action" => "show",
     "middlewares" => [
-        "Auth"
+        "Auth",
+        "Permission:admin"
     ]
 ]);
 
@@ -132,12 +110,6 @@ Route::put("/api/users/{id}", [
     ]
 ]);
 
-
-Route::post("/api/users", [
-    "controller" => "Users",
-    "action" => "register"
-]);
-
 Route::delete('/api/users/{id}', [
     "controller" => "Users",
     "action" => "destroy",
@@ -147,122 +119,28 @@ Route::delete('/api/users/{id}', [
 ]);
 
 
-// Roles Routes ---------------------------------------------------------------
-Route::post('/api/roles/create', [
-    "controller" => "Roles",
-    "action" => "create",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::put('/api/roles/{id}', [
-    "controller" => "Roles",
-    "action" => "update",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::delete('/api/roles/{id}', [
-    "controller" => "Roles",
-    "action" => "destroy",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-// Articles Routes ----------------------------------------------
-Route::get('/api/article/{slug}', [
-    "controller" => "Articles",
-    "action" => "show",
-]);
-
-Route::post('/api/articles', [
-    "controller" => "Articles",
-    "action" => "create",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::put('/api/article/{id}', [
-    "controller" => "Articles",
-    "action" => "update",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::delete('/api/article/{id}', [
-    "controller" => "Articles",
-    "action" => "delete",
-    "middlewares" => [
-        "Auth",
-        "Permission:admin"
-    ]
-]);
-
-// Article Comment Routes ---------------------------------------------------------------
-Route::get('/api/article-comments', [
-    "controller" => "ArticleComments",
-    "action" => "index",
-]);
-
-Route::get('/api/article-comments/{id}', [
-    "controller" => "ArticleComments",
-    "action" => "show",
-]);
-
-Route::post('/api/article-comments', [
-    "controller" => "ArticleComments",
-    "action" => "create",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::put('/api/article-comments/{id}', [
-    "controller" => "ArticleComments",
-    "action" => "update",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
-Route::delete('/api/article-comments/{id}', [
-    "controller" => "ArticleComments",
-    "action" => "delete",
-    "middlewares" => [
-        "Auth"
-    ]
-]);
-
 // Menus Routes ---------------------------------------------------------------
 Route::get('/api/menus', [
     "controller" => "Menus",
     "action" => "index",
-    // "middlewares" => [
-    //     "Auth",
-    // ]
+    /* auth handle by controller */
 ]);
-
-
 
 Route::get('/api/menu/{id}', [
     "controller" => "Menus",
     "action" => "show",
-    // "middlewares" => [
-    //     "Auth",
-    //     "Permission:admin"
-    // ]
+    "middlewares" => [
+         "Auth",
+         "Permission:admin"
+    ]
 ]);
 
 Route::post('/api/menu', [
     "controller" => "Menus",
     "action" => "create",
     "middlewares" => [
-        "Auth"
+        "Auth",
+        "Permission:admin"
     ]
 ]);
 
@@ -271,6 +149,7 @@ Route::put('/api/menu/{id}', [
     "action" => "update",
     "middlewares" => [
         "Auth",
+        "Permission:admin"
     ]
 ]);
 
@@ -278,7 +157,8 @@ Route::delete('/api/menu/{id}', [
     "controller" => "Menus",
     "action" => "delete",
     "middlewares" => [
-        "Auth"
+        "Auth",
+        "Permission:admin"
     ]
 ]);
 
@@ -288,38 +168,9 @@ Route::get('/api/pages', [
     "action" => "index",
 ]);
 
-Route::get('/api/pages/home', [
+Route::post('/api/pages/resolve', [
     "controller" => "Pages",
-    "action" => "home",
-]);
-
-Route::post('/api/pages', [
-    "controller" => "Pages",
-    "action" => "create",
-    "middlewares" => [
-        "Auth",
-        "Permission:admin"
-    ]
-]);
-
-
-
-
-Route::put('/api/pages/{slug}', [
-    "controller" => "Pages",
-    "action" => "update",
-    "middlewares" => [
-        "Auth",
-        "Permission:admin"
-    ]
-]);
-
-Route::delete('/api/pages/{id}', [
-    "controller" => "Pages",
-    "action" => "delete",
-    "middlewares" => [
-        "Auth",
-    ]
+    "action" => "resolvePath"
 ]);
 
 Route::get('/api/pages/latest', [
@@ -337,11 +188,44 @@ Route::get('/api/pages/random', [
     "action" => "randomArticle",
 ]);
 
+Route::get('/api/pages/home', [
+    "controller" => "Pages",
+    "action" => "home",
+]);
+
 Route::get('/api/pages/{slug}', [
     "controller" => "Pages",
     "action" => "show",
     "middlewares" => [
         "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::post('/api/pages', [
+    "controller" => "Pages",
+    "action" => "create",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::put('/api/pages/{slug}', [
+    "controller" => "Pages",
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
+Route::delete('/api/pages/{id}', [
+    "controller" => "Pages",
+    "action" => "delete",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
     ]
 ]);
 
@@ -368,16 +252,11 @@ Route::delete('/api/upload/{id}', [
     "controller" => "Upload",
     "action" => "delete",
     "middlewares" => [
-        "Auth"
+        "Auth",
+        "Permission:admin"
     ]
 ]);
 
-// Template Routes ---------------------------------------------------------------
-
-Route::post('/api/pages/resolve', [
-    "controller" => "Pages",
-    "action" => "resolvePath"
-]);
 
 // Installer Routes ---------------------------------------------------------------
 

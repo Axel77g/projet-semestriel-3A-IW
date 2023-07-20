@@ -44,7 +44,7 @@ export default class Api {
         return res.json();
       })
       .catch((err) => {
-        return err;
+        throw err;
       });
   }
 
