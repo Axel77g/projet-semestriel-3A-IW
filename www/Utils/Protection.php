@@ -17,8 +17,8 @@ class Protection
     }
     public static function protect($string)
     {
-        
-        return htmlspecialchars(Protection::removeScripts($string));
+       
+        return htmlspecialchars(Protection::removeScripts($string), ENT_NOQUOTES, 'UTF-8');;
     }
 
     public static function removeScripts($string){
