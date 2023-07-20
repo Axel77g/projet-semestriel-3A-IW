@@ -1,8 +1,13 @@
 import { Link } from "../../components/ui/Link.js";
 import Component from "../../core/Component.js";
 import { createElement } from "../../core/Element.js";
+import authMixin from "../../mixins/authMixin.js";
+import { AUTH_STATE } from "../../utils/auth.js";
 
 export default class BackofficeContainer extends Component {
+  get mixins() {
+    return [authMixin];
+  }
   init() {
     this.state = {
       navigation: [
@@ -66,6 +71,10 @@ export default class BackofficeContainer extends Component {
   }
 
   render() {
+    if (this.state.isAuth != AUTH_STATE.AUTH)
+      return createElement("div", {}, "");
+    if (this.state.user.role != "admin") return createElement("div", {}, "");
+
     return createElement("div", { class: ["backoffice"] }, [
       createElement("aside", { class: ["sidebar-panel"] }, [
         createElement("h1", { class: ["sidebar-title", "mb-4"] }, "Backoffice"),
