@@ -9,7 +9,7 @@ import Footer from "./global/Footer.js";
 
 export default class Home extends Component {
   init() {
-    document.title = "Blog";
+    document.title = SITE_NAME + " - Accueil";
     this.fetchHome();
   }
 
@@ -17,6 +17,18 @@ export default class Home extends Component {
     const api = new Api();
     const home = await api.get("api/pages/home?withContent");
     if (!home) return;
+
+    let existing = document.head.querySelector('meta[name="description"]');
+
+    if (existing) {
+      existing.content = home.meta_description;
+    } else {
+      let meta = document.createElement("meta");
+      meta.name = "description";
+      meta.content = home.meta_description;
+      document.head.appendChild(meta);
+    }
+
     this.setState({ page: home });
   }
 
