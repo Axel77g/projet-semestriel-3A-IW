@@ -11,7 +11,7 @@ import BackofficeContainer from "./Index.js";
 export default class MenuEdit extends Component {
   init() {
     this.state = {
-      parent_id: [],
+      parent_id: null,
       pages: [],
       menus: [],
 
@@ -104,7 +104,8 @@ export default class MenuEdit extends Component {
           createElement(Select, {
             key: "parent_id",
             name: "parent_id",
-            placeholder: "Parent",
+            label: "Parent",
+            placeholder: "Aucun parent",
             options: this.state.menus
               .filter(({ id }) => id != router.route.params.id)
               .filter((page) => page.parent_id === null)
