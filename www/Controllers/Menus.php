@@ -57,7 +57,7 @@ class Menus extends Controller
         $validator = new Validator();
 
         $validator->validate($payload, [
-            "title" => "required",
+            "title" => "required|maxLength:100|minLength:3",
             "page_id" => "required",
             "position" => "numeric",
         ]);
@@ -94,7 +94,7 @@ class Menus extends Controller
         $validator = new Validator();
 
         $validator->validate($payload, [
-            "title" => "required",
+            "title" => "required|maxLength:100|minLength:3",
             "page_id" => "required",
             "position" => "numeric",
         ]);

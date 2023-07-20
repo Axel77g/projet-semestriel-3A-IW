@@ -44,8 +44,8 @@ class Users extends Controller{
         $authUser = request()->auth()->user();
         $validator = new Validator();
         $validation = [
-            "firstname" => "required",
-            "lastname" => "required",
+            "firstname"=>"required|minLength:3|maxLength:100",
+            "lastname"=>"required|minLength:2|maxLength:100",
         ];
 
         if($authUser && !$authUser->isAdmin()){

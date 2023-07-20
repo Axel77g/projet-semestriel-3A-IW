@@ -49,10 +49,10 @@ class Auth extends Controller
         $validator = new Validator();
         $validator->validate(
         $payload,[
-            "firstname"=>"required",
-            "lastname"=>"required",
+            "firstname"=>"required|minLength:3|maxLength:100",
+            "lastname"=>"required|minLength:2|maxLength:100",
             "email"=>"required|email|emailAlreadyExists",
-            "password"=>"required",
+            "password"=>"required|minLength:8",
         ]);
        
         $user = new User();

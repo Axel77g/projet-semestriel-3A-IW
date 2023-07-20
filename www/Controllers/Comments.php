@@ -59,7 +59,7 @@ class Comments extends Controller
         
         $validator = new Validator();
         $validator->validate($payload, [
-            'content' => 'required',
+            'content' => 'required|minLength:3|maxLength:1000',
             'author_id' => 'required',
             'page_id' => 'required',
         ]);
