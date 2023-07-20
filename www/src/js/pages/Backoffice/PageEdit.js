@@ -26,6 +26,7 @@ export default class PageEdit extends Component {
       parent_slug: null,
       content: {},
       is_commentable: false,
+      meta_description: "",
 
       typesOptions: [
         {
@@ -99,6 +100,7 @@ export default class PageEdit extends Component {
       content: this.state.content,
       parent_slug: this.state.parent_slug ?? null,
       is_commentable: this.state.is_commentable,
+      meta_description: this.state.meta_description ?? "",
     };
 
     const api = new Api();
@@ -121,6 +123,7 @@ export default class PageEdit extends Component {
       parent_slug: page.parent_slug,
       content: page.content,
       is_commentable: page.is_commentable,
+      meta_description: page.meta_description,
     });
 
     this.propagate("Patch");
@@ -137,6 +140,7 @@ export default class PageEdit extends Component {
         parent_slug: page.parent_slug,
         content: page.content,
         is_commentable: page.is_commentable,
+        meta_description: page.meta_description,
         path: page.path,
       });
 
@@ -220,12 +224,21 @@ export default class PageEdit extends Component {
           }),
         ]),
         createElement("div", { class: ["form-row"] }, [
-          createElement(Switch, {
-            name: "is_commentable",
-            label: "Commentaires",
-            checked: this.state.is_commentable,
-            onChange: (e) => this.setState({ is_commentable: e.checked }),
+          createElement(Input, {
+            name: "meta_description",
+            placeholder: "Meta description",
+            onChange: this.handleChange.bind(this),
+            value: this.state.meta_description,
+            message: this.state.errors.meta_description,
           }),
+          createElement("div", { class: "align-self-end" }, [
+            createElement(Switch, {
+              name: "is_commentable",
+              label: "Commentaires",
+              checked: this.state.is_commentable,
+              onChange: (e) => this.setState({ is_commentable: e.checked }),
+            }),
+          ]),
         ]),
         createElement(
           "div",
