@@ -87,7 +87,7 @@ class InstallerServices
             role TYPE_ROLE DEFAULT 'user',
             firstname VARCHAR(100) NOT NULL,
             lastname VARCHAR(100) NOT NULL,
-            email VARCHAR(100) NOT NULL,
+            email VARCHAR(320) NOT NULL,
             password VARCHAR(255) NOT NULL,
             is_verified BOOLEAN DEFAULT FALSE,
             verification_code VARCHAR(255),
