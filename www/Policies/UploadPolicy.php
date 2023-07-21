@@ -12,6 +12,11 @@ class UploadPolicy extends Policy {
         return Policy::handle($authUser->isAdmin());
     }
 
+    static public function update(File $file, User $authUser): bool
+    {
+        return Policy::handle($authUser->isAdmin() || $authUser->getId() == $file->getUserID());
+    }
+
     static public function delete(File $file, User $authUser): bool
     {
         return Policy::handle($authUser->isAdmin() || $authUser->getId() == $file->getUserID());

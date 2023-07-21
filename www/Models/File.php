@@ -14,6 +14,7 @@ class File extends Model {
     protected $mime = "";
     protected $user_id = 0;
     protected $hash = "";
+    protected $alternative_text = "";
 
     public function __construct(){
       
@@ -41,6 +42,10 @@ class File extends Model {
         $this->user_id = Protection::int($user_id);
     }
 
+    public function setAlternativeText($alternativeText) {
+        $this->alternative_text = Protection::protect($alternativeText);
+    }
+
     public function getPath() {
         return "uploads/".$this->hash.".".$this->extension;
     }
@@ -65,6 +70,10 @@ class File extends Model {
         return $this->user_id;
     }
 
+    public function getAlternativeText(){
+        return $this->alternative_text;
+    }
+
     public function user() {
         return User::fetch($this->user_id);
     }
@@ -73,6 +82,4 @@ class File extends Model {
         $this->path = $this->getPath();
         parent::save($remember);
     }
-
-    
 }

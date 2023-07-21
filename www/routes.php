@@ -248,6 +248,15 @@ Route::post('/api/upload', [
     ] 
 ]);
 
+Route::put('/api/upload/{id}', [
+    "controller" => "Upload",
+    "action" => "update",
+    "middlewares" => [
+        "Auth",
+        "Permission:admin"
+    ]
+]);
+
 Route::delete('/api/upload/{id}', [
     "controller" => "Upload",
     "action" => "delete",
