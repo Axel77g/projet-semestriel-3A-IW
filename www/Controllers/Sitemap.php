@@ -20,7 +20,7 @@ class Sitemap
 
     private static function generateSitemap()
     {
-        $staticRoute = ["login", "register", "", "sitemap.xml"];
+        $staticRoute = ["login", "register", ""];
 
         $dynamicRoute = [];
 
