@@ -166,6 +166,7 @@ class InstallerServices
             extension VARCHAR(10) NULL,
             size int4 NULL,
             mime VARCHAR(127) NULL,
+            alternative_text VARCHAR(255) NULL,
             hash varchar(13) NULL,
             user_id int4 NULL,
             created_at TIMESTAMP NOT NULL DEFAULT NOW(),

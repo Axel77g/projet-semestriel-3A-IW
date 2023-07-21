@@ -41,6 +41,13 @@ export default class FilePicker extends Component {
     //api.post("api/upload", formData);
   }
 
+  async handleUpdate() {
+    const api = new Api();
+    const response = await api.put("api/upload/" + this.props.value.id, {
+      alternative_text: this.props.value.alternative_text,
+    });
+  }
+
   handleChange(e) {
     this.uploadFile(e.target.files[0]);
     this.setState({ file: e.target.files[0] });
@@ -65,19 +72,42 @@ export default class FilePicker extends Component {
               onchange: this.handleChange.bind(this),
             }),
           this.props.value?.id &&
-            createElement("div", { class: ["input-group"] }, [
-              createElement("input", {
-                type: "text",
-                class: ["form-control"],
-                value: this.props.value?.name || "",
-                disabled: true,
-              }),
+            createElement("div", {}, [
+              createElement("div", { class: ["input-group"] }, [
+                createElement("input", {
+                  type: "text",
+                  class: ["form-control"],
+                  value: this.props.value?.name || "",
+                  disabled: true,
+                }),
 
-              createElement(Button, {
-                class: ["btn-danger"],
-                onClick: this.deleteFile.bind(this),
-                children: [createElement("i", { class: ["bi", "bi-trash"] })],
-              }),
+                createElement(Button, {
+                  class: ["btn-danger"],
+                  onClick: this.deleteFile.bind(this),
+                  children: [createElement("i", { class: ["bi", "bi-trash"] })],
+                }),
+              ]),
+              createElement("div", { class: ["input-group"] }, [
+                createElement("input", {
+                  type: "text",
+                  class: ["form-control", "mt-2"],
+                  placeholder: "Texte alternatif",
+                  value: this.props.value?.alternative_text || "",
+                  onchange: (e) => {
+                    if (this.props.onChange) {
+                      this.props.onChange({
+                        ...this.props.value,
+                        alternative_text: e.target.value,
+                      });
+                    }
+                  },
+                }),
+                createElement(Button, {
+                  class: ["mt-2"],
+                  onClick: this.handleUpdate.bind(this),
+                  children: "Ok",
+                }),
+              ]),
             ]),
         ]),
       ]),
