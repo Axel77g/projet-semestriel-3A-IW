@@ -1,6 +1,14 @@
 RewriteEngine on
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule . index.php [L,QSA]
+# Vérifier si la requête a déjà été redirigée vers index.php
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+RewriteRule ^(.*)$ /public/$1 [L]
+
+#verifier que ce n'est pas un fichier .js
+
+# Rediriger vers index.php si les conditions précédentes ne sont pas remplies
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^(.*)$ /index.php [L]

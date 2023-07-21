@@ -9,6 +9,7 @@ use App\Errors\InternalError;
 use Throwable;
 
 try{
+    chdir(__DIR__);
     include("./routes.php");
     if(file_exists("./config.php")){
         try{
