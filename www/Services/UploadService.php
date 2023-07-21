@@ -16,10 +16,10 @@ class UploadService{
         $fileModel->setMime($file["type"]);
         $fileModel->setSize($file["size"]);
     
-        if(!file_exists("uploads")){
-            mkdir("uploads");
+        if(!file_exists(public_path("uploads"))){
+            mkdir(public_path("uploads"));
         }
-        move_uploaded_file($file["tmp_name"], $fileModel->getPath());
+        move_uploaded_file($file["tmp_name"], public_path($fileModel->getPath()));
 
         $fileModel->setUserId($user->id);
 
@@ -29,8 +29,8 @@ class UploadService{
     }
 
     static function deleteFile(File $file){
-        if(file_exists($file->getPath())){
-            unlink($file->getPath());
+        if(file_exists(public_path($file->getPath()))){
+            unlink(public_path($file->getPath()));
         }
 
         $file->destroy();
