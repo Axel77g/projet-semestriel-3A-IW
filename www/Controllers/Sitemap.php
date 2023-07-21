@@ -8,14 +8,9 @@ class Sitemap
     public function index()
     {
 
-        $this->generateSitemap();
+        
 
-        if (!file_exists("./sitemap/sitemap.xml")) {
-            echo "file does not exist";
-            return;
-        }
-
-        $sitemap = file_get_contents("./sitemap/sitemap.xml");
+        $sitemap = Sitemap::generateSitemap();
 
         header("Content-type: text/xml");
         echo $sitemap;
@@ -23,9 +18,9 @@ class Sitemap
     }
 
 
-    private function generateSitemap()
+    private static function generateSitemap()
     {
-        $staticRoute = ["login", "register", "", "sitemap.xml"];
+        $staticRoute = ["login", "register", ""];
 
         $dynamicRoute = [];
 
@@ -38,37 +33,34 @@ class Sitemap
             array_push($dynamicRoute, [$slug => $page->getUpdatedAt()]);
         }
 
-        if (!file_exists("./sitemap")) {
-            mkdir("./sitemap");
-        }
+       $sitemap = "";
 
-        $myfile = fopen("./sitemap/sitemap.xml", "w");
+        
+        $sitemap .= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        $sitemap .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-
-        fwrite($myfile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        fwrite($myfile, "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
         for ($i = 0; $i < count($staticRoute); $i++) {
-            fwrite($myfile, "\t<url>\n");
-            fwrite($myfile, "\t\t<loc>http://" . $_SERVER['HTTP_HOST'] . "/" . $staticRoute[$i] . "</loc>\n");
-            fwrite($myfile, "\t\t<lastmod>" . date("Y-m-d") . "</lastmod>\n");
-            fwrite($myfile, "\t\t<changefreq>monthly</changefreq>\n");
-            fwrite($myfile, "\t\t<priority>0.8</priority>\n");
-            fwrite($myfile, "\t</url>\n");
+             $sitemap .= "\t<url>\n";
+             $sitemap .= "\t\t<loc>http://" . $_SERVER['HTTP_HOST'] . "/" . $staticRoute[$i] . "</loc>\n";
+             $sitemap .= "\t\t<lastmod>" . date("Y-m-d") . "</lastmod>\n";
+             $sitemap .= "\t\t<changefreq>monthly</changefreq>\n";
+             $sitemap .= "\t\t<priority>0.8</priority>\n";
+             $sitemap .= "\t</url>\n";
         }
 
         for ($i = 0; $i < count($dynamicRoute); $i++) {
             foreach ($dynamicRoute[$i] as $key => $value) {
-                fwrite($myfile, "\t<url>\n");
-                fwrite($myfile, "\t\t<loc>http://" . $_SERVER['HTTP_HOST'] . $key . "</loc>\n");
-                fwrite($myfile, "\t\t<lastmod>" . $value->format("Y-m-d") . "</lastmod>\n");
-                fwrite($myfile, "\t\t<changefreq>monthly</changefreq>\n");
-                fwrite($myfile, "\t\t<priority>0.5</priority>\n");
-                fwrite($myfile, "\t</url>\n");
+                 $sitemap .= "\t<url>\n";
+                 $sitemap .= "\t\t<loc>http://" . $_SERVER['HTTP_HOST'] . $key . "</loc>\n";
+                 $sitemap .= "\t\t<lastmod>" . $value->format("Y-m-d") . "</lastmod>\n";
+                 $sitemap .= "\t\t<changefreq>monthly</changefreq>\n";
+                 $sitemap .= "\t\t<priority>0.5</priority>\n";
+                 $sitemap .= "\t</url>\n";
             }
         }
 
 
-        fwrite($myfile, "</urlset>");
-        fclose($myfile);
+         $sitemap .= "</urlset>";
+        return $sitemap;
     }
 }
