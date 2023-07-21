@@ -17,6 +17,7 @@ export default class ArticleCard extends Component {
         //image
         createElement("img", {
           src: "/" + this.props.article.content?.thumbnail?.path,
+          alt: this.props.article.content?.thumbnail?.alternative_text || "",
         }),
         createElement("div", { class: "article-card-content" }, [
           createElement("h3", {}, htmlDecode(this.props.article.title)),

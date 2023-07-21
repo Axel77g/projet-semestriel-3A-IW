@@ -17,6 +17,7 @@ export class ArticleView extends Component {
         [
           createElement("img", {
             src: "/" + this.props.page.content?.thumbnail?.path,
+            alt: this.props.page.content?.thumbnail?.alternative_text || "",
           }),
           createElement("div", { class: "article-header-info" }, [
             createElement("h1", {}, htmlDecode(this.props.page.title)),
@@ -39,7 +40,10 @@ export class ArticleView extends Component {
             createElement("div", { html: bloc.content }),
             bloc.file_image &&
               createElement("figure", { class: ["article-bloc-image"] }, [
-                createElement("img", { src: "/" + bloc.file_image.path }),
+                createElement("img", {
+                  src: "/" + bloc.file_image.path,
+                  alt: bloc.file_image?.alternative_text || "",
+                }),
               ]),
           ];
           if (bloc.image_position === "left") children.reverse();
