@@ -6,6 +6,10 @@ function request(){
     return new Request();
 }
 
+function public_path($path){
+    return "public/" . $path;
+}
+
 //load all Errors
 $ErrorsFiles = glob(__DIR__ . "/Errors/*.php");
 include __DIR__ . "/Errors/HTTPError.php";
