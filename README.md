@@ -12,3 +12,5 @@
 
 Dans votre terminal à la racine du projet, tapez `docker-compose up`,
 puis rendez-vous sur l'adresse http://localhost:8080.
+
+> Par Ilyam DUPUIS, Robin FAUCHERY, Axel GODEFROY. Aurélien PRUDHOMME. Classe 3IW1
