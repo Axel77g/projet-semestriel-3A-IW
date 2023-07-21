@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Validator;
 use App\Errors\BadRequest;
 use App\Errors\NotFoundError;
 use App\Models\File;
-use App\Models\User;
 use App\Policies\UploadPolicy;
 use App\Services\UploadService;
 use App\Utils\Collection;
@@ -36,6 +36,26 @@ class Upload extends Controller
         return new Collection($results);
         
         
+    }
+
+    function update($params){
+        $payload = request()->json();
+
+        $validator = new Validator();
+        $validator->validate($payload,[
+            "alternative_text"=>"required|maxLength:255|minLength:3",
+        ]);
+
+        $file = File::fetch($params["id"]);
+        if(!$file) throw new NotFoundError();
+
+        $authUser = request()->auth()->user();
+        UploadPolicy::update($file, $authUser);
+
+        $file->set($payload);
+        $file->save();
+
+        return $file;
     }
 
     function delete($params){
